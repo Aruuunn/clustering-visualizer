@@ -5,6 +5,7 @@ interface State {
     algorithm:AlgorithmNames | null;
     numberOfClusters:number;
     start:boolean;
+    coordinatesOfNodes:number[][]
 }
 
 interface Action {
@@ -15,17 +16,33 @@ interface Action {
 let initialState:State = {
     algorithm:null,
     numberOfClusters:0,
-    start:false
+    start:false,
+    coordinatesOfNodes:[]
 }
 
 
 export default (state:State = initialState,action:Action) => {
 
     switch(action.type){
-        case GlobalActionTypes.ADD_NODE:
-            return state;
+        case GlobalActionTypes.SET_ALGORITHM:
+            return {...state,algorithm:action.payload};
+
+        case GlobalActionTypes.SET_COORDINATES_OF_NODES:
+            return {...state,coordinatesOfNodes:action.payload};
+
         case GlobalActionTypes.SET_NUMBER_OF_CLUSTERS:
             return {...state,numberOfClusters:action.payload};
+
+        case GlobalActionTypes.RESET:
+            return initialState;
+
+        case GlobalActionTypes.START_VISUALIZATION:
+            
+            if(state.coordinatesOfNodes.length===0 || state.start || state.numberOfClusters<=1 ){
+                return state;
+            }
+            return {...state,start:true};
+
         default:
             return state;
     }

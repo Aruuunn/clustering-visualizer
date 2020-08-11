@@ -15,4 +15,4 @@ export default (state:State= {},action:Action) => {
             return state;
         default:return state;
     }
-}
+};

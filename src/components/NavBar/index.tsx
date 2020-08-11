@@ -24,17 +24,24 @@ interface State {
 
 // define mapStateToProps and mapDispatchToProps
 const mapStateToProps = (state: any) => ({ global: state.global });
+
 const mapDispatchToProps = {
-  changeNumberOfClusters: (numberOfClusters:number) => ({type:GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,payload:numberOfClusters})
+  changeNumberOfClusters: (numberOfClusters:number) => ({type:GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,payload:numberOfClusters}),
+  changeAlgorithm:(algo:AlgorithmNames) => ({type:GlobalActionTypes.SET_ALGORITHM,payload:algo}),
+  reset:() => ({type:GlobalActionTypes.RESET}),
+  startVisualization:() => ({type:GlobalActionTypes.START_VISUALIZATION})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
+
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & {
   classes: any;
 };
+
+
 
 // NavBar
 class NavBar extends Component<Props, State> {
@@ -47,20 +54,30 @@ class NavBar extends Component<Props, State> {
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.persist();
     if (parseInt(e.target.value) >= 0) {
-      this.props.setState((s: any) => ({
-        ...s,
-        numberOfClusters: parseInt(e.target.value),
-      }));
+      this.props.changeNumberOfClusters(parseInt(e.target.value));
     } else {
-      this.props.setState((s: any) => ({ ...s, numberOfClusters: 0 }));
+      this.props.changeNumberOfClusters(0);
     }
   };
 
   handleClose = (algo: AlgorithmNames | null) => {
     this.setState({ anchor: null });
     if (algo !== null)
-      this.props.setState((s: Props["state"]) => ({ ...s, algorithm: algo }));
+      this.props.changeAlgorithm(algo);
   };
+
+
+  isDisabled = ():boolean=> {
+    
+    const { global } = this.props;
+
+
+    if(global.numberOfClusters <=1 || global.algorithm===null || global.coordinatesOfNodes.length < 5 || global.start){
+      return true;
+    }
+
+    return false;
+  }
 
   render() {
     const { classes } = this.props;
@@ -116,9 +133,13 @@ class NavBar extends Component<Props, State> {
           </Menu>
           <Button
             variant="contained"
-            disabled={this.props.global.algorithm === null}
+            onClick={() => this.props.startVisualization()}
+            disabled={ this.isDisabled() }
           >
             Start
+          </Button>
+          <Button style={{color:'white'}} onClick={() => this.props.reset()}>
+            Reset
           </Button>
         </Toolbar>
       </AppBar>
