@@ -1,18 +1,13 @@
-import React , { useState } from 'react';
+import React from "react";
 
-import NavBar from './components/NavBar';
-import Board from './components/board';
-import { AlgorithmNames } from './common/algorithms.enum';
-
-//import './App.module.css';
+import NavBar from "./components/NavBar";
+import Board from "./components/board";
 
 function App() {
-  const [state,setState] = useState({algorithm:null,numberOfClusters:0,start:false});
-
   return (
     <div>
-      <NavBar state={state} setState ={setState}/>
-      <Board algorithm={AlgorithmNames.KMEANS} numberOfClusters={state.numberOfClusters}/>
+      <NavBar />
+      <Board />
     </div>
   );
 }

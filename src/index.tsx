@@ -1,16 +1,26 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { PersistGate } from "redux-persist/integration/react";
+import * as serviceWorker from "./serviceWorker";
+
+import App from "./App";
 import theme from "./Themes/LightTheme";
+import initStore from "./store";
+import "./index.css";
+
+const { store, persistor } = initStore();
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <Provider store={store}>
+      <PersistGate loading={"loading..."} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

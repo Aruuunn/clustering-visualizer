@@ -10,38 +10,51 @@ import {
   withStyles,
   fade,
 } from "@material-ui/core";
+import { connect, ConnectedProps } from "react-redux";
+
 import logo from "../../assets/logo.svg";
 import { AlgorithmNames } from "../../common/algorithms.enum";
+import GlobalActionTypes from "../../store/types/global.types";
 
-interface Props {
-  state: {
-    algorithm: AlgorithmNames | null;
-    numberOfClusters:number
-  };
-  setState: Function;
-  classes: any;
-}
+// define types of Props and State
 
 interface State {
   anchor: (EventTarget & Element) | null;
 }
 
+// define mapStateToProps and mapDispatchToProps
+const mapStateToProps = (state: any) => ({ global: state.global });
+const mapDispatchToProps = {
+  changeNumberOfClusters: (numberOfClusters:number) => ({type:GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,payload:numberOfClusters})
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+type Props = PropsFromRedux & {
+  classes: any;
+};
+
+// NavBar
 class NavBar extends Component<Props, State> {
-  state = { anchor: null,};
+  state = { anchor: null };
 
   handleClick = (event: SyntheticEvent) => {
     this.setState({ anchor: event.currentTarget });
   };
 
-  handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+  handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.persist();
-    if( parseInt(e.target.value) >= 0 ){
-      this.props.setState((s:any) => ({...s,numberOfClusters:parseInt(e.target.value)}))
+    if (parseInt(e.target.value) >= 0) {
+      this.props.setState((s: any) => ({
+        ...s,
+        numberOfClusters: parseInt(e.target.value),
+      }));
     } else {
-      this.props.setState((s:any) => ({...s,numberOfClusters:0}))
+      this.props.setState((s: any) => ({ ...s, numberOfClusters: 0 }));
     }
-  }
-
+  };
 
   handleClose = (algo: AlgorithmNames | null) => {
     this.setState({ anchor: null });
@@ -63,13 +76,13 @@ class NavBar extends Component<Props, State> {
           <Typography variant="h5" style={{ flexGrow: 1 }}>
             Clustering Visualizer
           </Typography>
-          {this.props.state.algorithm === AlgorithmNames.KMEANS ? (
+          {this.props.global.algorithm === AlgorithmNames.KMEANS ? (
             <InputBase
-            placeholder="Number of Clusters"
-            fullWidth
-            color="secondary"
-            value={this.props.state.numberOfClusters}
-            onChange={this.handleInputChange}
+              placeholder="Number of Clusters"
+              fullWidth
+              color="secondary"
+              value={this.props.global.numberOfClusters}
+              onChange={this.handleInputChange}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
@@ -86,9 +99,9 @@ class NavBar extends Component<Props, State> {
             variant="contained"
             style={{ marginRight: "20px" }}
           >
-            {this.props.state.algorithm === null
+            {this.props.global.algorithm === null
               ? "Select Algorithm"
-              : this.props.state.algorithm}
+              : this.props.global.algorithm}
           </Button>
           <Menu
             id="simple-menu"
@@ -103,7 +116,7 @@ class NavBar extends Component<Props, State> {
           </Menu>
           <Button
             variant="contained"
-            disabled={this.props.state.algorithm === null}
+            disabled={this.props.global.algorithm === null}
           >
             Start
           </Button>
@@ -143,4 +156,4 @@ export default withStyles((theme) => ({
       width: "20ch",
     },
   },
-}))(NavBar);
+}))(connector(NavBar));
