@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import distance from "../../../utils/distance";
 import { AlgorithmActionTypes } from "../../../store/types/algorithm.types";
 import GlobalActionTypes from "../../../store/types/global.types";
-import {colors} from "../../../utils/getRandomColor";
+import {getColor} from "../../../utils/getRandomColor";
 
 
 const mapStateToProps = (state: {
@@ -40,6 +40,7 @@ type Props = PropsFromRedux & {};
 interface State {
   centroids: number[][]; 
   started: boolean;
+  colors:string[]
 }
 
 
@@ -48,6 +49,7 @@ class KMeans extends Component<Props, State> {
   state = {
     centroids: [],
     started: false,
+    colors:[]
   };
 
   handleStep = async () => {
@@ -58,6 +60,7 @@ class KMeans extends Component<Props, State> {
       console.log("CANNOT START VISUALIZATION");
       return;
     }
+    console.log({colors:this.state.colors})
 
     for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
       const currentNode = this.props.global.coordinatesOfNodes[i];
@@ -67,7 +70,7 @@ class KMeans extends Component<Props, State> {
 
       for (let j = 0; j < this.state.centroids.length; j++) {
         this.props.addToRender(
-          <g>
+          <g key={`a-${j}`}>
             <circle
               r="10"
               cx={currentNode[0]}
@@ -98,9 +101,9 @@ class KMeans extends Component<Props, State> {
 
     
 
-     this.props.addToRender( <g>
+     this.props.addToRender( <g key={`b-${i}`}>
       <line
-        stroke={colors(pos)}
+        stroke={this.state.colors[pos]}
         strokeWidth="1.5"
         x1={currentNode[0]}
         y1={currentNode[1]}
@@ -111,8 +114,8 @@ class KMeans extends Component<Props, State> {
         cx={currentNode[0]}
         cy={currentNode[1]}
         r="9"
-        style={{ fill: colors(pos) }}
-        stroke={colors(pos)}
+        style={{ fill: this.state.colors[pos] }}
+        stroke={this.state.colors[pos]}
         strokeWidth="1"
       />
     </g>);
@@ -120,69 +123,75 @@ class KMeans extends Component<Props, State> {
       await new Promise((done) => setTimeout(() => done(), 10));
     }
 
+
     this.props.endVisualization();
     this.setState({started:false});
     
   };
+  
+  renderCentroids:any[] = [];
 
-  render() {
-
-
+  componentDidUpdate(){
     if (this.props.global.start) {
 
-    const { global } = this.props;
-
-    if (!this.state.started) {
-      let centroids: number[][] = [];
-      let set = new Set();
-
-      for (let i = 0; i < global.numberOfClusters; i++) {
-        
-        let idx =  Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
-
-        while(set.has(idx)){
-           idx =  Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
+      const { global } = this.props;
+  
+  
+      if (!this.state.started) {
+        let centroids: number[][] = [];
+        let set = new Set();
+  
+        for (let i = 0; i < global.numberOfClusters; i++) {
+          
+          let idx =  Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
+  
+          while(set.has(idx) && !global.coordinatesOfNodes[idx]){
+             idx =  Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
+          }
+  
+          set.add(idx);
+  
+          centroids.push(
+            global.coordinatesOfNodes[
+             idx
+            ]
+          );
         }
-
-        set.add(idx);
+       
+        let colors:string[]= [];
+  
+        for(let iter=0;iter<this.props.global.numberOfClusters;iter++){
+          colors.push(getColor(iter));
+        }
         
-
-        centroids.push(
-          global.coordinatesOfNodes[
-           idx
-          ]
-        );
-      }
-     
-
-      
-     
-      this.setState((s) => ({
-        started: true,
-        centroids
-      }),() => this.handleStep());
-
-      
-      
-      return <g/>;
-    
-    }
-
+  
+        this.renderCentroids = [];
+  
    
-
+      for(let iter=0;iter<centroids.length;iter++){
+        this.renderCentroids.push(
+          <g key={`c-${iter}`}>
+          <circle cx={centroids[iter][0]} cy={centroids[iter][1]} r="9" style={{ fill: colors[iter] }} />
+        </g>)
+      }
+  
+      console.log({centroids,colors})
     
-
-
+       
+        this.setState((s) => ({
+          started: true,
+          centroids,
+          colors,
+        }),() => this.handleStep());      
+      }  
+    }
   }
 
+  render() {
     return (
       <g>
         {this.props.algo.render}
-        {this.props.algo.render.length && this.state.centroids.map((o: number[], i: number) => (
-          <g key={i}>
-            <circle cx={o[0]} cy={o[1]} r="9" style={{ fill: colors(i) }} />
-          </g>
-        ))}
+        {this.renderCentroids}
       </g>
     );
   } 

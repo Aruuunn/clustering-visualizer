@@ -9,7 +9,7 @@ function getRandomColor() {
     }
     return color;
 }
-export function colors(i:number){
+export function getColor(i:number){
     seedrandom(`${i}`,{global:true});
     return getRandomColor();
   }
