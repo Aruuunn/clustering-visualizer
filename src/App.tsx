@@ -5,7 +5,7 @@ import Board from "./components/board";
 
 function App() {
   return (
-    <div>
+    <div style={{height:'100vh',overflow:'hidden'}}>
       <NavBar />
       <Board />
     </div>

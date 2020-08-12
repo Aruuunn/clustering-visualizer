@@ -1,5 +1,4 @@
 import * as React from "react";
-import styles from "./styles.module.css";
 import KMeans from "../algorithms/KMeans";
 import { connect, ConnectedProps } from "react-redux";
 import GlobalActionTypes from "../../store/types/global.types";
@@ -47,9 +46,8 @@ class Board extends React.Component<IBoardProps, any> {
 
         <svg
           width="100%"
-          style={{ height: "100vh" }}
+          height="100vh"
           ref={this.state.bg}
-          className={styles.bg}
           onClick={this.handleClick}
         >
            <defs>
