@@ -52,7 +52,36 @@ class KMeans extends Component<Props, State> {
     colors:[]
   };
 
-  handleStep = async () => {
+  calculateNewCentroids = (clusters:number[][][]) => {
+    const centroids:number[][] = Array.from({length:this.state.centroids.length} ,() => new Array(2).fill(0));
+    console.log("CLUSTERS" ,{clusters,centroids},centroids[0][0])
+
+    for(let iter=0;iter<clusters.length;iter++){
+      const cluster = clusters[iter];
+      if(!cluster.length){
+        continue;
+      }
+      let X =0 , Y=0;
+      for(let i=0;i<cluster.length;i++){
+        X += cluster[i][0];
+        Y += cluster[i][1];
+      }
+      X = X/cluster.length;
+      Y = Y/cluster.length;
+      console.log({X,Y})
+      centroids[iter][0] = X;
+      centroids[iter][1] = Y;
+    }
+
+    let loss = 0;
+    for(let iter=0;iter<this.state.centroids.length;iter++){
+      loss += Math.abs(this.state.centroids[iter][0]-centroids[iter][0])+Math.abs(this.state.centroids[iter][1]-centroids[iter][1]);
+    }
+
+    return {centroids,loss};
+  }
+
+  handleStart = async () => {
     if (
       !this.props.global.start ||
       this.state.centroids.length === 0 
@@ -60,17 +89,27 @@ class KMeans extends Component<Props, State> {
       console.log("CANNOT START VISUALIZATION");
       return;
     }
-    console.log({colors:this.state.colors})
+
+    let loss = 1000 ,iter = 0;
+
+    while(Math.floor(loss) > 0)
+   {
+    const clusters:number[][][] = Array.from({length:this.state.centroids.length} ,() => new Array(0));
+     
+  
+
+    this.props.reduceData(this.props.global.coordinatesOfNodes.length);
+
 
     for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
       const currentNode = this.props.global.coordinatesOfNodes[i];
 
       let min = distance(currentNode, this.state.centroids[0]);
       let pos = 0;
-
+     
       for (let j = 0; j < this.state.centroids.length; j++) {
         this.props.addToRender(
-          <g key={`a-${j}`}>
+          <g key={`a-${j}-${iter}`}>
             <circle
               r="10"
               cx={currentNode[0]}
@@ -96,12 +135,13 @@ class KMeans extends Component<Props, State> {
       }
 
       }
+     
+      clusters[pos].push(currentNode);
 
       await new Promise((done) => setTimeout(() => done(), 10));
 
     
-
-     this.props.addToRender( <g key={`b-${i}`}>
+     this.props.addToRender( <g key={`b-${i}-${iter}`}>
       <line
         stroke={this.state.colors[pos]}
         strokeWidth="1.5"
@@ -122,7 +162,14 @@ class KMeans extends Component<Props, State> {
 
       await new Promise((done) => setTimeout(() => done(), 10));
     }
-
+    let result = this.calculateNewCentroids(clusters);
+    console.log("RESULT",result,result.centroids[0]);
+    loss = result.loss; 
+    this.setState({centroids:result.centroids});
+      await new Promise((done) => setTimeout(() => done(), 10));
+ iter += 1;
+     
+}
 
     this.props.endVisualization();
     this.setState({started:false});
@@ -182,7 +229,7 @@ class KMeans extends Component<Props, State> {
           started: true,
           centroids,
           colors,
-        }),() => this.handleStep());      
+        }),() => this.handleStart());      
       }  
     }
   }
@@ -191,7 +238,7 @@ class KMeans extends Component<Props, State> {
     return (
       <g>
         {this.props.algo.render}
-        {this.renderCentroids}
+        {this.props.algo.render.length && this.renderCentroids}
       </g>
     );
   } 

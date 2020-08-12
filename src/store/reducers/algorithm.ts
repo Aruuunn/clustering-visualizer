@@ -19,6 +19,9 @@ export default (state:State=initialState,action:Action):State=> {
         case AlgorithmActionTypes.ADD_TO_RENDER:
             return {...state,render:[...state.render,action.payload]};
         case AlgorithmActionTypes.REDUCE_DATA:
+            if(!action.payload || state.render.length/action.payload < 2){
+                return state
+            }
             return {...state,render:[...state.render.slice(action.payload)]}
 
         case AlgorithmActionTypes.POP_RENDER:
