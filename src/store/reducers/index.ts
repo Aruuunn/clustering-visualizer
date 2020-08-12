@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
  
 import UserReducer from './userData';
 import GlobalReducer from './global';
+import AlgorithmReducer from './algorithm';
 
 const persistConfig = {
     key: 'user',
@@ -13,7 +14,8 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     user:persistReducer(persistConfig,UserReducer),
-    global:persistReducer(persistConfig,GlobalReducer)
+    global:persistReducer(persistConfig,GlobalReducer),
+    algo:AlgorithmReducer
 });
 
 export default rootReducer;

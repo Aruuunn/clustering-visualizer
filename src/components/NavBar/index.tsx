@@ -15,6 +15,8 @@ import { connect, ConnectedProps } from "react-redux";
 import logo from "../../assets/logo.svg";
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import GlobalActionTypes from "../../store/types/global.types";
+import AlgorithmActionTypes from '../../store/types/algorithm.types';
+import './styles.css';
 
 // define types of Props and State
 
@@ -29,7 +31,8 @@ const mapDispatchToProps = {
   changeNumberOfClusters: (numberOfClusters:number) => ({type:GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,payload:numberOfClusters}),
   changeAlgorithm:(algo:AlgorithmNames) => ({type:GlobalActionTypes.SET_ALGORITHM,payload:algo}),
   reset:() => ({type:GlobalActionTypes.RESET}),
-  startVisualization:() => ({type:GlobalActionTypes.START_VISUALIZATION})
+  startVisualization:() => ({type:GlobalActionTypes.START_VISUALIZATION}),
+  resetAlgorithmData:() => ({type:AlgorithmActionTypes.RESET_DATA})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -83,7 +86,7 @@ class NavBar extends Component<Props, State> {
     const { classes } = this.props;
 
     return (
-      <AppBar elevation={0}>
+      <AppBar elevation={0} className="appbar">
         <Toolbar>
           <img
             src={logo}
@@ -133,12 +136,12 @@ class NavBar extends Component<Props, State> {
           </Menu>
           <Button
             variant="contained"
-            onClick={() => this.props.startVisualization()}
+            onClick={() => {this.props.startVisualization();}}
             disabled={ this.isDisabled() }
           >
             Start
           </Button>
-          <Button style={{color:'white'}} onClick={() => this.props.reset()}>
+          <Button style={{color:'white'}} onClick={() => {this.props.reset();this.props.resetAlgorithmData()}}>
             Reset
           </Button>
         </Toolbar>

@@ -26,19 +26,25 @@ class Board extends React.Component<IBoardProps, any> {
   }
 
   handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+    event.persist();
     const target = event.target as SVGSVGElement;
-    let nodeX = event.clientX - target.getBoundingClientRect().left;
-    let nodeY = event.clientY - target.getBoundingClientRect().top;
+    const X = event.clientX - target.getBoundingClientRect().left;
+    const Y = event.clientY - target.getBoundingClientRect().top;
+
+    if (X <= 20 || Y <= 20 || !X || !Y) {
+      return;
+    }
 
     this.props.setCoordinates([
       ...this.props.global.coordinatesOfNodes,
-      [nodeX, nodeY],
+      [X, Y],
     ]);
   };
 
   public render() {
     return (
       <div>
+
         <svg
           width="100%"
           style={{ height: "100vh" }}
@@ -46,6 +52,20 @@ class Board extends React.Component<IBoardProps, any> {
           className={styles.bg}
           onClick={this.handleClick}
         >
+           <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop
+                offset="0%"
+                style={{stopColor:'#434343',stopOpacity:1}}
+              />
+              <stop
+                offset="100%"
+                style={{stopColor:'rgb(0,0,0)',stopOpacity:1}}
+              />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" style={{ fill: "url(#grad1)" }} />
+         
           {this.props.global.coordinatesOfNodes.map(
             (o: number[], i: number) => (
               <g key={i}>
@@ -55,7 +75,7 @@ class Board extends React.Component<IBoardProps, any> {
                   r="9"
                   style={{ fill: "white" }}
                   stroke="black"
-                  strokeWidth="1"
+                  strokeWidth="1.5"
                 />
               </g>
             )

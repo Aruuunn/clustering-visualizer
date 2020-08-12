@@ -42,6 +42,8 @@ export default (state:State = initialState,action:Action) => {
                 return state;
             }
             return {...state,start:true};
+        case GlobalActionTypes.END_VISUALIZATION:
+            return {...state,start:false};
 
         default:
             return state;
