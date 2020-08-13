@@ -1,13 +1,15 @@
 import React from "react";
 
 import NavBar from "./components/NavBar";
-import Board from "./components/board";
+import Board from "./components/Board";
+
 
 function App() {
   return (
     <div style={{height:'100vh',overflow:'hidden'}}>
       <NavBar />
       <Board />
+
     </div>
   );
 }

@@ -4,6 +4,7 @@ import distance from "../../../utils/distance";
 import { AlgorithmActionTypes } from "../../../store/types/algorithm.types";
 import GlobalActionTypes from "../../../store/types/global.types";
 import {getColor} from "../../../utils/getRandomColor";
+import Speed from "../../../common/speed.enum";
 
 
 const mapStateToProps = (state: {
@@ -11,6 +12,7 @@ const mapStateToProps = (state: {
     coordinatesOfNodes: number[][];
     start: boolean;
     numberOfClusters: number;
+    speed:Speed;
   };
   algo: {
     render: any[];
@@ -94,12 +96,10 @@ class KMeans extends Component<Props, State> {
 
     while(Math.floor(loss) > 0)
    {
+     this.props.resetAlgoData();
+
     const clusters:number[][][] = Array.from({length:this.state.centroids.length} ,() => new Array(0));
      
-  
-
-    this.props.reduceData(this.props.global.coordinatesOfNodes.length);
-
 
     for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
       const currentNode = this.props.global.coordinatesOfNodes[i];
@@ -126,7 +126,7 @@ class KMeans extends Component<Props, State> {
             />
           </g>
         );
-      await new Promise((done) => setTimeout(() => done(), 10));
+      await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
       this.props.popRender();
       let dist = distance(currentNode, this.state.centroids[j]);
       if (dist < min) {
@@ -138,7 +138,7 @@ class KMeans extends Component<Props, State> {
      
       clusters[pos].push(currentNode);
 
-      await new Promise((done) => setTimeout(() => done(), 10));
+      await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
 
     
      this.props.addToRender( <g key={`b-${i}-${iter}`}>
@@ -160,14 +160,24 @@ class KMeans extends Component<Props, State> {
       />
     </g>);
 
-      await new Promise((done) => setTimeout(() => done(), 10));
+      await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
     }
     let result = this.calculateNewCentroids(clusters);
     console.log("RESULT",result,result.centroids[0]);
     loss = result.loss; 
     this.setState({centroids:result.centroids});
-      await new Promise((done) => setTimeout(() => done(), 10));
+      await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
  iter += 1;
+
+
+ this.renderCentroids = [];
+ for(let iter=0;iter<result.centroids.length;iter++){
+  this.renderCentroids.push(
+    <g key={`d-${iter}`}>
+    <rect x={result.centroids[iter][0]-10}  y={result.centroids[iter][1]-10} width="20" height="20"  style={{ fill: this.state.colors[iter] }} stroke="black" strokeWidth="" />
+    <text x={result.centroids[iter][0]-5} y={result.centroids[iter][1]+5} style={{fill:'black'}}>C</text>
+  </g>)
+}
      
 }
 
@@ -216,9 +226,9 @@ class KMeans extends Component<Props, State> {
   
    
       for(let iter=0;iter<centroids.length;iter++){
-        this.renderCentroids.push(
-          <g key={`c-${iter}`}>
-          <circle cx={centroids[iter][0]} cy={centroids[iter][1]} r="9" style={{ fill: colors[iter] }} />
+        this.renderCentroids.push(<g key={`c-${iter}`}>
+          <rect x={centroids[iter][0]-10}  y={centroids[iter][1]-10} width="20" height="20"  style={{ fill: colors[iter] }} stroke="black" strokeWidth="0.25" />
+          <text x={centroids[iter][0]-5} y={centroids[iter][1]+5} style={{fill:'black'}}>C</text>
         </g>)
       }
   

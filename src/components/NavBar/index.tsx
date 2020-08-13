@@ -17,11 +17,14 @@ import { AlgorithmNames } from "../../common/algorithms.enum";
 import GlobalActionTypes from "../../store/types/global.types";
 import AlgorithmActionTypes from '../../store/types/algorithm.types';
 import './styles.css';
+import Speed from "../../common/speed.enum";
 
 // define types of Props and State
 
 interface State {
-  anchor: (EventTarget & Element) | null;
+  anchor1: (EventTarget & Element) | null;
+  anchor2: (EventTarget & Element) | null;
+
 }
 
 // define mapStateToProps and mapDispatchToProps
@@ -32,7 +35,8 @@ const mapDispatchToProps = {
   changeAlgorithm:(algo:AlgorithmNames) => ({type:GlobalActionTypes.SET_ALGORITHM,payload:algo}),
   reset:() => ({type:GlobalActionTypes.RESET}),
   startVisualization:() => ({type:GlobalActionTypes.START_VISUALIZATION}),
-  resetAlgorithmData:() => ({type:AlgorithmActionTypes.RESET_DATA})
+  resetAlgorithmData:() => ({type:AlgorithmActionTypes.RESET_DATA}),
+  setSpeed:(speed:Speed) => ({type:GlobalActionTypes.SET_SPEED,payload:speed})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -48,10 +52,13 @@ type Props = PropsFromRedux & {
 
 // NavBar
 class NavBar extends Component<Props, State> {
-  state = { anchor: null };
+  state = { anchor1: null,anchor2:null };
 
-  handleClick = (event: SyntheticEvent) => {
-    this.setState({ anchor: event.currentTarget });
+  handleSpeeMenu= (event: SyntheticEvent) => {
+    this.setState({ anchor2: event.currentTarget });
+  };
+  handleAlgorithmMenu= (event: SyntheticEvent) => {
+    this.setState({ anchor1: event.currentTarget });
   };
 
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,11 +70,41 @@ class NavBar extends Component<Props, State> {
     }
   };
 
-  handleClose = (algo: AlgorithmNames | null) => {
-    this.setState({ anchor: null });
-    if (algo !== null)
-      this.props.changeAlgorithm(algo);
+  handleSpeeMenuClose = (speed:  Speed | null) => {
+    this.setState({ anchor2:null });
+    if (speed !== null)
+      switch(speed){
+    
+      case Speed.slow:
+        this.props.setSpeed(Speed.slow);
+        break;
+      case Speed.average:
+        this.props.setSpeed(Speed.average);
+        break;
+      case Speed.fast:
+        this.props.setSpeed(Speed.fast);
+        break;
+      case Speed.faster:
+        this.props.setSpeed(Speed.faster);
+      break;
+      
+      
+      }
   };
+
+  handleAlgorithmClose = (algo: AlgorithmNames| null) => {
+    this.setState({ anchor1: null});
+    if (algo !== null)
+      switch(algo){
+        case AlgorithmNames.KMEANS:
+      this.props.changeAlgorithm(algo);
+      break;
+      
+      
+      
+      }
+  };
+
 
 
   isDisabled = ():boolean=> {
@@ -115,7 +152,7 @@ class NavBar extends Component<Props, State> {
           <Button
             aria-controls="simple-menu"
             aria-haspopup="true"
-            onClick={this.handleClick}
+            onClick={this.handleAlgorithmMenu}
             variant="contained"
             style={{ marginRight: "20px" }}
           >
@@ -125,13 +162,40 @@ class NavBar extends Component<Props, State> {
           </Button>
           <Menu
             id="simple-menu"
-            anchorEl={this.state.anchor}
+            anchorEl={this.state.anchor1}
             keepMounted
-            open={this.state.anchor !== null}
-            onClose={() => this.handleClose(null)}
+            open={this.state.anchor1 !== null}
+            onClose={() => this.handleAlgorithmClose(null)}
           >
-            <MenuItem onClick={() => this.handleClose(AlgorithmNames.KMEANS)}>
+            <MenuItem onClick={() => this.handleAlgorithmClose(AlgorithmNames.KMEANS)}>
               K Means
+            </MenuItem>
+          </Menu>
+          <Button  variant="contained"
+            aria-haspopup="true"
+            onClick={this.handleSpeeMenu}
+            style={{ marginRight: "20px" }}
+            disabled={ this.isDisabled() }>
+{this.props.global.speed === null
+              ? "Select Speed"
+              : this.props.global.speed===Speed.slow?"Slow":this.props.global.speed===Speed.average?"Average":this.props.global.speed===Speed.fast?"Fast":"Faster"}
+          </Button>
+          <Menu id="menu-speed"
+            anchorEl={this.state.anchor2}
+            keepMounted
+            open={this.state.anchor2 !== null}
+            onClose={() => this.handleSpeeMenuClose(null)}>
+   <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.slow)}>
+              Slow 
+            </MenuItem>
+            <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.average)}>
+              Average 
+            </MenuItem>
+            <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.fast)}>
+              Fast 
+            </MenuItem>
+            <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.faster)}>
+              Faster 
             </MenuItem>
           </Menu>
           <Button

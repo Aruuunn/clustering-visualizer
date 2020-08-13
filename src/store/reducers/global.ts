@@ -1,10 +1,12 @@
 import GlobalActionTypes from "../types/global.types";
 import { AlgorithmNames } from "../../common/algorithms.enum";
+import { Speed } from "../../common/speed.enum";
 
 interface State {
     algorithm:AlgorithmNames | null;
     numberOfClusters:number;
     start:boolean;
+    speed:Speed;
     coordinatesOfNodes:number[][]
 }
 
@@ -17,6 +19,7 @@ let initialState:State = {
     algorithm:null,
     numberOfClusters:0,
     start:false,
+    speed:Speed.faster,
     coordinatesOfNodes:[]
 }
 
@@ -44,6 +47,9 @@ export default (state:State = initialState,action:Action) => {
             return {...state,start:true};
         case GlobalActionTypes.END_VISUALIZATION:
             return {...state,start:false};
+
+        case GlobalActionTypes.SET_SPEED:
+            return {...state,speed:action.payload};
 
         default:
             return state;
