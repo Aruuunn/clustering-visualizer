@@ -43,27 +43,37 @@ class Board extends React.Component<IBoardProps, any> {
   public render() {
     return (
       <div>
-
         <svg
           width="100%"
           height="100vh"
           ref={this.state.bg}
           onClick={this.handleClick}
         >
-           <defs>
+          <defs>
+         
+            <marker
+              id="markerArrow"
+              markerWidth="10"
+              markerHeight="10"
+              refX="23"
+              refY="6"
+              orient="auto"
+            >
+              <path d="M2,2 L2,11 L10,6 L2,2" fill="white"/>
+            </marker>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop
                 offset="0%"
-                style={{stopColor:'#434343',stopOpacity:1}}
+                style={{ stopColor: "#434343", stopOpacity: 1 }}
               />
               <stop
                 offset="100%"
-                style={{stopColor:'rgb(0,0,0)',stopOpacity:1}}
+                style={{ stopColor: "rgb(0,0,0)", stopOpacity: 1 }}
               />
             </linearGradient>
           </defs>
           <rect width="100%" height="100%" style={{ fill: "url(#grad1)" }} />
-         
+
           {this.props.global.coordinatesOfNodes.map(
             (o: number[], i: number) => (
               <g key={i}>
