@@ -12,18 +12,21 @@ import {
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
-import logo from "../../assets/logo.svg";
+import logo from "../../images/logo.svg";
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import GlobalActionTypes from "../../store/types/global.types";
 import AlgorithmActionTypes from '../../store/types/algorithm.types';
 import './styles.css';
 import Speed from "../../common/speed.enum";
+import infoIcon from '../../images/info.svg';
+import InfoModal from "../InfoModal";
 
 // define types of Props and State
 
 interface State {
   anchor1: (EventTarget & Element) | null;
   anchor2: (EventTarget & Element) | null;
+  openInfoModal:boolean;
 
 }
 
@@ -52,7 +55,7 @@ type Props = PropsFromRedux & {
 
 // NavBar
 class NavBar extends Component<Props, State> {
-  state = { anchor1: null,anchor2:null };
+  state = { anchor1: null,anchor2:null ,openInfoModal:false};
 
   handleSpeeMenu= (event: SyntheticEvent) => {
     this.setState({ anchor2: event.currentTarget });
@@ -63,8 +66,8 @@ class NavBar extends Component<Props, State> {
 
   handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.persist();
-    if (parseInt(e.target.value) >= 0) {
-      this.props.changeNumberOfClusters(parseInt(e.target.value));
+    if (parseInt(e.target.value,10) >= 0) {
+      this.props.changeNumberOfClusters(parseInt(e.target.value,10));
     } else {
       this.props.changeNumberOfClusters(0);
     }
@@ -112,7 +115,7 @@ class NavBar extends Component<Props, State> {
     const { global } = this.props;
 
 
-    if(global.numberOfClusters <=1 || global.algorithm===null || global.coordinatesOfNodes.length < 5 || global.start){
+    if(global.numberOfClusters <=1 || global.algorithm===null || global.coordinatesOfNodes.length < 5 || global.start || global.numberOfClusters >  global.coordinatesOfNodes.length){
       return true;
     }
 
@@ -124,14 +127,15 @@ class NavBar extends Component<Props, State> {
 
     return (
       <AppBar elevation={0} className="appbar">
-        <Toolbar>
+        <InfoModal open={this.state.openInfoModal} onClose={() => this.setState({openInfoModal:false})}/>
+        <Toolbar> 
           <img
             src={logo}
             alt="logo"
             style={{ height: "50px", width: "auto" }}
           />
           <Typography variant="h5" style={{ flexGrow: 1 }}>
-            Clustering Visualizer
+            Clustering Algorithm Visualizer <img src={infoIcon} alt="info" style={{height:'15px',width:'auto'}} onClick={() => this.setState({openInfoModal:true})}/>
           </Typography>
           {this.props.global.algorithm === AlgorithmNames.KMEANS ? (
             <InputBase
@@ -175,7 +179,7 @@ class NavBar extends Component<Props, State> {
             aria-haspopup="true"
             onClick={this.handleSpeeMenu}
             style={{ marginRight: "20px" }}
-            disabled={ this.isDisabled() }>
+            >
 {this.props.global.speed === null
               ? "Select Speed"
               : this.props.global.speed===Speed.slow?"Slow":this.props.global.speed===Speed.average?"Average":this.props.global.speed===Speed.fast?"Fast":"Faster"}
