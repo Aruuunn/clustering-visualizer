@@ -5,10 +5,11 @@ import { AlgorithmActionTypes } from "../../../store/types/algorithm.types";
 import GlobalActionTypes from "../../../store/types/global.types";
 import { getColor } from "../../../utils/getRandomColor";
 import Speed from "../../../common/speed.enum";
+import {Node} from '../../../store/reducers/global';
 
 const mapStateToProps = (state: {
   global: {
-    coordinatesOfNodes: number[][];
+    coordinatesOfNodes: Node[];
     start: boolean;
     numberOfClusters: number;
     speed: Speed;
@@ -107,7 +108,7 @@ class KMeans extends Component<Props, State> {
       );
 
       for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
-        const currentNode = this.props.global.coordinatesOfNodes[i];
+        const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
 
         let min = distance(currentNode, this.state.centroids[0]);
         let pos = 0;
@@ -243,7 +244,7 @@ class KMeans extends Component<Props, State> {
             Math.random() * global.coordinatesOfNodes.length - 1
           );
 
-          while (set.has(idx) && !global.coordinatesOfNodes[idx]) {
+          while (set.has(idx) || !global.coordinatesOfNodes[idx]) {
             idx = Math.floor(
               Math.random() * global.coordinatesOfNodes.length - 1
             );
@@ -251,7 +252,7 @@ class KMeans extends Component<Props, State> {
 
           set.add(idx);
 
-          centroids.push(global.coordinatesOfNodes[idx]);
+          centroids.push(global.coordinatesOfNodes[idx].coordinates);
         }
 
         let colors: string[] = [];

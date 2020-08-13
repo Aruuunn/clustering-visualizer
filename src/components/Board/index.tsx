@@ -2,14 +2,16 @@ import * as React from "react";
 import KMeans from "../algorithms/KMeans";
 import { connect, ConnectedProps } from "react-redux";
 import GlobalActionTypes from "../../store/types/global.types";
+import {Node} from '../../store/reducers/global';
 
 const mapStateToProps = (state: any) => ({ global: state.global });
 
 const mapDispatchToProps = {
-  setCoordinates: (coordinates: number[][]) => ({
+  setCoordinates: (coordinates: Node[]) => ({
     type: GlobalActionTypes.SET_COORDINATES_OF_NODES,
     payload: coordinates,
   }),
+  updateCoordinates:(node :Node) => ({type:GlobalActionTypes.UPDATE_COORDINATES,payload:node})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -24,6 +26,36 @@ class Board extends React.Component<IBoardProps, any> {
     };
   }
 
+  handleMove = (event: any,id:number) => {
+
+    event.persist();
+    const currentNode = event.target;
+    let X =0, Y =0;
+
+    const handleMove = (event:any) => {
+   
+       X = event.clientX - this.state.bg.current.getBoundingClientRect().left;
+       Y = event.clientY - this.state.bg.current.getBoundingClientRect().top;
+      currentNode.setAttribute("cx", X);
+      currentNode.setAttribute("cy", Y);  
+      this.props.updateCoordinates({id,coordinates:[X,Y]});
+
+    }
+
+    const removeListeners = () => { 
+
+      this.state.bg.current.removeEventListener('pointermove',handleMove);
+      this.state.bg.current.removeEventListener('pointerup',removeListeners);
+    }
+  
+    this.state.bg.current.addEventListener('pointermove', handleMove);
+
+
+  this.state.bg.current.addEventListener('pointerup',removeListeners);
+  
+  
+  };
+
   handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
     event.persist();
     const target = event.target as SVGSVGElement;
@@ -36,7 +68,7 @@ class Board extends React.Component<IBoardProps, any> {
 
     this.props.setCoordinates([
       ...this.props.global.coordinatesOfNodes,
-      [X, Y],
+     { coordinates: [X, Y] ,id:this.props.global.coordinatesOfNodes.length},
     ]);
   };
 
@@ -50,7 +82,6 @@ class Board extends React.Component<IBoardProps, any> {
           onClick={this.handleClick}
         >
           <defs>
-         
             <marker
               id="markerArrow"
               markerWidth="10"
@@ -59,7 +90,7 @@ class Board extends React.Component<IBoardProps, any> {
               refY="6"
               orient="auto"
             >
-              <path d="M2,2 L2,11 L10,6 L2,2" fill="white"/>
+              <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />
             </marker>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop
@@ -75,11 +106,11 @@ class Board extends React.Component<IBoardProps, any> {
           <rect width="100%" height="100%" style={{ fill: "url(#grad1)" }} />
 
           {this.props.global.coordinatesOfNodes.map(
-            (o: number[], i: number) => (
-              <g key={i}>
+            (o: Node) => (
+              <g key={o.id} onPointerDown={(e: React.PointerEvent<SVGSVGElement>) => !this.props.global.start ?this.handleMove(e,o.id):null}>
                 <circle
-                  cx={o[0]}
-                  cy={o[1]}
+                  cx={o.coordinates[0]}
+                  cy={o.coordinates[1]}
                   r="9"
                   style={{ fill: "white" }}
                   stroke="black"

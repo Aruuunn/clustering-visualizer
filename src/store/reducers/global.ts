@@ -2,12 +2,17 @@ import GlobalActionTypes from "../types/global.types";
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import { Speed } from "../../common/speed.enum";
 
+export interface Node {
+    id:number;
+    coordinates:number[]
+}
+
 interface State {
     algorithm:AlgorithmNames | null;
     numberOfClusters:number;
     start:boolean;
     speed:Speed;
-    coordinatesOfNodes:number[][]
+    coordinatesOfNodes:Node[]
 }
 
 interface Action {
@@ -50,6 +55,15 @@ export default (state:State = initialState,action:Action) => {
 
         case GlobalActionTypes.SET_SPEED:
             return {...state,speed:action.payload};
+
+        case GlobalActionTypes.UPDATE_COORDINATES:
+            const { id ,coordinates } = action.payload;
+            return {...state,coordinatesOfNodes:state.coordinatesOfNodes.map((o) => {
+                if(o.id===id){
+                  return {id,coordinates};
+                }
+                else return o;
+            })}
 
         default:
             return state;

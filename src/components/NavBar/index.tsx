@@ -138,7 +138,7 @@ class NavBar extends Component<Props, State> {
               placeholder="Number of Clusters"
               fullWidth
               color="secondary"
-              value={this.props.global.numberOfClusters}
+              value={this.props.global.numberOfClusters===0?"":this.props.global.numberOfClusters}
               onChange={this.handleInputChange}
               classes={{
                 root: classes.inputRoot,
