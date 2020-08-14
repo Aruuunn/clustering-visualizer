@@ -123,7 +123,7 @@ class NavBar extends Component<Props, State> {
     const { classes } = this.props;
 
     return (
-      <AppBar elevation={0} className="appbar">
+      <AppBar elevation={0} className="appbar" color="transparent" style={{color:'white'}}>
         <Toolbar>
           <img
             src={logo}

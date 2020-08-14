@@ -3,6 +3,8 @@ import KMeans from "../algorithms/KMeans";
 import { connect, ConnectedProps } from "react-redux";
 import GlobalActionTypes from "../../store/types/global.types";
 import {Node} from '../../store/reducers/global';
+import { Fab } from "@material-ui/core";
+import LearnIcon from '../../assets/learn.svg'
 
 const mapStateToProps = (state: any) => ({ global: state.global });
 
@@ -121,6 +123,9 @@ class Board extends React.Component<IBoardProps, any> {
           )}
           <KMeans />
         </svg>
+        <Fab aria-label="Learn Mode" style={{position:'absolute',right:'20px',bottom:'20px'}} color="secondary">
+          <img src={LearnIcon} alt="learn mode"/>
+        </Fab>
       </div>
     );
   }
