@@ -12,7 +12,8 @@ interface State {
     numberOfClusters:number;
     start:boolean;
     speed:Speed;
-    coordinatesOfNodes:Node[]
+    coordinatesOfNodes:Node[],
+    learnMode:boolean;
 }
 
 interface Action {
@@ -25,7 +26,8 @@ let initialState:State = {
     numberOfClusters:0,
     start:false,
     speed:Speed.faster,
-    coordinatesOfNodes:[]
+    coordinatesOfNodes:[],
+    learnMode:false,
 }
 
 
@@ -64,6 +66,8 @@ export default (state:State = initialState,action:Action) => {
                 }
                 else return o;
             })}
+        case GlobalActionTypes.SET_LEARN_MODE:
+            return {...state,learnMode:action.payload};
 
         default:
             return state;
