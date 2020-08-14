@@ -6,10 +6,16 @@ import KMEANSImage from "../../../../assets/kmeans.png";
 import StepOneImage from "../../../../assets/step1.png";
 import EnterNumberOfClustersImage from "../../../../assets/enterNumberOfClusters.png";
 import initializeCentroidsImage from "../../../../assets/initializeCentroids.png";
+import stepTwoImage from "../../../../assets/step2-kmeans.png";
+import calculateCentroidsImage from "../../../../assets/calculateCentroids.png";
+import closeIcon from "../../../../assets/close.svg";
+import GlobalActionTypes from "../../../../store/types/global.types";
 
 const mapStateToProps = (state: any) => ({ global: state.global });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  close:() => ({type:GlobalActionTypes.SET_LEARN_MODE,payload:false})
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -43,8 +49,7 @@ const pages: ReactElement[] = [
     />
 
     <Typography variant="body1" style={{ margin: "5px" }}>
-      Click on the blank space to create Data points. Create atleast 5 points to
-      continue.
+      Click on the blank space to create Data points. Create atleast 5 points.
     </Typography>
   </div>,
   <div>
@@ -73,18 +78,70 @@ const pages: ReactElement[] = [
       style={{ width: "100%", height: "auto" }}
       alt="initialize centroids"
     />
-    <Typography variant="h5"> Step 1: Initialize Centroids</Typography>
+    <Typography variant="h5" style={{ marginBottom: "5px" }}>
+      {" "}
+      Step 1: Initialize Centroids
+    </Typography>
     <Typography variant="body1">
-      Centroids play a key role in the k-means algorithm. Centroids are nothing but a bunch of
-      data points but you will understand why it's called centroid in a later
-      step. Each cluster has a single centroid. They are assigned{" "}
-      <b>randomly a data point</b> from the bunch of data points initially.
+      Centroids play a key role in the k-means algorithm. Centroids are data
+      points that determine the cluster a given data point belongs to. You will
+      understand why it's called centroid in a later step. Each cluster has a
+      single centroid. They are assigned <b>randomly a data point</b> from the
+      bunch of data points initially.
+    </Typography>
+  </div>,
+  <div>
+    <img
+      src={stepTwoImage}
+      style={{ width: "100%", height: "auto", marginBottom: "5px" }}
+      alt="determine the cluster"
+    />
+    <Typography variant="h5" style={{ marginBottom: "5px" }}>
+      {" "}
+      Step 2: Determine the cluster
+    </Typography>
+    <Typography variant="body1">
+      We take data points one by one and determine which cluster they belong to.
+      Lets first take a single data point (it will be a yellow circle). Then we
+      determine the distance between this point and all other centroids one by
+      one. The current point belongs to the cluster whose centroid is closest to
+      this point.
+    </Typography>
+  </div>,
+  <div>
+    <img
+      src={calculateCentroidsImage}
+      style={{ width: "100%", height: "auto", marginBottom: "5px" }}
+      alt="determine the cluster"
+    />
+    <Typography variant="h5" style={{ marginBottom: "5px" }}>
+      {" "}
+      Step 3: Calculate Centroids
+    </Typography>
+    <Typography variant="body1">
+      In this step we will update the centroids. We update each centroid by
+      finding the "geometrical Centroid" of the data points which belong to the
+      same cluster as determined in the previous step.The dashed arrow shows the
+      shift of each centroid.
+    </Typography>
+  </div>,
+  <div>
+    <Typography variant="h5" style={{ marginBottom: "5px" }}>
+      {" "}
+      Step 4: Iteration
+    </Typography>
+    <Typography variant="body1">
+      We iterate through the last two steps ,i.e find the cluster to which each
+      data point belongs with respect to the centroid, update values of the
+      centroid and so on. We iterate till the stage when the centroids of the
+      clusters doesn't change even after updation. Congratulations! We have come
+      to the end.
     </Typography>
   </div>,
 ];
 
 function KMEANS(props: Props): ReactElement {
-  const [currentPage, setPage] = useState<number>(4);
+  const [currentPage, setPage] = useState<number>(0);
 
   return (
     <Grid
@@ -93,18 +150,37 @@ function KMEANS(props: Props): ReactElement {
       justify="space-between"
       alignItems="flex-start"
     >
-      <Typography variant="h5" style={{ margin: "5px", width: "100%" }}>
-        KMEANS
-      </Typography>
-      <div style={{ height: "100%" }}>{pages[currentPage]}</div>
+      <Grid container justify="space-between" alignItems="flex-start"  style={{ margin: "5px", width: "100%" }}>
+        <Typography variant="h5">
+          K MEANS
+        </Typography>
+        <img src={closeIcon} alt="close" onClick={() => props.close()}/>
+      </Grid>
+
+      <div style={{ height: "60vh", overflow: "auto" }}>
+        {pages[currentPage]} 
+      </div>
       <Grid container justify="flex-end">
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => setPage((s) => s + 1)}
-        >
-          Next
-        </Button>
+        {currentPage !== 0 ? (
+          <Button
+            variant="text"
+            color="secondary"
+            style={{ margin: "10px" }}
+            onClick={() => setPage((s) => s - 1)}
+          >
+            Previous
+          </Button>
+        ) : null}
+        {currentPage !== pages.length - 1 ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            style={{ margin: "10px" }}
+            onClick={() => setPage((s) => s + 1)}
+          >
+            Next
+          </Button>
+        ) : null}
       </Grid>
     </Grid>
   );

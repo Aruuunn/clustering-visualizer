@@ -3,7 +3,7 @@ import KMeans from "../algorithms/KMeans";
 import { connect, ConnectedProps } from "react-redux";
 import GlobalActionTypes from "../../store/types/global.types";
 import { Node } from "../../store/reducers/global";
-import { Fab, Grow, Slide } from "@material-ui/core";
+import { Fab, Grow, Slide  } from "@material-ui/core";
 import LearnIcon from "../../assets/learn.svg";
 import LearnMode from '../LearnMode'
 
@@ -77,6 +77,7 @@ class Board extends React.Component<IBoardProps, any> {
   };
 
   public render() {
+
     return (
       <div>
         <svg
@@ -128,7 +129,8 @@ class Board extends React.Component<IBoardProps, any> {
           ))}
           <KMeans />
         </svg>
-        <Grow in={!this.props.global.learnMode}>
+    
+        <Grow in={!this.props.global.learnMode &&  this.props.global.algorithm!==null}>
           <Fab
             aria-label="Learn Mode"
             style={{ position: "absolute", right: "20px", bottom: "20px" }}
@@ -137,13 +139,13 @@ class Board extends React.Component<IBoardProps, any> {
           >
             <img src={LearnIcon} alt="learn mode" />
           </Fab>
-        </Grow>
+        </Grow> 
         <Slide in={this.props.global.learnMode} direction="left" >
           <LearnMode />
         </Slide>
       </div>
     );
-  }
+  } 
 }
 
 export default connector(Board);
