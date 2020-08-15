@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Typography, Grid, Button } from "@material-ui/core";
+import { Typography, Grid, Button , useMediaQuery ,useTheme } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
 import KMEANSImage from "../../../../assets/kmeans.png";
@@ -141,7 +141,11 @@ const pages: ReactElement[] = [
 ];
 
 function KMEANS(props: Props): ReactElement {
+
   const [currentPage, setPage] = useState<number>(0);
+
+  const theme = useTheme();
+  const  sm = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Grid
@@ -157,7 +161,7 @@ function KMEANS(props: Props): ReactElement {
         <img src={closeIcon} alt="close" onClick={() => props.close()}/>
       </Grid>
 
-      <div style={{ height: "60vh", overflow: "auto" }}>
+      <div style={{ height:(sm ? "70vh" : "60vh"), overflow: "auto" }}>
         {pages[currentPage]} 
       </div>
       <Grid container justify="flex-end">

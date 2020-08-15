@@ -11,7 +11,7 @@ import {
   fade,
   Grid,
   Hidden,
-  Grow
+  Grow,
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -136,21 +136,24 @@ class NavBar extends Component<Props, State> {
         style={{ color: "white" }}
       >
         <Toolbar>
-          <Grid container>
+          <Grid container alignItems="center">
             <Grid container alignItems="center" item xs={9} md={4}>
               <Hidden smDown>
+                <Grid  container alignItems="flex-start" style={{height: "48px", width: "auto" ,  marginRight: "20px",padding:'10px'}}  onClick={() => this.setState({ isDrawerOpen: true })}>
                 <img
                   src={menuIcon}
                   alt="menu"
-                  style={{ marginRight: "20px" }}
-                  onClick={() => this.setState({ isDrawerOpen: true })}
+                  style={{height:'36px',width:'auto'}}
+                 
                 />
+                </Grid>
+               
               </Hidden>
               <Hidden xsDown>
                 <img
                   src={logo}
                   alt="logo"
-                  style={{ height: "50px", width: "auto" }}
+                  style={{ height: "48px", width: "auto" }}
                 />
               </Hidden>
 
@@ -164,12 +167,14 @@ class NavBar extends Component<Props, State> {
                 alignItems="center"
                 justify="flex-end"
                 item
+                style={{ height: "48px", width: "auto" }}
+                onClick={() => this.setState({ isDrawerOpen: true })}
                 xs={3}
               >
                 <img
                   src={menuIcon}
                   alt="menu"
-                  onClick={() => this.setState({ isDrawerOpen: true })}
+                  style={{height:'36px',width:'auto'}}
                 />
               </Grid>
             </Hidden>
@@ -182,8 +187,10 @@ class NavBar extends Component<Props, State> {
                 xs={12}
                 md={8}
               >
-                <Grow in={this.props.global.algorithm === AlgorithmNames.KMEANS}>
-                <InputBase
+                <Grow
+                  in={this.props.global.algorithm === AlgorithmNames.KMEANS}
+                >
+                  <InputBase
                     placeholder="Number of Clusters"
                     fullWidth
                     color="secondary"
@@ -201,7 +208,6 @@ class NavBar extends Component<Props, State> {
                     type="number"
                   />
                 </Grow>
-              
 
                 <Button
                   aria-controls="simple-menu"
@@ -260,7 +266,7 @@ class NavBar extends Component<Props, State> {
           anchorEl={this.state.anchor1}
           keepMounted
           open={this.state.anchor1 !== null}
-          style={{zIndex:10000}}
+          style={{ zIndex: 10000 }}
           onClose={() => this.handleAlgorithmClose(null)}
         >
           <MenuItem
@@ -273,7 +279,7 @@ class NavBar extends Component<Props, State> {
           id="menu-speed"
           anchorEl={this.state.anchor2}
           keepMounted
-          style={{zIndex:10000}}
+          style={{ zIndex: 10000 }}
           open={this.state.anchor2 !== null}
           onClose={() => this.handleSpeeMenuClose(null)}
         >
@@ -291,8 +297,8 @@ class NavBar extends Component<Props, State> {
           </MenuItem>
         </Menu>
         <Drawer
-        isDisabled={this.isDisabled}
-        handleSpeeMenu={this.handleSpeeMenu}
+          isDisabled={this.isDisabled}
+          handleSpeeMenu={this.handleSpeeMenu}
           handleAlgorithmMenu={this.handleAlgorithmMenu}
           open={this.state.isDrawerOpen}
           onOpen={() => this.setState({ isDrawerOpen: true })}
