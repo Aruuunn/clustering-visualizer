@@ -36,6 +36,9 @@ class Board extends React.Component<IBoardProps, any> {
       bg: React.createRef(),
     };
   }
+  componentDidUpdate(){
+    this.state.bg.current.addEventListener('touchmove', (e:any) => e.preventDefault())
+  }
 
   handleMove = (event: any, id: number) => {
     event.persist();
@@ -110,6 +113,7 @@ class Board extends React.Component<IBoardProps, any> {
               onPointerDown={(e: React.PointerEvent<SVGSVGElement>) =>
                 !this.props.global.start ? this.handleMove(e, o.id) : null
               }
+             
               
             >
               <circle
