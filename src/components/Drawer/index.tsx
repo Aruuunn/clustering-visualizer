@@ -180,7 +180,6 @@ function Drawer(props: Props): ReactElement {
                 variant="contained"
                 aria-haspopup="true"
                 onClick={props.handleSpeeMenu}
-                disabled={props.isDisabled()}
                 startIcon={
                   <SvgIcon>
                   <path d="M0 0h24v24H0z" fill="none" />

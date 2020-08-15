@@ -11,7 +11,7 @@ import {
   fade,
   Grid,
   Hidden,
-  Grow,
+  Fade,
   SvgIcon,
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
@@ -25,13 +25,17 @@ import Speed from "../../common/speed.enum";
 import menuIcon from "../../assets/menu.svg";
 import Drawer from "../Drawer";
 import BlueButton from "../BlueButton";
+import IterationModeDialog from "../IterationModeDialog";
+import KMEANSMode from "../../common/kmeans.mode.enum";
 
 // define types of Props and State
 
 interface State {
   anchor1: (EventTarget & Element) | null;
   anchor2: (EventTarget & Element) | null;
+  anchor3: (EventTarget & Element) | null;
   isDrawerOpen: boolean;
+  isIterationModeDialogOpen: boolean;
 }
 
 // define mapStateToProps and mapDispatchToProps
@@ -65,7 +69,13 @@ type Props = PropsFromRedux & {
 
 // NavBar
 class NavBar extends Component<Props, State> {
-  state = { anchor1: null, anchor2: null, isDrawerOpen: false };
+  state = {
+    anchor1: null,
+    anchor2: null,
+    isDrawerOpen: false,
+    anchor3: null,
+    isIterationModeDialogOpen: false,
+  };
 
   handleSpeeMenu = (event: SyntheticEvent) => {
     this.setState({ anchor2: event.currentTarget });
@@ -159,7 +169,7 @@ class NavBar extends Component<Props, State> {
                   />
                 </Grid>
               </Hidden>
-              <Hidden only={['sm','xs']}>
+              <Hidden only={["sm", "xs"]}>
                 <img
                   src={logo}
                   alt="logo"
@@ -171,7 +181,6 @@ class NavBar extends Component<Props, State> {
                   Clustering Visualizer
                 </Typography>
               </Hidden>
-              
             </Grid>
             <Hidden only={["md", "lg", "xl"]}>
               <Grid
@@ -200,7 +209,7 @@ class NavBar extends Component<Props, State> {
                 md={10}
                 lg={8}
               >
-                <Grow
+                <Fade
                   in={this.props.global.algorithm === AlgorithmNames.KMEANS}
                 >
                   <InputBase
@@ -220,20 +229,31 @@ class NavBar extends Component<Props, State> {
                     className={classes.input}
                     type="number"
                   />
-                </Grow>
-                <Button
-                  size="small"
-                  variant="contained"
-                  style={{ marginRight: "20px" }}
-                  startIcon={
-                    <SvgIcon>
-                      <path d="M0 0h24v24H0z" fill="none" />
-                      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
-                    </SvgIcon>
-                  }
+                </Fade>
+                <Fade
+                  in={this.props.global.algorithm === AlgorithmNames.KMEANS}
                 >
-                  Single Iteration Mode
-                </Button>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    style={{ marginRight: "20px" }}
+                    onClick={() =>
+                      this.setState({ isIterationModeDialogOpen: true })
+                    }
+                    startIcon={
+                      <SvgIcon>
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                      </SvgIcon>
+                    }
+                  >
+                    {this.props.global.mode === KMEANSMode.SingleIteration
+                      ? "Single Iteration Mode"
+                      : this.props.global.mode === KMEANSMode.MultipleIteration
+                      ? `Multiple Iterations - ${this.props.global.maxIterations}`
+                      : `Find best value of K - ${this.props.global.maxIterations}`}
+                  </Button>
+                </Fade>
 
                 <Button
                   aria-controls="simple-menu"
@@ -260,7 +280,6 @@ class NavBar extends Component<Props, State> {
                   aria-haspopup="true"
                   onClick={this.handleSpeeMenu}
                   style={{ marginRight: "20px" }}
-                  disabled={this.isDisabled()}
                   startIcon={
                     <SvgIcon>
                       <path d="M0 0h24v24H0z" fill="none" />
@@ -337,6 +356,12 @@ class NavBar extends Component<Props, State> {
           onOpen={() => this.setState({ isDrawerOpen: true })}
           onClose={() => this.setState({ isDrawerOpen: false })}
         />
+        {this.state.isIterationModeDialogOpen ? (
+          <IterationModeDialog
+            open={this.state.isIterationModeDialogOpen}
+            onClose={() => this.setState({ isIterationModeDialogOpen: false })}
+          />
+        ) : null}
       </AppBar>
     );
   }
@@ -372,5 +397,4 @@ export default withStyles((theme) => ({
       width: "20ch",
     },
   },
-
 }))(connector(NavBar));
