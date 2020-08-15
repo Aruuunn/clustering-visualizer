@@ -11,6 +11,7 @@ import {
   fade,
   Grid,
   Hidden,
+  Grow
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -21,14 +22,14 @@ import AlgorithmActionTypes from "../../store/types/algorithm.types";
 import "./styles.css";
 import Speed from "../../common/speed.enum";
 import menuIcon from "../../assets/menu.svg";
-import Drawer from '../Drawer';
+import Drawer from "../Drawer";
 
 // define types of Props and State
 
 interface State {
   anchor1: (EventTarget & Element) | null;
   anchor2: (EventTarget & Element) | null;
-  isDrawerOpen:boolean;
+  isDrawerOpen: boolean;
 }
 
 // define mapStateToProps and mapDispatchToProps
@@ -62,7 +63,7 @@ type Props = PropsFromRedux & {
 
 // NavBar
 class NavBar extends Component<Props, State> {
-  state = { anchor1: null, anchor2: null ,isDrawerOpen:false};
+  state = { anchor1: null, anchor2: null, isDrawerOpen: false };
 
   handleSpeeMenu = (event: SyntheticEvent) => {
     this.setState({ anchor2: event.currentTarget });
@@ -137,11 +138,14 @@ class NavBar extends Component<Props, State> {
         <Toolbar>
           <Grid container>
             <Grid container alignItems="center" item xs={9} md={4}>
-            <Hidden smDown>
-             
-                <img src={menuIcon} alt="menu"  style={{marginRight:'20px'}} onClick={() => this.setState({isDrawerOpen:true})} />
-         
-            </Hidden>
+              <Hidden smDown>
+                <img
+                  src={menuIcon}
+                  alt="menu"
+                  style={{ marginRight: "20px" }}
+                  onClick={() => this.setState({ isDrawerOpen: true })}
+                />
+              </Hidden>
               <Hidden xsDown>
                 <img
                   src={logo}
@@ -162,7 +166,11 @@ class NavBar extends Component<Props, State> {
                 item
                 xs={3}
               >
-                <img src={menuIcon} alt="menu"onClick={() => this.setState({isDrawerOpen:true})} />
+                <img
+                  src={menuIcon}
+                  alt="menu"
+                  onClick={() => this.setState({ isDrawerOpen: true })}
+                />
               </Grid>
             </Hidden>
             <Hidden smDown>
@@ -174,8 +182,8 @@ class NavBar extends Component<Props, State> {
                 xs={12}
                 md={8}
               >
-                {this.props.global.algorithm === AlgorithmNames.KMEANS ? (
-                  <InputBase
+                <Grow in={this.props.global.algorithm === AlgorithmNames.KMEANS}>
+                <InputBase
                     placeholder="Number of Clusters"
                     fullWidth
                     color="secondary"
@@ -192,7 +200,8 @@ class NavBar extends Component<Props, State> {
                     className={classes.input}
                     type="number"
                   />
-                ) : null}
+                </Grow>
+              
 
                 <Button
                   aria-controls="simple-menu"
@@ -205,21 +214,7 @@ class NavBar extends Component<Props, State> {
                     ? "Select Algorithm"
                     : this.props.global.algorithm}
                 </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchor1}
-                  keepMounted
-                  open={this.state.anchor1 !== null}
-                  onClose={() => this.handleAlgorithmClose(null)}
-                >
-                  <MenuItem
-                    onClick={() =>
-                      this.handleAlgorithmClose(AlgorithmNames.KMEANS)
-                    }
-                  >
-                    K Means
-                  </MenuItem>
-                </Menu>
+
                 <Button
                   variant="contained"
                   aria-haspopup="true"
@@ -237,34 +232,7 @@ class NavBar extends Component<Props, State> {
                     ? "Fast"
                     : "Faster"}
                 </Button>
-                <Menu
-                  id="menu-speed"
-                  anchorEl={this.state.anchor2}
-                  keepMounted
-                  open={this.state.anchor2 !== null}
-                  onClose={() => this.handleSpeeMenuClose(null)}
-                >
-                  <MenuItem
-                    onClick={() => this.handleSpeeMenuClose(Speed.slow)}
-                  >
-                    Slow
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => this.handleSpeeMenuClose(Speed.average)}
-                  >
-                    Average
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => this.handleSpeeMenuClose(Speed.fast)}
-                  >
-                    Fast
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => this.handleSpeeMenuClose(Speed.faster)}
-                  >
-                    Faster
-                  </MenuItem>
-                </Menu>
+
                 <Button
                   variant="contained"
                   onClick={() => {
@@ -287,7 +255,49 @@ class NavBar extends Component<Props, State> {
             </Hidden>
           </Grid>
         </Toolbar>
-        <Drawer open={this.state.isDrawerOpen} onOpen={() => this.setState({isDrawerOpen:true})} onClose={() => this.setState({isDrawerOpen:false})}/>
+        <Menu
+          id="simple-menu"
+          anchorEl={this.state.anchor1}
+          keepMounted
+          open={this.state.anchor1 !== null}
+          style={{zIndex:10000}}
+          onClose={() => this.handleAlgorithmClose(null)}
+        >
+          <MenuItem
+            onClick={() => this.handleAlgorithmClose(AlgorithmNames.KMEANS)}
+          >
+            K Means
+          </MenuItem>
+        </Menu>
+        <Menu
+          id="menu-speed"
+          anchorEl={this.state.anchor2}
+          keepMounted
+          style={{zIndex:10000}}
+          open={this.state.anchor2 !== null}
+          onClose={() => this.handleSpeeMenuClose(null)}
+        >
+          <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.slow)}>
+            Slow
+          </MenuItem>
+          <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.average)}>
+            Average
+          </MenuItem>
+          <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.fast)}>
+            Fast
+          </MenuItem>
+          <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.faster)}>
+            Faster
+          </MenuItem>
+        </Menu>
+        <Drawer
+        isDisabled={this.isDisabled}
+        handleSpeeMenu={this.handleSpeeMenu}
+          handleAlgorithmMenu={this.handleAlgorithmMenu}
+          open={this.state.isDrawerOpen}
+          onOpen={() => this.setState({ isDrawerOpen: true })}
+          onClose={() => this.setState({ isDrawerOpen: false })}
+        />
       </AppBar>
     );
   }
