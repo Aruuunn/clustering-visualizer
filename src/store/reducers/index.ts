@@ -14,7 +14,7 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     user:persistReducer(persistConfig,UserReducer),
-    global:persistReducer(persistConfig,GlobalReducer),
+    global:GlobalReducer,
     algo:AlgorithmReducer
 });
 

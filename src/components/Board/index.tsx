@@ -2,16 +2,27 @@ import * as React from "react";
 import KMeans from "../algorithms/KMeans";
 import { connect, ConnectedProps } from "react-redux";
 import GlobalActionTypes from "../../store/types/global.types";
-import {Node} from '../../store/reducers/global';
+import { Node } from "../../store/reducers/global";
+import { Fab, Grow, Slide  } from "@material-ui/core";
+import LearnIcon from "../../assets/learn.svg";
+import LearnMode from '../LearnMode';
+import Gradients from '../../common/Gradients';
 
-const mapStateToProps = (state: any) => ({ global: state.global });
+const mapStateToProps = (state: any) => ({ global: state.global ,userPreference:state.user});
 
 const mapDispatchToProps = {
   setCoordinates: (coordinates: Node[]) => ({
     type: GlobalActionTypes.SET_COORDINATES_OF_NODES,
     payload: coordinates,
   }),
-  updateCoordinates:(node :Node) => ({type:GlobalActionTypes.UPDATE_COORDINATES,payload:node})
+  updateCoordinates: (node: Node) => ({
+    type: GlobalActionTypes.UPDATE_COORDINATES,
+    payload: node,
+  }),
+  setLearnMode: (mode: boolean) => ({
+    type: GlobalActionTypes.SET_LEARN_MODE,
+    payload: mode,
+  }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -25,35 +36,32 @@ class Board extends React.Component<IBoardProps, any> {
       bg: React.createRef(),
     };
   }
+  componentDidUpdate(){
+    this.state.bg.current.addEventListener('touchmove', (e:any) => e.preventDefault())
+  }
 
-  handleMove = (event: any,id:number) => {
-
+  handleMove = (event: any, id: number) => {
     event.persist();
     const currentNode = event.target;
-    let X =0, Y =0;
+    let X = 0,
+      Y = 0;
 
-    const handleMove = (event:any) => {
-   
-       X = event.clientX - this.state.bg.current.getBoundingClientRect().left;
-       Y = event.clientY - this.state.bg.current.getBoundingClientRect().top;
+    const handleMove = (event: any) => {
+      X = event.clientX - this.state.bg.current.getBoundingClientRect().left;
+      Y = event.clientY - this.state.bg.current.getBoundingClientRect().top;
       currentNode.setAttribute("cx", X);
-      currentNode.setAttribute("cy", Y);  
-      this.props.updateCoordinates({id,coordinates:[X,Y]});
+      currentNode.setAttribute("cy", Y);
+      this.props.updateCoordinates({ id, coordinates: [X, Y] });
+    };
 
-    }
+    const removeListeners = () => {
+      this.state.bg.current.removeEventListener("pointermove", handleMove);
+      this.state.bg.current.removeEventListener("pointerup", removeListeners);
+    };
 
-    const removeListeners = () => { 
+    this.state.bg.current.addEventListener("pointermove", handleMove);
 
-      this.state.bg.current.removeEventListener('pointermove',handleMove);
-      this.state.bg.current.removeEventListener('pointerup',removeListeners);
-    }
-  
-    this.state.bg.current.addEventListener('pointermove', handleMove);
-
-
-  this.state.bg.current.addEventListener('pointerup',removeListeners);
-  
-  
+    this.state.bg.current.addEventListener("pointerup", removeListeners);
   };
 
   handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
@@ -68,11 +76,12 @@ class Board extends React.Component<IBoardProps, any> {
 
     this.props.setCoordinates([
       ...this.props.global.coordinatesOfNodes,
-     { coordinates: [X, Y] ,id:this.props.global.coordinatesOfNodes.length},
+      { coordinates: [X, Y], id: this.props.global.coordinatesOfNodes.length },
     ]);
   };
 
   public render() {
+
     return (
       <div>
         <svg
@@ -92,38 +101,51 @@ class Board extends React.Component<IBoardProps, any> {
             >
               <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />
             </marker>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop
-                offset="0%"
-                style={{ stopColor: "#434343", stopOpacity: 1 }}
-              />
-              <stop
-                offset="100%"
-                style={{ stopColor: "rgb(0,0,0)", stopOpacity: 1 }}
-              />
-            </linearGradient>
+            
           </defs>
-          <rect width="100%" height="100%" style={{ fill: "url(#grad1)" }} />
+          <Gradients/> 
 
-          {this.props.global.coordinatesOfNodes.map(
-            (o: Node) => (
-              <g key={o.id} onPointerDown={(e: React.PointerEvent<SVGSVGElement>) => !this.props.global.start ?this.handleMove(e,o.id):null}>
-                <circle
-                  cx={o.coordinates[0]}
-                  cy={o.coordinates[1]}
-                  r="9"
-                  style={{ fill: "white" }}
-                  stroke="black"
-                  strokeWidth="1.5"
-                />
-              </g>
-            )
-          )}
+          <rect width="100%" height="100%" style={{ fill: "url(#Deep-Space)" }} />
+
+          {this.props.global.coordinatesOfNodes.map((o: Node) => (
+            <g
+              key={o.id}
+              onPointerDown={(e: React.PointerEvent<SVGSVGElement>) =>
+                !this.props.global.start ? this.handleMove(e, o.id) : null
+              }
+             
+              
+            >
+              <circle
+                cx={o.coordinates[0]}
+                cy={o.coordinates[1]}
+                r={this.props.userPreference.sizeOfPoint || 9}
+                style={{ fill: "white" }}
+                stroke="grey"
+                strokeWidth='0.5'
+                
+              />
+            </g>
+          ))}
           <KMeans />
         </svg>
+    
+        <Grow in={!this.props.global.learnMode &&  this.props.global.algorithm!==null}>
+          <Fab
+            aria-label="Learn Mode"
+            style={{ position: "absolute", right: "20px", bottom: "20px" }}
+            onClick={() => this.props.setLearnMode(true)}
+            color="secondary"
+          >
+            <img src={LearnIcon} alt="learn mode" />
+          </Fab>
+        </Grow> 
+        <Slide in={this.props.global.learnMode} direction="left" >
+          <LearnMode />
+        </Slide>
       </div>
     );
-  }
+  } 
 }
 
 export default connector(Board);
