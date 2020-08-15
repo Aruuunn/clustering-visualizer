@@ -24,6 +24,7 @@ import "./styles.css";
 import Speed from "../../common/speed.enum";
 import menuIcon from "../../assets/menu.svg";
 import Drawer from "../Drawer";
+import BlueButton from "../BlueButton";
 
 // define types of Props and State
 
@@ -158,7 +159,7 @@ class NavBar extends Component<Props, State> {
                   />
                 </Grid>
               </Hidden>
-              <Hidden only={['sm']}>
+              <Hidden only={['sm','xs']}>
                 <img
                   src={logo}
                   alt="logo"
@@ -278,7 +279,7 @@ class NavBar extends Component<Props, State> {
                     : "Faster"}
                 </Button>
 
-                <Button
+                <BlueButton
                   variant="contained"
                   size="small"
                   className={classes.startButton}
@@ -288,7 +289,7 @@ class NavBar extends Component<Props, State> {
                   disabled={this.isDisabled()}
                 >
                   Start
-                </Button>
+                </BlueButton>
               </Grid>
             </Hidden>
           </Grid>
@@ -371,11 +372,5 @@ export default withStyles((theme) => ({
       width: "20ch",
     },
   },
-  startButton: {
-    backgroundColor: "#1976d2",
-    color: "white",
-    "&:hover": {
-      backgroundColor: "#4791db",
-    },
-  },
+
 }))(connector(NavBar));

@@ -20,6 +20,7 @@ import GlobalActionTypes from "../../store/types/global.types";
 import UserDataActionTypes from "../../store/types/userData.types";
 import AlgorithmActionTypes from "../../store/types/algorithm.types";
 import Speed from "../../common/speed.enum";
+import BlueButton from "../BlueButton";
 
 const mapStateToProps = (state: any) => ({
   global: state.global,
@@ -199,7 +200,7 @@ function Drawer(props: Props): ReactElement {
               </Button>
             </Grid>
             <Grid container justify="center" alignItems="center">
-              <Button
+              <BlueButton
                 style={{
                   width: "100%",
                   maxWidth: "500px",
@@ -216,7 +217,7 @@ function Drawer(props: Props): ReactElement {
                 disabled={props.isDisabled()}
               >
                 Start
-              </Button>
+              </BlueButton>
             </Grid>{" "}
           </Grid>
         ) : null}
