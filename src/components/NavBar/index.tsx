@@ -247,15 +247,6 @@ class NavBar extends Component<Props, State> {
                 >
                   Start
                 </Button>
-                <Button
-                  style={{ color: "white" }}
-                  onClick={() => {
-                    this.props.reset();
-                    this.props.resetAlgorithmData();
-                  }}
-                >
-                  Reset
-                </Button>
               </Grid>
             </Hidden>
           </Grid>

@@ -16,11 +16,14 @@ import { connect, ConnectedProps } from "react-redux";
 
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import GlobalActionTypes from "../../store/types/global.types";
-import UserDataActionTypes from '../../store/types/userData.types';
+import UserDataActionTypes from "../../store/types/userData.types";
 import AlgorithmActionTypes from "../../store/types/algorithm.types";
 import Speed from "../../common/speed.enum";
 
-const mapStateToProps = (state: any) => ({ global: state.global,userPreference:state.user });
+const mapStateToProps = (state: any) => ({
+  global: state.global,
+  userPreference: state.user,
+});
 
 const mapDispatchToProps = {
   changeNumberOfClusters: (numberOfClusters: number) => ({
@@ -38,7 +41,11 @@ const mapDispatchToProps = {
     type: GlobalActionTypes.SET_SPEED,
     payload: speed,
   }),
-  setPointSize:(size:number | number[]) => ({type:UserDataActionTypes.SET_SIZE_OF_POINT,payload:size})
+  setPointSize: (size: number | number[]) => ({
+    type: UserDataActionTypes.SET_SIZE_OF_POINT,
+    payload: size,
+  }),
+  clearPoints: () => ({ type: GlobalActionTypes.RESET }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -96,8 +103,6 @@ function Drawer(props: Props): ReactElement {
       props.changeNumberOfClusters(0);
     }
   };
-
-
 
   return (
     <div>
@@ -217,13 +222,19 @@ function Drawer(props: Props): ReactElement {
           <Grid
             container
             justify="center"
-            style={{ minWidth: sm ? "100px" : "300px", maxWidth: "500px" ,padding:'10px'}}
+            style={{
+              minWidth: sm ? "100px" : "300px",
+              maxWidth: "500px",
+              padding: "10px",
+            }}
             alignItems="center"
           >
-             <Typography gutterBottom style={{width:'100%'}}>Change size of the points</Typography>
+            <Typography gutterBottom style={{ width: "100%" }}>
+              Change size of the points
+            </Typography>
             <Slider
               value={props.userPreference.sizeOfPoint}
-              onChange={(e,value) => props.setPointSize(value)}
+              onChange={(e, value) => props.setPointSize(value)}
               color="secondary"
               min={5}
               max={15}
@@ -231,6 +242,32 @@ function Drawer(props: Props): ReactElement {
               valueLabelDisplay="auto"
               step={1}
             />
+          </Grid>
+          <Grid container justify="center" alignItems="center" >
+            <Button
+             onClick={() => props.resetAlgorithmData()}
+              style={{
+                width: "100%",
+                maxWidth: "500px",
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: "10px",
+              }}
+              variant="contained"
+            > Clear Visualization</Button>
+          </Grid>
+          <Grid container justify="center" alignItems="center">
+            <Button
+            onClick={() => {props.clearPoints();props.resetAlgorithmData()}}
+              style={{
+                width: "100%",
+                maxWidth: "500px",
+                marginLeft: 0,
+                marginRight: 0,
+                marginTop: "10px",
+              }}
+              variant="contained"
+            > Clear Data Points</Button>
           </Grid>
         </Grid>
       </SwipeableDrawer>

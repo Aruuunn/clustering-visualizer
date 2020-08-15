@@ -58,10 +58,11 @@ const pages: ReactElement[] = [
       style={{ width: "100%", height: "auto" }}
       alt="enter number of clusters"
     />
+    <Typography>Select number of clusters</Typography>
 
     <Typography variant="body1" style={{ margin: "5px" }}>
       You need to know the total number of clusters you want for k-means
-      algorithm to work. So, go ahead and enter the number of clusters greater
+      algorithm to work. This is the 'K' in K-Means. So, go ahead and enter the number of clusters greater
       than 1
     </Typography>
   </div>,
