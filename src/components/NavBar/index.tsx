@@ -144,7 +144,6 @@ class NavBar extends Component<Props, State> {
                   src={menuIcon}
                   alt="menu"
                   style={{height:'36px',width:'auto'}}
-                 
                 />
                 </Grid>
                

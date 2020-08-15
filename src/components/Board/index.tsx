@@ -5,9 +5,10 @@ import GlobalActionTypes from "../../store/types/global.types";
 import { Node } from "../../store/reducers/global";
 import { Fab, Grow, Slide  } from "@material-ui/core";
 import LearnIcon from "../../assets/learn.svg";
-import LearnMode from '../LearnMode'
+import LearnMode from '../LearnMode';
+import Gradients from '../../common/Gradients';
 
-const mapStateToProps = (state: any) => ({ global: state.global });
+const mapStateToProps = (state: any) => ({ global: state.global ,userPreference:state.user});
 
 const mapDispatchToProps = {
   setCoordinates: (coordinates: Node[]) => ({
@@ -97,18 +98,11 @@ class Board extends React.Component<IBoardProps, any> {
             >
               <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />
             </marker>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop
-                offset="0%"
-                style={{ stopColor: "#434343", stopOpacity: 1 }}
-              />
-              <stop
-                offset="100%"
-                style={{ stopColor: "rgb(0,0,0)", stopOpacity: 1 }}
-              />
-            </linearGradient>
+            
           </defs>
-          <rect width="100%" height="100%" style={{ fill: "url(#grad1)" }} />
+          <Gradients/> 
+
+          <rect width="100%" height="100%" style={{ fill: "url(#Deep-Space)" }} />
 
           {this.props.global.coordinatesOfNodes.map((o: Node) => (
             <g
@@ -116,14 +110,14 @@ class Board extends React.Component<IBoardProps, any> {
               onPointerDown={(e: React.PointerEvent<SVGSVGElement>) =>
                 !this.props.global.start ? this.handleMove(e, o.id) : null
               }
+              
             >
               <circle
                 cx={o.coordinates[0]}
                 cy={o.coordinates[1]}
-                r="9"
+                r={this.props.userPreference.sizeOfPoint || 9}
                 style={{ fill: "white" }}
-                stroke="black"
-                strokeWidth="1.5"
+                
               />
             </g>
           ))}

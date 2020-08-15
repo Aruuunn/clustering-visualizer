@@ -13,11 +13,14 @@ const mapStateToProps = (state: {
     start: boolean;
     numberOfClusters: number;
     speed: Speed;
-  };
+  },
   algo: {
     render: any[];
-  };
-}) => ({ global: state.global, algo: state.algo });
+  },
+  user: {
+    sizeOfPoint:number;
+  }
+}) => ({ global: state.global, algo: state.algo ,userPreference: state.user});
 
 const mapDispatchToProps = {
   addToRender: (data: any) => ({
@@ -117,7 +120,7 @@ class KMeans extends Component<Props, State> {
           this.props.addToRender(
             <g key={`a-${j}-${iter}`}>
               <circle
-                r="10"
+                r={this.props.userPreference.sizeOfPoint+1}
                 cx={currentNode[0]}
                 cy={currentNode[1]}
                 style={{ fill: "yellow" }}
@@ -162,7 +165,7 @@ class KMeans extends Component<Props, State> {
             <circle
               cx={currentNode[0]}
               cy={currentNode[1]}
-              r="9"
+              r={this.props.userPreference.sizeOfPoint}
               style={{ fill: this.state.colors[pos] }}
               stroke={this.state.colors[pos]}
               strokeWidth="1"

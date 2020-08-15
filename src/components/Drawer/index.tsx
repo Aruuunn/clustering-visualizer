@@ -1,4 +1,4 @@
-import React, { ReactElement, ChangeEvent } from "react";
+import React, { ReactElement, ChangeEvent, useState } from "react";
 import {
   SwipeableDrawer,
   useMediaQuery,
@@ -8,15 +8,19 @@ import {
   makeStyles,
   fade,
   InputBase,
+  Divider,
+  Slider,
+  Typography,
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import GlobalActionTypes from "../../store/types/global.types";
+import UserDataActionTypes from '../../store/types/userData.types';
 import AlgorithmActionTypes from "../../store/types/algorithm.types";
 import Speed from "../../common/speed.enum";
 
-const mapStateToProps = (state: any) => ({ global: state.global });
+const mapStateToProps = (state: any) => ({ global: state.global,userPreference:state.user });
 
 const mapDispatchToProps = {
   changeNumberOfClusters: (numberOfClusters: number) => ({
@@ -34,6 +38,7 @@ const mapDispatchToProps = {
     type: GlobalActionTypes.SET_SPEED,
     payload: speed,
   }),
+  setPointSize:(size:number | number[]) => ({type:UserDataActionTypes.SET_SIZE_OF_POINT,payload:size})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -77,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
 }));
+
 function Drawer(props: Props): ReactElement {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
@@ -90,6 +96,8 @@ function Drawer(props: Props): ReactElement {
       props.changeNumberOfClusters(0);
     }
   };
+
+
 
   return (
     <div>
@@ -196,6 +204,35 @@ function Drawer(props: Props): ReactElement {
             </Grid>{" "}
           </Grid>
         ) : null}
+        <Divider style={{ margin: "30px" }} />
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="center"
+          style={{
+            padding: "10px",
+          }}
+        >
+          <Grid
+            container
+            justify="center"
+            style={{ minWidth: sm ? "100px" : "300px", maxWidth: "500px" ,padding:'10px'}}
+            alignItems="center"
+          >
+             <Typography gutterBottom style={{width:'100%'}}>Change size of the points</Typography>
+            <Slider
+              value={props.userPreference.sizeOfPoint}
+              onChange={(e,value) => props.setPointSize(value)}
+              color="secondary"
+              min={5}
+              max={15}
+              marks
+              valueLabelDisplay="auto"
+              step={1}
+            />
+          </Grid>
+        </Grid>
       </SwipeableDrawer>
     </div>
   );
