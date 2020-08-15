@@ -1,4 +1,4 @@
-import React, { ReactElement, ChangeEvent, useState } from "react";
+import React, { ReactElement, ChangeEvent } from "react";
 import {
   SwipeableDrawer,
   useMediaQuery,
@@ -11,6 +11,7 @@ import {
   Divider,
   Slider,
   Typography,
+  SvgIcon
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -36,7 +37,7 @@ const mapDispatchToProps = {
   }),
   reset: () => ({ type: GlobalActionTypes.RESET }),
   startVisualization: () => ({ type: GlobalActionTypes.START_VISUALIZATION }),
-  resetAlgorithmData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
+  resetAlgorithsmata: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
   setSpeed: (speed: Speed) => ({
     type: GlobalActionTypes.SET_SPEED,
     payload: speed,
@@ -155,6 +156,10 @@ function Drawer(props: Props): ReactElement {
                   marginRight: 0,
                   marginTop: "10px",
                 }}
+                startIcon={   <SvgIcon>
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                </SvgIcon>}
               >
                 {" "}
                 {props.global.algorithm === null
@@ -175,6 +180,12 @@ function Drawer(props: Props): ReactElement {
                 aria-haspopup="true"
                 onClick={props.handleSpeeMenu}
                 disabled={props.isDisabled()}
+                startIcon={
+                  <SvgIcon>
+                  <path d="M0 0h24v24H0z" fill="none" />
+                  <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                </SvgIcon>
+                }
               >
                 {props.global.speed === null
                   ? "Select Speed"
@@ -245,7 +256,7 @@ function Drawer(props: Props): ReactElement {
           </Grid>
           <Grid container justify="center" alignItems="center" >
             <Button
-             onClick={() => props.resetAlgorithmData()}
+             onClick={() => props.resetAlgorithsmata()}
               style={{
                 width: "100%",
                 maxWidth: "500px",
@@ -258,7 +269,7 @@ function Drawer(props: Props): ReactElement {
           </Grid>
           <Grid container justify="center" alignItems="center">
             <Button
-            onClick={() => {props.clearPoints();props.resetAlgorithmData()}}
+            onClick={() => {props.clearPoints();props.resetAlgorithsmata()}}
               style={{
                 width: "100%",
                 maxWidth: "500px",

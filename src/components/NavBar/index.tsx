@@ -12,6 +12,7 @@ import {
   Grid,
   Hidden,
   Grow,
+  SvgIcon,
 } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
@@ -137,28 +138,39 @@ class NavBar extends Component<Props, State> {
       >
         <Toolbar>
           <Grid container alignItems="center">
-            <Grid container alignItems="center" item xs={9} md={4}>
+            <Grid container alignItems="center" item xs={9} md={2} lg={4}>
               <Hidden smDown>
-                <Grid  container alignItems="flex-start" style={{height: "48px", width: "auto" ,  marginRight: "20px",padding:'10px'}}  onClick={() => this.setState({ isDrawerOpen: true })}>
-                <img
-                  src={menuIcon}
-                  alt="menu"
-                  style={{height:'36px',width:'auto'}}
-                />
+                <Grid
+                  container
+                  alignItems="flex-start"
+                  style={{
+                    height: "48px",
+                    width: "auto",
+                    marginRight: "20px",
+                    padding: "10px",
+                  }}
+                  onClick={() => this.setState({ isDrawerOpen: true })}
+                >
+                  <img
+                    src={menuIcon}
+                    alt="menu"
+                    style={{ height: "36px", width: "auto" }}
+                  />
                 </Grid>
-               
               </Hidden>
-              <Hidden xsDown>
+              <Hidden only={['sm']}>
                 <img
                   src={logo}
                   alt="logo"
                   style={{ height: "48px", width: "auto" }}
                 />
               </Hidden>
-
-              <Typography variant="h5" style={{ flexGrow: 1 }}>
-                Clustering Visualizer
-              </Typography>
+              <Hidden only={["md"]}>
+                <Typography variant="h5" style={{ flexGrow: 1 }}>
+                  Clustering Visualizer
+                </Typography>
+              </Hidden>
+              
             </Grid>
             <Hidden only={["md", "lg", "xl"]}>
               <Grid
@@ -173,7 +185,7 @@ class NavBar extends Component<Props, State> {
                 <img
                   src={menuIcon}
                   alt="menu"
-                  style={{height:'36px',width:'auto'}}
+                  style={{ height: "36px", width: "auto" }}
                 />
               </Grid>
             </Hidden>
@@ -184,14 +196,15 @@ class NavBar extends Component<Props, State> {
                 justify="flex-end"
                 item
                 xs={12}
-                md={8}
+                md={10}
+                lg={8}
               >
                 <Grow
                   in={this.props.global.algorithm === AlgorithmNames.KMEANS}
                 >
                   <InputBase
                     placeholder="Number of Clusters"
-                    fullWidth
+                    style={{ maxWidth: "180px" }}
                     color="secondary"
                     value={
                       this.props.global.numberOfClusters === 0
@@ -207,11 +220,31 @@ class NavBar extends Component<Props, State> {
                     type="number"
                   />
                 </Grow>
+                <Button
+                  size="small"
+                  variant="contained"
+                  style={{ marginRight: "20px" }}
+                  startIcon={
+                    <SvgIcon>
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                    </SvgIcon>
+                  }
+                >
+                  Single Iteration Mode
+                </Button>
 
                 <Button
                   aria-controls="simple-menu"
                   aria-haspopup="true"
+                  size="small"
                   onClick={this.handleAlgorithmMenu}
+                  startIcon={
+                    <SvgIcon>
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                    </SvgIcon>
+                  }
                   variant="contained"
                   style={{ marginRight: "20px" }}
                 >
@@ -222,10 +255,17 @@ class NavBar extends Component<Props, State> {
 
                 <Button
                   variant="contained"
+                  size="small"
                   aria-haspopup="true"
                   onClick={this.handleSpeeMenu}
                   style={{ marginRight: "20px" }}
                   disabled={this.isDisabled()}
+                  startIcon={
+                    <SvgIcon>
+                      <path d="M0 0h24v24H0z" fill="none" />
+                      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                    </SvgIcon>
+                  }
                 >
                   {this.props.global.speed === null
                     ? "Select Speed"
@@ -240,6 +280,8 @@ class NavBar extends Component<Props, State> {
 
                 <Button
                   variant="contained"
+                  size="small"
+                  className={classes.startButton}
                   onClick={() => {
                     this.props.startVisualization();
                   }}
@@ -327,6 +369,13 @@ export default withStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.up("md")]: {
       width: "20ch",
+    },
+  },
+  startButton: {
+    backgroundColor: "#1976d2",
+    color: "white",
+    "&:hover": {
+      backgroundColor: "#4791db",
     },
   },
 }))(connector(NavBar));

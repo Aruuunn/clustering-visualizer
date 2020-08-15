@@ -121,6 +121,8 @@ class Board extends React.Component<IBoardProps, any> {
                 cy={o.coordinates[1]}
                 r={this.props.userPreference.sizeOfPoint || 9}
                 style={{ fill: "white" }}
+                stroke="grey"
+                strokeWidth='0.5'
                 
               />
             </g>
