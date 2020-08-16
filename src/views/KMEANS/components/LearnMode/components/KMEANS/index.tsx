@@ -16,7 +16,7 @@ import { RootState } from "../../../../../../reduxStore";
 
 const mapStateToProps = (state: RootState) => ({ global: state.global });
 const mapDispatchToProps = {
-  close:() => ({type:GlobalActionTypes.SET_LEARN_MODE,payload:false})
+  
 };
 
 
@@ -166,7 +166,7 @@ function KMEANS(props: Props): ReactElement {
         <Typography variant="h5">
           K MEANS
         </Typography>
-        <img src={closeIcon} alt="close" onClick={() => props.close()}/>
+        <img src={closeIcon} alt="close" onClick={() => null}/>
       </Grid>
 
       <div style={{ height:(sm ? "70vh" : "60vh"), overflow: "auto" }}>

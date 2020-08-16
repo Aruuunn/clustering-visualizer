@@ -4,9 +4,10 @@ import { connect, ConnectedProps } from 'react-redux';
 import { InputBase, Button, SvgIcon, withStyles, fade, Grid } from '@material-ui/core';
 
 import CommonNavBar from '../../../../components/CommonNavBar';
-import { RootState, GlobalActionTypes ,KMEANSAlgorithmActionTypes} from '../../../../reduxStore';
+import { RootState, GlobalActionTypes, KMEANSAlgorithmActionTypes } from '../../../../reduxStore';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import AlgorithmNames from '../../../../common/algorithms.enum';
+import IterationModeDialog from '../IterationModeDialog';
 
 interface State {
     anchor3: (EventTarget & Element) | null;
@@ -70,7 +71,7 @@ class NavBar extends Component<Props, State> {
                                 fullWidth
                                 color="secondary"
                                 value={
-                                    this.props.kmeans.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters
+                                    this.props.kmeans.numberOfClusters === 0 ? '' : this.props.kmeans.numberOfClusters
                                 }
                                 onChange={this.handleInputChange}
                                 classes={{
@@ -81,6 +82,33 @@ class NavBar extends Component<Props, State> {
                                 type="number"
                             />
                         </Grid>,
+                        <Grid container justify="center" alignItems="center" key={1}>
+                            <Button
+                                key={1}
+                                variant="contained"
+                                style={{
+                                    width: "100%",
+                                    maxWidth: "500px",
+                                    marginLeft: 0,
+                                    marginRight: 0,
+                                    marginTop: "10px",
+                                  }}
+                                onClick={() => this.setState({ isIterationModeDialogOpen: true })}
+                                startIcon={
+                                    <SvgIcon>
+                                        <path d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                                    </SvgIcon>
+                                }
+                            >
+                                {this.props.kmeans.mode === KMEANSMode.SingleIteration
+                                    ? 'Single Iteration Mode'
+                                    : this.props.kmeans.mode === KMEANSMode.MultipleIteration
+                                    ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
+                                    : `Find best value of K - ${this.props.kmeans.maxIterations}`}
+                            </Button>
+                            
+                        </Grid>,
                     ]}
                 >
                     {[
@@ -89,7 +117,7 @@ class NavBar extends Component<Props, State> {
                             placeholder="Number of Clusters"
                             style={{ maxWidth: '180px' }}
                             color="secondary"
-                            value={this.props.kmeans.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters}
+                            value={this.props.kmeans.numberOfClusters === 0 ? '' : this.props.kmeans.numberOfClusters}
                             onChange={this.handleInputChange}
                             classes={{
                                 root: classes.inputRoot,
@@ -120,6 +148,12 @@ class NavBar extends Component<Props, State> {
                         </Button>,
                     ]}
                 </CommonNavBar>
+                {this.state.isIterationModeDialogOpen ? (
+                    <IterationModeDialog
+                        open={this.state.isIterationModeDialogOpen}
+                        onClose={() => this.setState({ isIterationModeDialogOpen: false })}
+                    />
+                ) : null}
             </div>
         );
     }
