@@ -9,7 +9,6 @@ export interface Node {
 
 export interface GlobalState {
     algorithm:AlgorithmNames | null;
-    numberOfClusters:number;
     start:boolean;
     speed:Speed;
     coordinatesOfNodes:Node[],
@@ -23,7 +22,6 @@ interface Action {
 
 const initialState:GlobalState = {
     algorithm:null,
-    numberOfClusters:0,
     start:false,
     speed:Speed.faster,
     coordinatesOfNodes:[],
@@ -40,15 +38,12 @@ export default (state:GlobalState = initialState,action:Action):GlobalState => {
         case GlobalActionTypes.SET_COORDINATES_OF_NODES:
             return {...state,coordinatesOfNodes:action.payload};
 
-        case GlobalActionTypes.SET_NUMBER_OF_CLUSTERS:
-            return {...state,numberOfClusters:action.payload};
-
         case GlobalActionTypes.RESET:
             return initialState;
 
         case GlobalActionTypes.START_VISUALIZATION:
             
-            if(state.coordinatesOfNodes.length===0 || state.start || state.numberOfClusters<=1 ){
+            if(state.coordinatesOfNodes.length===0 || state.start){
                 return state;
             }
             return {...state,start:true};
@@ -66,9 +61,6 @@ export default (state:GlobalState = initialState,action:Action):GlobalState => {
                 }
                 else return o;
             })}
-
-        case GlobalActionTypes.SET_LEARN_MODE:
-            return {...state,learnMode:action.payload};
 
 
         default:

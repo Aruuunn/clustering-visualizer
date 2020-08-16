@@ -19,7 +19,6 @@ import AlgorithmActionTypes from "../../reduxStore/types/KMEANS.algorithm.types"
 import Speed from "../../common/speed.enum";
 import BlueButton from "../../common/BlueButton";
 import { RootState } from "../../reduxStore";
-import { useHistory } from "react-router-dom";
 
 
 const mapStateToProps = (state: RootState) => ({
@@ -28,10 +27,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-  changeNumberOfClusters: (numberOfClusters: number) => ({
-    type: GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,
-    payload: numberOfClusters,
-  }),
+
   changeAlgorithm: (algo: AlgorithmNames) => ({
     type: GlobalActionTypes.SET_ALGORITHM,
     payload: algo,
@@ -68,7 +64,6 @@ type Props = PropsFromRedux & {
 function Drawer(props: Props): ReactElement {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
-  const history = useHistory();
 
   return (
     <div>

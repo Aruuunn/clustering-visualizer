@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { InputBase, Button, SvgIcon, withStyles, fade, Grid } from '@material-ui/core';
 
 import CommonNavBar from '../../../../components/CommonNavBar';
-import { RootState, GlobalActionTypes } from '../../../../reduxStore';
+import { RootState, GlobalActionTypes ,KMEANSAlgorithmActionTypes} from '../../../../reduxStore';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import AlgorithmNames from '../../../../common/algorithms.enum';
 
@@ -18,7 +18,7 @@ const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: s
 
 const mapDispatchToProps = {
     changeNumberOfClusters: (numberOfClusters: number) => ({
-        type: GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,
+        type: KMEANSAlgorithmActionTypes.SET_NUMBER_OF_CLUSTERS,
         payload: numberOfClusters,
     }),
     setAlgorithm: (algo: AlgorithmNames) => ({
@@ -70,7 +70,7 @@ class NavBar extends Component<Props, State> {
                                 fullWidth
                                 color="secondary"
                                 value={
-                                    this.props.global.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters
+                                    this.props.kmeans.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters
                                 }
                                 onChange={this.handleInputChange}
                                 classes={{
@@ -89,7 +89,7 @@ class NavBar extends Component<Props, State> {
                             placeholder="Number of Clusters"
                             style={{ maxWidth: '180px' }}
                             color="secondary"
-                            value={this.props.global.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters}
+                            value={this.props.kmeans.numberOfClusters === 0 ? '' : this.props.global.numberOfClusters}
                             onChange={this.handleInputChange}
                             classes={{
                                 root: classes.inputRoot,

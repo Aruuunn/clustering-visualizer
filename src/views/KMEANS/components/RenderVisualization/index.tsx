@@ -215,13 +215,13 @@ class KMeans extends Component<Props, State> {
 
     componentDidUpdate() {
         if (this.props.global.start) {
-            const { global } = this.props;
+            const { global ,kmeans } = this.props;
 
             if (!this.state.started) {
                 const centroids: number[][] = [];
                 const set = new Set();
 
-                for (let i = 0; i < global.numberOfClusters; i++) {
+                for (let i = 0; i < kmeans.numberOfClusters; i++) {
                     let idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
 
                     while (set.has(idx) || !global.coordinatesOfNodes[idx]) {
@@ -235,7 +235,7 @@ class KMeans extends Component<Props, State> {
 
                 const colors: string[] = [];
 
-                for (let iter = 0; iter < this.props.global.numberOfClusters; iter++) {
+                for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
                     colors.push(getColor(iter));
                 }
 

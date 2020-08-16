@@ -27,10 +27,6 @@ interface State {
 const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: state.kmeans });
 
 const mapDispatchToProps = {
-    changeNumberOfClusters: (numberOfClusters: number) => ({
-        type: GlobalActionTypes.SET_NUMBER_OF_CLUSTERS,
-        payload: numberOfClusters,
-    }),
     changeAlgorithm: (algo: AlgorithmNames) => ({
         type: GlobalActionTypes.SET_ALGORITHM,
         payload: algo,
@@ -103,7 +99,6 @@ class NavBar extends Component<Props, State> {
         const { global } = this.props;
 
         if (
-            global.numberOfClusters <= 1 ||
             global.algorithm === null ||
             global.coordinatesOfNodes.length < 5 ||
             global.start

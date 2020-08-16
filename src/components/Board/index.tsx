@@ -8,6 +8,7 @@ import { RootState } from '../../reduxStore/reducers';
 import { ReactElement } from 'react';
 
 
+
 const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
 
 const mapDispatchToProps = {
@@ -19,11 +20,8 @@ const mapDispatchToProps = {
         type: GlobalActionTypes.UPDATE_COORDINATES,
         payload: node,
     }),
-    setLearnMode: (mode: boolean) => ({
-        type: GlobalActionTypes.SET_LEARN_MODE,
-        payload: mode,
-    }),
 };
+
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -136,5 +134,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
         );
     }
 }
+
 
 export default connector(Board);
