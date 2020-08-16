@@ -16,7 +16,7 @@ function distance(p1:number[],p2:number[]):number{
     }
 
     return totalDistance;
-};
+}
 
 
 

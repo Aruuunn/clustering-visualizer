@@ -1,15 +1,19 @@
-import React from "react";
+import React, { ReactElement } from "react";
+import { Switch ,Route } from "react-router-dom";
+import  { KMEANSView } from './views';
+import Home from "./views/Home";
 
-import NavBar from "./components/NavBar";
-import Board from "./components/Board";
 
-
-function App() {
+function App():ReactElement {
   return (
     <div style={{height:'100vh',overflow:'hidden'}}>
-      <NavBar />
-      <Board />
+    
+    <Switch>
+    <Route path="/kmeans" component={KMEANSView} /> 
+    <Route path="/" component={Home} />
+    </Switch>
 
+     
     </div>
   );
 }

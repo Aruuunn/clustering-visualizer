@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Typography, Grid, Button , useMediaQuery ,useTheme } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 
+
 import KMEANSImage from "../../../../assets/kmeans.png";
 import StepOneImage from "../../../../assets/step1.png";
 import EnterNumberOfClustersImage from "../../../../assets/enterNumberOfClusters.png";
@@ -9,20 +10,24 @@ import initializeCentroidsImage from "../../../../assets/initializeCentroids.png
 import stepTwoImage from "../../../../assets/step2-kmeans.png";
 import calculateCentroidsImage from "../../../../assets/calculateCentroids.png";
 import closeIcon from "../../../../assets/close.svg";
-import GlobalActionTypes from "../../../../store/types/global.types";
+import GlobalActionTypes from "../../../../../../reduxStore/types/Global.types";
+import { RootState } from "../../../../../../reduxStore";
 
-const mapStateToProps = (state: any) => ({ global: state.global });
 
+const mapStateToProps = (state: RootState) => ({ global: state.global });
 const mapDispatchToProps = {
   close:() => ({type:GlobalActionTypes.SET_LEARN_MODE,payload:false})
 };
+
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
+
+
 const pages: ReactElement[] = [
-  <>
+  <div key={0}>
     <img
       src={KMEANSImage}
       style={{ width: "100%", height: "auto" }}
@@ -40,8 +45,8 @@ const pages: ReactElement[] = [
       we have within clusters, the more homogeneous (similar) the data points
       are within the same cluster.
     </Typography>
-  </>,
-  <div>
+  </div>,
+  <div key={1}>
     <img
       src={StepOneImage}
       style={{ width: "100%", height: "auto" }}
@@ -52,7 +57,7 @@ const pages: ReactElement[] = [
       Click on the blank space to create Data points. Create atleast 5 points.
     </Typography>
   </div>,
-  <div>
+  <div key={2}>
     <img
       src={EnterNumberOfClustersImage}
       style={{ width: "100%", height: "auto" }}
@@ -62,18 +67,18 @@ const pages: ReactElement[] = [
 
     <Typography variant="body1" style={{ margin: "5px" }}>
       You need to know the total number of clusters you want for k-means
-      algorithm to work. This is the 'K' in K-Means. So, go ahead and enter the number of clusters greater
+      algorithm to work. This is the &apos;K&apos; in K-Means. So, go ahead and enter the number of clusters greater
       than 1
     </Typography>
   </div>,
-  <div>
+  <div key={3}>
     <Typography>
       Now you can set speed as per your convenience (slow is recommended if you
       are learning k-means) and press start to watch the visualization.
       <strong> Continue for learning K-Means step by step</strong>
     </Typography>
   </div>,
-  <div>
+  <div key={4}>
     <img
       src={initializeCentroidsImage}
       style={{ width: "100%", height: "auto" }}
@@ -86,12 +91,12 @@ const pages: ReactElement[] = [
     <Typography variant="body1">
       Centroids play a key role in the k-means algorithm. Centroids are data
       points that determine the cluster a given data point belongs to. You will
-      understand why it's called centroid in a later step. Each cluster has a
+      understand why it&apos;s called centroid in a later step. Each cluster has a
       single centroid. They are assigned <b>randomly a data point</b> from the
       bunch of data points initially.
     </Typography>
   </div>,
-  <div>
+  <div key={5}>
     <img
       src={stepTwoImage}
       style={{ width: "100%", height: "auto", marginBottom: "5px" }}
@@ -109,7 +114,7 @@ const pages: ReactElement[] = [
       this point.
     </Typography>
   </div>,
-  <div>
+  <div key={6}>
     <img
       src={calculateCentroidsImage}
       style={{ width: "100%", height: "auto", marginBottom: "5px" }}
@@ -121,12 +126,12 @@ const pages: ReactElement[] = [
     </Typography>
     <Typography variant="body1">
       In this step we will update the centroids. We update each centroid by
-      finding the "geometrical Centroid" of the data points which belong to the
+      finding the &quot;geometrical Centroid&quot; of the data points which belong to the
       same cluster as determined in the previous step.The dashed arrow shows the
       shift of each centroid.
     </Typography>
   </div>,
-  <div>
+  <div key={7}>
     <Typography variant="h5" style={{ marginBottom: "5px" }}>
       {" "}
       Step 4: Iteration
@@ -135,11 +140,13 @@ const pages: ReactElement[] = [
       We iterate through the last two steps ,i.e find the cluster to which each
       data point belongs with respect to the centroid, update values of the
       centroid and so on. We iterate till the stage when the centroids of the
-      clusters doesn't change even after updation. Congratulations! We have come
+      clusters doesn&apos;t change even after updation. Congratulations! We have come
       to the end.
     </Typography>
   </div>,
 ];
+
+
 
 function KMEANS(props: Props): ReactElement {
 

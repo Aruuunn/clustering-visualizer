@@ -1,9 +1,7 @@
-
-
 export enum KMEANSMode {
     SingleIteration = 'SingleIteration',
     MultipleIteration = 'MultipleIteration',
-    PlotKversusVariance = 'PlotKversusVariance'
+    PlotKversusVariance = 'PlotKversusVariance',
 }
 
 export default KMEANSMode;

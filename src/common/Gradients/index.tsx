@@ -1,10 +1,7 @@
 import React, { ReactElement } from 'react'
 
-interface Props {
-    
-}
 
-function Gradients(props: Props): ReactElement {
+function Gradients(): ReactElement {
     return (
         <defs>
            <linearGradient id="Deep-Space" x1="0%" y1="0%" x2="100%" y2="0%">

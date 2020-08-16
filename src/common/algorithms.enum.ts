@@ -1,6 +1,5 @@
-
-
 export enum AlgorithmNames {
-    KMEANS = "K Means",
-
+    KMEANS = 'K Means',
 }
+
+export default AlgorithmNames;

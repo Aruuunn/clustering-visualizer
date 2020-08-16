@@ -26,3 +26,7 @@ yarn-error.log*
 .firebase
 .firebaserc
 firebase.json
+
+
+.prettierrc.js
+.eslintrc.js
