@@ -9,19 +9,22 @@ import {
   TextField,
   Grid,
 } from "@material-ui/core";
-
 import { connect, ConnectedProps } from "react-redux";
 
-import BlueButton from "../BlueButton";
-import KMEANSMode from "../../common/kmeans.mode.enum";
-import GlobalActionTypes from "../../store/types/global.types";
 
-const mapStateToProps = (state: any) => ({ global: state.global });
+import BlueButton from "../../../../common/BlueButton";
+import KMEANSMode from "../../../../common/kmeans.mode.enum";
+import {RootState} from '../../../../reduxStore';
+import KMEANSAlgorithmActionTypes from "../../../../reduxStore/types/KMEANS.algorithm.types";
+
+
+const mapStateToProps = (state: RootState) => ({ global: state.global });
 
 const mapDispatchToProps = {
-  setMode:(mode:KMEANSMode) => ({type:GlobalActionTypes.SET_ITERATION_MODE,payload:mode}),
-  setMaxIterations:(maxIter:number) => ({type:GlobalActionTypes.SET_MAX_ITERATIONS,payload:maxIter})
+  setMode:(mode:KMEANSMode) => ({type:KMEANSAlgorithmActionTypes.SET_ITERATION_MODE,payload:mode}),
+  setMaxIterations:(maxIter:number) => ({type:KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS,payload:maxIter})
 };
+
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -31,6 +34,7 @@ type Props = PropsFromRedux & {
   onClose:() => void;
   open:boolean;
 };
+
 
 function IterationModeDialog(props: Props): ReactElement {
   const [state, setState] = useState(0);

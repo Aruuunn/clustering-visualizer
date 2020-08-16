@@ -1,22 +1,19 @@
-import GlobalActionTypes from "../types/global.types";
+import GlobalActionTypes from "../types/Global.types";
 import { AlgorithmNames } from "../../common/algorithms.enum";
 import { Speed } from "../../common/speed.enum";
-import KMEANSMode from "../../common/kmeans.mode.enum";
 
 export interface Node {
     id:number;
     coordinates:number[]
 }
 
-interface State {
+export interface GlobalState {
     algorithm:AlgorithmNames | null;
     numberOfClusters:number;
     start:boolean;
     speed:Speed;
     coordinatesOfNodes:Node[],
     learnMode:boolean;
-    mode?:KMEANSMode;
-    maxIterations?:number;
 }
 
 interface Action {
@@ -24,19 +21,17 @@ interface Action {
     payload?:any;
 }
 
-let initialState:State = {
+const initialState:GlobalState = {
     algorithm:null,
     numberOfClusters:0,
     start:false,
     speed:Speed.faster,
     coordinatesOfNodes:[],
     learnMode:false,
-    mode:KMEANSMode.SingleIteration,
-    maxIterations:1
 }
 
 
-export default (state:State = initialState,action:Action) => {
+export default (state:GlobalState = initialState,action:Action):GlobalState => {
 
     switch(action.type){
         case GlobalActionTypes.SET_ALGORITHM:
@@ -71,13 +66,10 @@ export default (state:State = initialState,action:Action) => {
                 }
                 else return o;
             })}
+
         case GlobalActionTypes.SET_LEARN_MODE:
             return {...state,learnMode:action.payload};
-        case GlobalActionTypes.SET_ITERATION_MODE:
-            return {...state,mode:action.payload}
-        
-        case GlobalActionTypes.SET_MAX_ITERATIONS:
-            return {...state,maxIterations:action.payload}
+
 
         default:
             return state;

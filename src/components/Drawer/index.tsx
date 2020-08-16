@@ -1,13 +1,10 @@
-import React, { ReactElement, ChangeEvent } from "react";
+import React, { ReactElement } from "react";
 import {
   SwipeableDrawer,
   useMediaQuery,
   useTheme,
   Grid,
   Button,
-  makeStyles,
-  fade,
-  InputBase,
   Divider,
   Slider,
   Typography,
@@ -16,15 +13,18 @@ import {
 import { connect, ConnectedProps } from "react-redux";
 
 import { AlgorithmNames } from "../../common/algorithms.enum";
-import GlobalActionTypes from "../../store/types/global.types";
-import UserDataActionTypes from "../../store/types/userData.types";
-import AlgorithmActionTypes from "../../store/types/algorithm.types";
+import GlobalActionTypes from "../../reduxStore/types/Global.types";
+import UserDataActionTypes from "../../reduxStore/types/UserPreferences.types";
+import AlgorithmActionTypes from "../../reduxStore/types/KMEANS.algorithm.types";
 import Speed from "../../common/speed.enum";
-import BlueButton from "../BlueButton";
+import BlueButton from "../../common/BlueButton";
+import { RootState } from "../../reduxStore";
+import { useHistory } from "react-router-dom";
 
-const mapStateToProps = (state: any) => ({
+
+const mapStateToProps = (state: RootState) => ({
   global: state.global,
-  userPreference: state.user,
+  userPreference: state.userPreferences,
 });
 
 const mapDispatchToProps = {
@@ -38,7 +38,7 @@ const mapDispatchToProps = {
   }),
   reset: () => ({ type: GlobalActionTypes.RESET }),
   startVisualization: () => ({ type: GlobalActionTypes.START_VISUALIZATION }),
-  resetAlgorithsmata: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
+  resetAlgorithmVisualization: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
   setSpeed: (speed: Speed) => ({
     type: GlobalActionTypes.SET_SPEED,
     payload: speed,
@@ -50,10 +50,9 @@ const mapDispatchToProps = {
   clearPoints: () => ({ type: GlobalActionTypes.RESET }),
 };
 
+
 const connector = connect(mapStateToProps, mapDispatchToProps);
-
 type PropsFromRedux = ConnectedProps<typeof connector>;
-
 type Props = PropsFromRedux & {
   open: boolean;
   onOpen: () => void;
@@ -61,50 +60,15 @@ type Props = PropsFromRedux & {
   handleAlgorithmMenu: (event: React.SyntheticEvent<Element, Event>) => void;
   handleSpeeMenu: (event: React.SyntheticEvent<Element, Event>) => void;
   isDisabled: () => boolean;
+  children?:ReactElement| ReactElement[];
 };
 
-const useStyles = makeStyles((theme) => ({
-  input: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
 
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 1),
-    // vertical padding + font size from searchIcon
-
-    transition: theme.transitions.create("width"),
-    width: "100%",
-  },
-}));
 
 function Drawer(props: Props): ReactElement {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
-  const classes = useStyles();
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.persist();
-    if (parseInt(e.target.value) >= 0) {
-      props.changeNumberOfClusters(parseInt(e.target.value));
-    } else {
-      props.changeNumberOfClusters(0);
-    }
-  };
+  const history = useHistory();
 
   return (
     <div>
@@ -118,34 +82,8 @@ function Drawer(props: Props): ReactElement {
             style={{ padding: "10px" }}
           >
             {" "}
-            <Grid container justify="center" alignItems="center">
-              {props.global.algorithm === AlgorithmNames.KMEANS ? (
-                <InputBase
-                  placeholder="Number of Clusters"
-                  style={{
-                    width: "100%",
-                    marginLeft: 0,
-                    marginRight: 0,
-                    marginTop: "10px",
-                    maxWidth: "500px",
-                  }}
-                  fullWidth
-                  color="secondary"
-                  value={
-                    props.global.numberOfClusters === 0
-                      ? ""
-                      : props.global.numberOfClusters
-                  }
-                  onChange={handleInputChange}
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  className={classes.input}
-                  type="number"
-                />
-              ) : null}
-            </Grid>
+            {props.children}
+            
             <Grid container justify="center" alignItems="center">
               <Button
                 variant="contained"
@@ -256,7 +194,7 @@ function Drawer(props: Props): ReactElement {
           </Grid>
           <Grid container justify="center" alignItems="center" >
             <Button
-             onClick={() => props.resetAlgorithsmata()}
+             onClick={() => props.resetAlgorithmVisualization()}
               style={{
                 width: "100%",
                 maxWidth: "500px",
@@ -269,7 +207,7 @@ function Drawer(props: Props): ReactElement {
           </Grid>
           <Grid container justify="center" alignItems="center">
             <Button
-            onClick={() => {props.clearPoints();props.resetAlgorithsmata()}}
+            onClick={() => {props.clearPoints();props.resetAlgorithmVisualization()}}
               style={{
                 width: "100%",
                 maxWidth: "500px",
