@@ -112,7 +112,7 @@ class NavBar extends Component<Props, State> {
     render() {
         
         return (
-            <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white' }}>
+            <AppBar elevation={0}  className="appbar" color="transparent" style={{ color: 'white' }}>
                 <Toolbar>
                     <Grid container alignItems="center">
                         <Grid container alignItems="center" item xs={9} md={2} lg={4}>

@@ -48,7 +48,7 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
             return { ...state, maxIterations: action.payload };
 
         case KMEANSAlgorithmActionTypes.RESET_DATA:
-            return initialState;
+            return {...state,render:[]};
         default:
             return state;
     }

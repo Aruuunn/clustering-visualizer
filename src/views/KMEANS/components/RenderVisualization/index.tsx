@@ -6,6 +6,7 @@ import { KMEANSAlgorithmActionTypes } from '../../../../reduxStore/types/KMEANS.
 import GlobalActionTypes from '../../../../reduxStore/types/Global.types';
 import { getColor } from '../../../../utils/getRandomColor';
 import { RootState } from '../../../../reduxStore/reducers';
+import KMEANSMode from '../../../../common/kmeans.mode.enum';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -87,6 +88,7 @@ class KMeans extends Component<Props, State> {
             console.log('CANNOT START VISUALIZATION');
             return;
         }
+  //      const totalIterations = this.props.kmeans.mode===KMEANSMode.SingleIteration?1:this.props.kmeans.maxIterations;
 
         let loss = 1000,
             iter = 0;
