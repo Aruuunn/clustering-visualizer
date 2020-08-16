@@ -56,7 +56,7 @@ function IterationModeDialog(props: Props): ReactElement {
             ) : state === 1 ? (
                 <Grid container justify="center" style={{ margin: '5px', padding: '20px' }}>
                     <DialogTitle>Number of Iterations</DialogTitle>
-                    <Typography variant="body2" gutterBottom style={{margin:'5px'}}>How many times do you want to run K-Means algorithm?</Typography>
+                    <Typography variant="body2" gutterBottom style={{margin:'5px',width:'100%'}} align="center">How many times do you want to run K-Means algorithm?</Typography>
                     <div>
                         <TextField
                             color="secondary"
@@ -85,9 +85,9 @@ function IterationModeDialog(props: Props): ReactElement {
                     </div>
                 </Grid>
             ) : (
-                <Grid container justify="center" style={{ margin: '5px', padding: '10px' }}>
-                    <DialogTitle>What is the maximum value of K?</DialogTitle>
-                    <div>
+                <Grid container justify="center" style={{ padding: '10px' }}>
+                    <DialogTitle style={{width:'100%'}}><Typography align="center" style={{width:'100%'}}>What is the maximum value of K?</Typography></DialogTitle>
+                    <div >
                         <TextField
                             color="secondary"
                             value={inputs.input2}
