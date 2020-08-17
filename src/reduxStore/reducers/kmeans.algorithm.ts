@@ -7,6 +7,9 @@ export interface KMEANSState {
     mode: KMEANSMode;
     maxIterations: number;
     numberOfClusters: number;
+    currentIteration: number | null;
+    info: null | number | { render: ReactElement[]; variance: number }; // stores variance in case of SingleIteration Mode or else stores the variance and last state of render of previous iterations
+    showInfo: boolean;
 }
 
 const initialState: KMEANSState = {
@@ -14,6 +17,9 @@ const initialState: KMEANSState = {
     mode: KMEANSMode.SingleIteration,
     maxIterations: 1,
     numberOfClusters: 0,
+    info: null,
+    currentIteration: null,
+    showInfo: false,
 };
 
 interface Action {
@@ -48,7 +54,17 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
             return { ...state, maxIterations: action.payload };
 
         case KMEANSAlgorithmActionTypes.RESET_DATA:
-            return {...state,render:[]};
+            return { ...state, render: [] };
+
+        case KMEANSAlgorithmActionTypes.SET_INFO:
+            return { ...state, info: action.payload };
+
+        case KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION:
+            return { ...state, currentIteration: action.payload };
+
+        case KMEANSAlgorithmActionTypes.SET_SHOW_INFO:
+            return { ...state, showInfo: action.payload };
+            
         default:
             return state;
     }
