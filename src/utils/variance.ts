@@ -32,7 +32,6 @@ export function calculateVariance(coordinates:number[][]):number{
 
             for(let j=0;j<coordinates[i].length;i++){
                 variance += Math.pow(mean[j]-coordinates[i][j],2)/(coordinates.length-1);
-
             }
             
         }

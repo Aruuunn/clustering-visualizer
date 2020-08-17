@@ -39,20 +39,77 @@ type Props = PropsFromRedux;
 interface State {
     centroids: number[][];
     started: boolean;
-    colors: string[];
 }
 
 class KMeans extends Component<Props, State> {
     state = {
         centroids: [],
         started: false,
-        colors: [],
     };
 
-    calculateNewCentroids = (clusters: number[][][]) => {
-        const centroids: number[][] = Array.from({ length: this.state.centroids.length }, () => new Array(2).fill(0));
+    renderCentroids: ReactElement[] = [];
+    colors: string[] = [];
+    numberOfClusters = 0;
 
-        for (let iter = 0; iter < clusters.length; iter++) {
+    randomlyInitializeCentroids(updateColor = false, callback:() => void): void {
+        const centroids: number[][] = [];
+        const { global } = this.props;
+
+        const set = new Set();
+
+        for (let i = 0; i < this.numberOfClusters; i++) {
+            let idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
+
+            while (set.has(idx) || !global.coordinatesOfNodes[idx]) {
+                idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
+            }
+
+            set.add(idx);
+
+            centroids.push(global.coordinatesOfNodes[idx].coordinates);
+        }
+
+        if (updateColor) {
+            this.colors = [];
+
+            for (let iter = 0; iter < this.numberOfClusters; iter++) {
+                this.colors.push(getColor(iter));
+            }
+        }
+
+        this.renderCentroids = [];
+
+        for (let iter = 0; iter < centroids.length; iter++) {
+            this.renderCentroids.push(
+                <g key={`c-${iter}`}>
+                    <rect
+                        x={centroids[iter][0] - 10}
+                        y={centroids[iter][1] - 10}
+                        width={20 + 10 * (iter + 1).toString().length}
+                        height="20"
+                        style={{ fill: this.colors[iter] }}
+                        stroke="black"
+                        strokeWidth="0.25"
+                    />
+                    <text x={centroids[iter][0] - 5} y={centroids[iter][1] + 5} style={{ fill: 'black' }}>
+                        C{iter + 1}
+                    </text>
+                </g>,
+            );
+        }
+
+        this.setState(
+            () => ({
+                centroids,
+            }),
+            callback,
+        );
+    }
+
+    calculateNewCentroids = (clusters: number[][][]) => {
+        const centroids: number[][] = Array.from({ length: this.numberOfClusters }, () => new Array(2).fill(0));
+
+        for (let iter = 0; iter < this.numberOfClusters; iter++) {
             const cluster = clusters[iter];
             if (!cluster.length) {
                 continue;
@@ -74,7 +131,7 @@ class KMeans extends Component<Props, State> {
         }
 
         let loss = 0;
-        for (let iter = 0; iter < this.state.centroids.length; iter++) {
+        for (let iter = 0; iter < this.numberOfClusters ; iter++) {
             loss +=
                 Math.abs(this.state.centroids[iter][0] - centroids[iter][0]) +
                 Math.abs(this.state.centroids[iter][1] - centroids[iter][1]);
@@ -88,124 +145,145 @@ class KMeans extends Component<Props, State> {
             console.log('CANNOT START VISUALIZATION');
             return;
         }
-  //      const totalIterations = this.props.kmeans.mode===KMEANSMode.SingleIteration?1:this.props.kmeans.maxIterations;
+        const totalIterations =
+            this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;
 
-        let loss = 1000,
-            iter = 0;
+        for (let it = 0; it < totalIterations; it++) {
+            let loss = 1000,
+                iter = 0;
 
-        while (Math.floor(loss) > 0) {
-            this.props.resetAlgoData();
+            while (Math.floor(loss) > 0) {
+                this.props.resetAlgoData();
 
-            const clusters: number[][][] = Array.from({ length: this.state.centroids.length }, () => new Array(0));
+                const clusters: number[][][] = Array.from({ length: this.numberOfClusters }, () => new Array(0));
 
-            for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
-                const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
+                for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
+                    const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
 
-                let min = distance(currentNode, this.state.centroids[0]);
-                let pos = 0;
+                    let min = distance(currentNode, this.state.centroids[0]);
+                    let pos = 0;
 
-                for (let j = 0; j < this.state.centroids.length; j++) {
+                    for (let j = 0; j < this.numberOfClusters; j++) {
+                        this.props.addToRender(
+                            <g key={`a-${j}-${iter}-${it}`}>
+                                <circle
+                                    r={this.props.userPreference.sizeOfPoint + 1}
+                                    cx={currentNode[0]}
+                                    cy={currentNode[1]}
+                                    style={{ fill: 'yellow' }}
+                                />
+                                <line
+                                    x1={this.state.centroids[j][0]}
+                                    y1={this.state.centroids[j][1]}
+                                    x2={currentNode[0]}
+                                    y2={currentNode[1]}
+                                    stroke="yellow"
+                                    strokeWidth="2.5"
+                                />
+                            </g>,
+                        );
+                        await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+                        this.props.popRender();
+                        const dist = distance(currentNode, this.state.centroids[j]);
+                        if (dist < min) {
+                            min = dist;
+                            pos = j;
+                        }
+                    }
+
+                    console.log("cluster",clusters,"pos",pos,this.state.centroids);
+
+                    clusters[pos].push(currentNode);
+
+                    await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+
                     this.props.addToRender(
-                        <g key={`a-${j}-${iter}`}>
+                        <g key={`b-${i}-${iter}-${it}`}>
+                            <line
+                                stroke={this.colors[pos]}
+                                strokeWidth="1.5"
+                                x1={currentNode[0]}
+                                y1={currentNode[1]}
+                                x2={this.state.centroids[pos][0]}
+                                y2={this.state.centroids[pos][1]}
+                            />
                             <circle
-                                r={this.props.userPreference.sizeOfPoint + 1}
                                 cx={currentNode[0]}
                                 cy={currentNode[1]}
-                                style={{ fill: 'yellow' }}
-                            />
-                            <line
-                                x1={this.state.centroids[j][0]}
-                                y1={this.state.centroids[j][1]}
-                                x2={currentNode[0]}
-                                y2={currentNode[1]}
-                                stroke="yellow"
-                                strokeWidth="2.5"
+                                r={this.props.userPreference.sizeOfPoint}
+                                style={{ fill: this.colors[pos] }}
+                                stroke={this.colors[pos]}
+                                strokeWidth="1"
                             />
                         </g>,
                     );
+
                     await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
-                    this.props.popRender();
-                    const dist = distance(currentNode, this.state.centroids[j]);
-                    if (dist < min) {
-                        min = dist;
-                        pos = j;
-                    }
                 }
 
-                clusters[pos].push(currentNode);
+                const result = this.calculateNewCentroids(clusters);
+                const temp = this.state.centroids;
 
+                loss = result.loss;
+                this.setState({ centroids: result.centroids });
                 await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+                iter += 1;
 
-                this.props.addToRender(
-                    <g key={`b-${i}-${iter}`}>
-                        <line
-                            stroke={this.state.colors[pos]}
-                            strokeWidth="1.5"
-                            x1={currentNode[0]}
-                            y1={currentNode[1]}
-                            x2={this.state.centroids[pos][0]}
-                            y2={this.state.centroids[pos][1]}
-                        />
-                        <circle
-                            cx={currentNode[0]}
-                            cy={currentNode[1]}
-                            r={this.props.userPreference.sizeOfPoint}
-                            style={{ fill: this.state.colors[pos] }}
-                            stroke={this.state.colors[pos]}
-                            strokeWidth="1"
-                        />
-                    </g>,
-                );
+                this.renderCentroids = [];
+                for (let iter = 0; iter < result.centroids.length; iter++) {
+                    this.renderCentroids.push(
+                        <g key={`d-${iter}-${it}`}>
+                            {Math.floor(
+                                Math.abs(temp[iter][0] - result.centroids[iter][0]) +
+                                    Math.abs(temp[iter][1] - result.centroids[iter][1]),
+                            ) > 0 ? (
+                                <line
+                                    x1={temp[iter][0]}
+                                    y1={temp[iter][1]}
+                                    x2={result.centroids[iter][0]}
+                                    y2={result.centroids[iter][1]}
+                                    stroke="white"
+                                    strokeWidth="1"
+                                    strokeDasharray="4"
+                                    style={{ markerEnd: 'url(#markerArrow)' }}
+                                />
+                            ) : null}
 
-                await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
-            }
-
-            const result = this.calculateNewCentroids(clusters);
-            const temp = this.state.centroids;
-
-            loss = result.loss;
-            this.setState({ centroids: result.centroids });
-            await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
-            iter += 1;
-
-            this.renderCentroids = [];
-            for (let iter = 0; iter < result.centroids.length; iter++) {
-                this.renderCentroids.push(
-                    <g key={`d-${iter}`}>
-                        {Math.floor(
-                            Math.abs(temp[iter][0] - result.centroids[iter][0]) +
-                                Math.abs(temp[iter][1] - result.centroids[iter][1]),
-                        ) > 0 ? (
-                            <line
-                                x1={temp[iter][0]}
-                                y1={temp[iter][1]}
-                                x2={result.centroids[iter][0]}
-                                y2={result.centroids[iter][1]}
-                                stroke="white"
-                                strokeWidth="1"
-                                strokeDasharray="4"
-                                style={{ markerEnd: 'url(#markerArrow)' }}
+                            <rect
+                                x={result.centroids[iter][0] - 10}
+                                y={result.centroids[iter][1] - 10}
+                                width={20 + 10 * (iter + 1).toString().length}
+                                height="20"
+                                style={{ fill: this.colors[iter] }}
+                                stroke="black"
+                                strokeWidth="0.25"
                             />
-                        ) : null}
+                            <text
+                                x={result.centroids[iter][0] - 5}
+                                y={result.centroids[iter][1] + 5}
+                                style={{ fill: 'black' }}
+                            >
+                                C{iter + 1}
+                            </text>
+                        </g>,
+                    );
+                }
+            }
+            if (this.props.kmeans.mode !== KMEANSMode.SingleIteration) {
 
-                        <rect
-                            x={result.centroids[iter][0] - 10}
-                            y={result.centroids[iter][1] - 10}
-                            width={20 + 10 * (iter + 1).toString().length}
-                            height="20"
-                            style={{ fill: this.state.colors[iter] }}
-                            stroke="black"
-                            strokeWidth="0.25"
-                        />
-                        <text
-                            x={result.centroids[iter][0] - 5}
-                            y={result.centroids[iter][1] + 5}
-                            style={{ fill: 'black' }}
-                        >
-                            C{iter + 1}
-                        </text>
-                    </g>,
-                );
+                this.numberOfClusters =
+                    this.props.kmeans.mode === KMEANSMode.PlotKversusVariance
+                        ? this.numberOfClusters+ 1
+                        : this.numberOfClusters;
+                const updateColor = this.props.kmeans.mode !== KMEANSMode.PlotKversusVariance;
+
+                if(!(it+1 < totalIterations))
+             {  
+                  await new Promise((done) => this.randomlyInitializeCentroids( updateColor, () => {console.error("complted one iteration",it);done()}));
+                  await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+
+             }
+                
             }
         }
 
@@ -213,63 +291,19 @@ class KMeans extends Component<Props, State> {
         this.setState({ started: false });
     };
 
-    renderCentroids: ReactElement[] = [];
-
     componentDidUpdate() {
         if (this.props.global.start) {
-            const { global ,kmeans } = this.props;
-
             if (!this.state.started) {
-                const centroids: number[][] = [];
-                const set = new Set();
-
-                for (let i = 0; i < kmeans.numberOfClusters; i++) {
-                    let idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
-
-                    while (set.has(idx) || !global.coordinatesOfNodes[idx]) {
-                        idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
-                    }
-
-                    set.add(idx);
-
-                    centroids.push(global.coordinatesOfNodes[idx].coordinates);
-                }
-
-                const colors: string[] = [];
-
-                for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
-                    colors.push(getColor(iter));
-                }
-
-                this.renderCentroids = [];
-
-                for (let iter = 0; iter < centroids.length; iter++) {
-                    this.renderCentroids.push(
-                        <g key={`c-${iter}`}>
-                            <rect
-                                x={centroids[iter][0] - 10}
-                                y={centroids[iter][1] - 10}
-                                width={20 + 10 * (iter + 1).toString().length}
-                                height="20"
-                                style={{ fill: colors[iter] }}
-                                stroke="black"
-                                strokeWidth="0.25"
-                            />
-                            <text x={centroids[iter][0] - 5} y={centroids[iter][1] + 5} style={{ fill: 'black' }}>
-                                C{iter + 1}
-                            </text>
-                        </g>,
+         
+                this.numberOfClusters =  this.props.kmeans.mode === KMEANSMode.PlotKversusVariance ? 2 : this.props.kmeans.numberOfClusters; 
+                this.randomlyInitializeCentroids( true, () => {
+                    this.setState(
+                        () => ({
+                            started: true,
+                        }),
+                        () => this.handleStart(),
                     );
-                }
-
-                this.setState(
-                    () => ({
-                        started: true,
-                        centroids,
-                        colors,
-                    }),
-                    () => this.handleStart(),
-                );
+                });
             }
         }
     }
