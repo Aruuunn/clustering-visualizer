@@ -1,18 +1,93 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 
-function InfoModal(): ReactElement {
+import { Doughnut } from 'react-chartjs-2';
+
+import barChartIcon from '../../../../assets/bar_chart-24px.svg';
+import { Fab, useMediaQuery, useTheme, Grow, Paper, Typography, Grid } from '@material-ui/core';
+import { RootState } from '../../../../reduxStore';
+import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
+
+const mapStateToProps = (state: RootState) => ({
+    global: state.global,
+    kmeans: state.kmeans,
+    userPreference: state.userPreferences,
+});
+
+const mapDispatchToProps = {};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux;
+
+function InfoModal(props: Props): ReactElement {
+    const theme = useTheme();
+    const sm = useMediaQuery(theme.breakpoints.down('sm'));
+    const [open, setOpen] = useState(false);
+
+    if(props.kmeans.info===null){
+        return <div/>;
+    }
+
+    const data = {
+        datasets: [
+            {
+                data:props.kmeans.info?(props.kmeans.info as Variance).variances:[],
+                backgroundColor: props.kmeans.info?(props.kmeans.info as Variance).colors:[],
+                borderColor: 'transparent',
+            },
+        ],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels:props.kmeans.info?(props.kmeans.info as Variance).labels:[],
+    };
+
+    const options = {
+        legend: {
+            display: true,
+            labels: {
+                fontColor: 'white',
+            },
+        },
+    };
+
     return (
         <div>
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-            atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
-            sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
-            facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
-            impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor
-            repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et
-            voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus,
-            ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
-        </div>
+            <Fab
+                disabled={props.kmeans.info===null}
+                color="secondary"
+                onClick={() => setOpen((s) => !s)}
+                style={{ position: 'fixed', bottom: sm ? 20 : 20, right: 20 }}
+            >
+                <img src={barChartIcon} />
+            </Fab>
+            <Grow in={open}>
+                <Paper
+                component={Grid}
+                    variant="outlined"
+                    style={{
+                        position: 'fixed',
+                        right: 20,
+                        top: '70px',
+                        minWidth: '300px',
+                        height: '70vh',
+                        padding: '10px',
+                    }}
+                 
+                >
+            <Typography variant="h5">
+                        Total Variance -{' '}
+                        {props.kmeans.info !== null ? (props.kmeans.info as Variance).total.toFixed(1) : null}
+                    </Typography>
+                    <Grid container alignItems="center" style={{height:'100%'}}>
+                    <Doughnut options={options} data={data} />
+
+                    </Grid>
+
+                </Paper>
+            </Grow>
+        </div> 
     );
 }
 
-export default InfoModal;
+export default connector(InfoModal);

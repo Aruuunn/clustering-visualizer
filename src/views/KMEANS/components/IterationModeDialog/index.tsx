@@ -48,9 +48,9 @@ function IterationModeDialog(props: Props): ReactElement {
                         <ListItem button onClick={() => setState(1)}>
                             <ListItemText primary="Multiple Iterations" secondary="Runs the k-means algorithm multiple times and calculates variance for each result and gives the best result"/>
                         </ListItem>{' '}
-                        <ListItem button onClick={() => setState(2)}>
+                        {/* <ListItem button onClick={() => setState(2)}>
                             <ListItemText primary="Find the best value for K (Recommended if you don't know the value of K)" secondary="Calculates variance for various values of 'K' and gives the best value for 'K'" />
-                        </ListItem>
+                        </ListItem> */}
                     </List>
                 </div>
             ) : state === 1 ? (
@@ -78,7 +78,7 @@ function IterationModeDialog(props: Props): ReactElement {
                                 props.setMode(KMEANSMode.MultipleIteration);
                                 props.onClose();
                             }}
-                            disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
+                         //   disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
                         >
                             Save
                         </BlueButton>

@@ -2,19 +2,31 @@ import { KMEANSAlgorithmActionTypes } from '../types/KMEANS.algorithm.types';
 import KMEANSMode from '../../common/kmeans.mode.enum';
 import { ReactElement } from 'react';
 
+
+export type Variance = {
+    total:number;
+    colors:string[];
+    variances:number[];
+    labels:string[]
+}
+
+export type DetailedInfo =  { render: ReactElement[]; variances: Variance[] };
+
+
+
 export interface KMEANSState {
     render: ReactElement[];
     mode: KMEANSMode;
     maxIterations: number;
     numberOfClusters: number;
     currentIteration: number | null;
-    info: null | number | { render: ReactElement[]; variance: number }; // stores variance in case of SingleIteration Mode or else stores the variance and last state of render of previous iterations
+    info: null | Variance | DetailedInfo[]; // stores variance in case of SingleIteration Mode or else stores the variance and last state of render of previous iterations
     showInfo: boolean;
 }
 
 const initialState: KMEANSState = {
     render: [],
-    mode: KMEANSMode.SingleIteration,
+    mode: KMEANSMode.SingleIteration, 
     maxIterations: 1,
     numberOfClusters: 0,
     info: null,
@@ -64,6 +76,8 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
 
         case KMEANSAlgorithmActionTypes.SET_SHOW_INFO:
             return { ...state, showInfo: action.payload };
+        case KMEANSAlgorithmActionTypes.ADD_TO_INFO:
+            return {...state,info:[...(state.info as DetailedInfo[]),action.payload]}
             
         default:
             return state;

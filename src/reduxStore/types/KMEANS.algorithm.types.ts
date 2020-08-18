@@ -12,7 +12,8 @@ export enum KMEANSAlgorithmActionTypes {
     SET_NUMBER_OF_CLUSTERS = 'SET_NUMBER_OF_CLUSTERS',
     SET_SHOW_INFO = 'SET_SHOW_INFO',
     SET_CURRENT_ITERATION = 'SET_CURRENT_ITERATION',
-    SET_INFO= 'SET_INFO'
+    SET_INFO= 'SET_INFO',
+    ADD_TO_INFO='ADD_TO_INFO',
 }
 
 export default KMEANSAlgorithmActionTypes;
