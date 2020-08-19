@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, Store } from 'redux'
-
-import rootReducer from './reducers'
 import { persistStore, Persistor } from 'redux-persist'
 import { composeWithDevTools } from 'redux-devtools-extension';
+
+import rootReducer from './reducers'
 
 export * from './reducers';
 export * from './types';

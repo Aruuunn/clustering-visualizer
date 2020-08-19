@@ -1,5 +1,6 @@
 
 export  enum GlobalActionTypes {
+
     SET_COORDINATES_OF_NODES = 'SET_COORDINATES_OF_NODES',
     SET_ALGORITHM = 'SET_ALGORITHM',
     RESET = 'RESET',
@@ -7,8 +8,7 @@ export  enum GlobalActionTypes {
     END_VISUALIZATION = 'END_VISUALIZATION',
     SET_SPEED = 'SET_SPEED',
     UPDATE_COORDINATES = 'UPDATE_COORDINATES',
-
-  
+    
 }
 
 

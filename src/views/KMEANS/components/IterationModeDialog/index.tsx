@@ -12,6 +12,8 @@ const mapStateToProps = (state: RootState) => ({ global: state.global });
 const mapDispatchToProps = {
     setMode: (mode: KMEANSMode) => ({ type: KMEANSAlgorithmActionTypes.SET_ITERATION_MODE, payload: mode }),
     setMaxIterations: (maxIter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS, payload: maxIter }),
+    setInfoNull:() => ({type:KMEANSAlgorithmActionTypes.SET_INFO,payload:null})
+
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -28,7 +30,7 @@ function IterationModeDialog(props: Props): ReactElement {
     const [inputs, setInput] = useState({ input1: '', input2: '' });
 
     return (
-        <Dialog maxWidth="lg"  open={props.open} onClose={props.onClose}>
+        <Dialog maxWidth="sm"  open={props.open} onClose={props.onClose}>
             {state === 0 ? (
                 <div>
                     <DialogTitle>Iteration Mode for K Means</DialogTitle>
@@ -54,7 +56,7 @@ function IterationModeDialog(props: Props): ReactElement {
                     </List>
                 </div>
             ) : state === 1 ? (
-                <Grid container justify="center" style={{ margin: '5px', padding: '20px' }}>
+                <Grid container justify="center" style={{ margin: '5px', padding: '20px',maxWidth:'300px' }}>
                     <DialogTitle>Number of Iterations</DialogTitle>
                     <Typography variant="body2" gutterBottom style={{margin:'5px',width:'100%'}} align="center">How many times do you want to run K-Means algorithm?</Typography>
                     <div>
@@ -76,6 +78,7 @@ function IterationModeDialog(props: Props): ReactElement {
                             onClick={() => {
                                 props.setMaxIterations(parseInt(inputs.input1));
                                 props.setMode(KMEANSMode.MultipleIteration);
+                                props.setInfoNull();
                                 props.onClose();
                             }}
                          //   disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
@@ -106,6 +109,7 @@ function IterationModeDialog(props: Props): ReactElement {
                             onClick={() => {
                                 props.setMaxIterations(parseInt(inputs.input2));
                                 props.setMode(KMEANSMode.PlotKversusVariance);
+                                props.setInfoNull();
                                 props.onClose();
                             }}
                             disabled={inputs.input2.trim() === '' || parseInt(inputs.input2) < 2}

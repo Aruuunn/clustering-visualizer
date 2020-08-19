@@ -1,10 +1,5 @@
-
-
-
 function distance(p1:number[],p2:number[]):number{
  
-
-   // console.log({p1,p2});
     if(p1.length!==p2.length){
         throw new Error('Coordinates Do Not Match');
     }
@@ -16,8 +11,8 @@ function distance(p1:number[],p2:number[]):number{
     }
 
     return totalDistance;
-}
 
+}
 
 
 export default distance;

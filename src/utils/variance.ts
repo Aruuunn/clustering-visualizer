@@ -1,5 +1,3 @@
-
-
 export function calculateMean(coordinates:number[][]):(number[] ){
    if(!coordinates || coordinates.length===0){
        
@@ -7,7 +5,7 @@ export function calculateMean(coordinates:number[][]):(number[] ){
 
    } else {
        const mean = Array.from({length:coordinates[0].length},() => 0);
-       console.log('MEAN',mean,{length:coordinates[0].length})
+
        for(let i=0;i<coordinates.length;i++){
            for(let j=0;j<mean.length;j++){
                mean[j] += coordinates[i][j]/coordinates.length;
@@ -18,16 +16,17 @@ export function calculateMean(coordinates:number[][]):(number[] ){
    }
 }
 
+
 export function calculateVariance(coordinates:number[][]):number{
 
     if(!coordinates || coordinates.length <= 1 ){
+
         return 0;
+        
     } else {
 
         let variance = 0;
         const mean = calculateMean(coordinates);
-         
-        console.log("MEAN",mean)
 
         for(let i=0;i<coordinates.length;i++){
 
@@ -39,7 +38,6 @@ export function calculateVariance(coordinates:number[][]):number{
         return parseInt(variance.toFixed(1));
 
     }
-
 
 }
 

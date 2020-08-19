@@ -1,13 +1,14 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState,useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-
 import { Doughnut } from 'react-chartjs-2';
+import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
-import { Fab, useMediaQuery, useTheme, Grow, Paper, Typography, Grid } from '@material-ui/core';
+import { Fab, useMediaQuery, Paper, Typography, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
 import { RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
-import KMEANSMode from '../../../../common/kmeans.mode.enum'
+import KMEANSMode from '../../../../common/kmeans.mode.enum';
+import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -15,32 +16,42 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
-const mapDispatchToProps = {};
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 function InfoModal(props: Props): ReactElement {
-    const theme = useTheme();
-    const sm = useMediaQuery(theme.breakpoints.down('sm'));
+    const xs = !useMediaQuery('(min-width:310px)');    
+    const info = props.kmeans.info;
     const [open, setOpen] = useState(false);
-
-    if (props.kmeans.info === null) {
+    const [page, setPage] = useState<number>(props.kmeans.currentIteration===null?0:props.kmeans.currentIteration);
+    
+    if (info === null || (page===0&& props.kmeans.mode===KMEANSMode.MultipleIteration) ) {
         return <div />;
     }
+    console.log("INFO",info);
+
+
 
     const data = {
         datasets: [
             {
-                data: props.kmeans.info ? (props.kmeans.info as Variance).variances : [],
-                backgroundColor: props.kmeans.info ? (props.kmeans.info as Variance).colors : [],
+                data:
+                    props.kmeans.mode === KMEANSMode.SingleIteration
+                        ? (info as Variance).variances
+                        : (info as DetailedInfo).variances[page - 1].variances || [],
+                backgroundColor:
+                    props.kmeans.mode === KMEANSMode.SingleIteration
+                        ? (info as Variance).colors
+                        : (info as DetailedInfo).variances[page - 1].colors || [],
                 borderColor: 'transparent',
             },
         ],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: props.kmeans.info ? (props.kmeans.info as Variance).labels : [],
+        labels:
+            props.kmeans.mode === KMEANSMode.SingleIteration
+                ? (info as Variance).labels
+                : (info as DetailedInfo).variances[page - 1].labels || [],
     };
 
     const options = {
@@ -55,14 +66,17 @@ function InfoModal(props: Props): ReactElement {
 
     return (
         <div>
-            <Fab
-                disabled={props.kmeans.info === null}
-                color="secondary"
-                onClick={() => setOpen((s) => !s)}
-                style={{ position: 'fixed', bottom: sm ? 20 : 20, right: 20 }}
-            >
-                <img src={barChartIcon} />
-            </Fab>
+            <Grow in={!open}>
+                <Fab
+                    disabled={info === null}
+                    color="secondary"
+                    onClick={() => setOpen((s) => !s)}
+                    style={{ position: 'fixed', bottom: 20, right: 20 }}
+                >
+                    <img src={barChartIcon} />
+                </Fab>
+            </Grow>
+
             <Grow in={open}>
                 <Paper
                     component={Grid}
@@ -71,26 +85,82 @@ function InfoModal(props: Props): ReactElement {
                         position: 'fixed',
                         right: 20,
                         top: '70px',
-                        minWidth: '300px',
-                        height: '70vh',
+                        width: xs ? '80vw' : '300px',
+                        height: '80vh',
                         padding: '10px',
                     }}
                 >
-                    {props.kmeans.mode===KMEANSMode.SingleIteration?
-                    <Grid
+                    <IconButton
+                        component={Grid}
                         container
+                        onClick={() => setOpen((s) => !s)}
+                        justify="center"
                         alignItems="center"
-                        direction="column"
-                        justify="space-around"
-                        style={{ width: '100%', height: '100%' }}
+                        style={{
+                            height: 'auto',
+                            width: '100%',
+                            position: 'absolute',
+                            backgroundColor: 'grey',
+                            color: 'white',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            borderRadius: 0,
+                        }}
                     >
-                        <Typography variant="h6">
-                            Total Variance -{' '}
-                            {props.kmeans.info !== null ? (props.kmeans.info as Variance).total.toFixed(1) : null}
-                        </Typography>
+                        <SvgIcon>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                            </svg>
+                        </SvgIcon>
+                    </IconButton>
 
-                        <Doughnut width={50} height={50} options={options} data={data} />
-                    </Grid>:null}
+                    {props.kmeans.mode === KMEANSMode.SingleIteration ? (
+                        <Grid
+                            container
+                            alignItems="center"
+                            direction="column"
+                            justify="space-around"
+                            style={{ width: '100%', height: '100%' }}
+                        >
+                            <Typography variant="h6" style={{ paddingTop: '50px' }}>
+                                Total Variance -{' '}
+                                {info !== null ? (info as Variance).total.toFixed(1) : null}
+                            </Typography>
+
+                            <Doughnut width={50} height={50} options={options} data={data} />
+                        </Grid>
+                    ) : page!==0 ? (
+                        <Grid
+                            container
+                            alignItems="center"
+                            direction="column"
+                            justify="space-around"
+                            style={{ width: '100%', height: '100%' }}
+                        >
+                            <Typography variant="h6" style={{ paddingTop: '50px' }}>
+                                Total Variance -{' '}
+                                {info !== null
+                                    ? (info as DetailedInfo).variances[page - 1].total.toFixed(1)
+                                    : null}
+                            </Typography>
+
+                            <Doughnut
+                                width={50}
+                                height={50}
+                                options={options}
+                                data={data}
+                            />
+                            <Pagination
+                            defaultPage={page}
+                                count={(info as DetailedInfo).render.length||0}
+                                page={page}
+                                onChange={(e, val) => setPage(val)}
+                                color="secondary"
+                            />
+                        </Grid>
+                    ):null}
                 </Paper>
             </Grow>
         </div>

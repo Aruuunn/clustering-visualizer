@@ -2,6 +2,7 @@
 
 
 export enum KMEANSAlgorithmActionTypes {
+
     ADD_TO_RENDER = 'ADD_TO_RENDER',
     POP_RENDER = 'POP_RENDER',
     SET_RENDER = 'SET_RENDER',
@@ -14,6 +15,7 @@ export enum KMEANSAlgorithmActionTypes {
     SET_CURRENT_ITERATION = 'SET_CURRENT_ITERATION',
     SET_INFO= 'SET_INFO',
     ADD_TO_INFO='ADD_TO_INFO',
+    
 }
 
 export default KMEANSAlgorithmActionTypes;

@@ -14,7 +14,7 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
     userPreferences:persistReducer(persistConfig,UserReducer),
-    global:GlobalReducer,
+    global:GlobalReducer ,
     kmeans:KMEANSAlgorithmReducer
 });
 

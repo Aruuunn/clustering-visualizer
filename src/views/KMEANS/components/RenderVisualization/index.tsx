@@ -10,7 +10,6 @@ import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 
-
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
@@ -37,7 +36,10 @@ const mapDispatchToProps = {
         type: KMEANSAlgorithmActionTypes.SET_NUMBER_OF_CLUSTERS,
         payload: numberOfClusters,
     }),
-    setInfo:(info :Variance | DetailedInfo[]|null) => ({type:KMEANSAlgorithmActionTypes.SET_INFO,payload:info})
+    setInfo: (info: Variance | DetailedInfo | null) => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: info }),
+
+    setCurrentIteration:(iter:number) => ({type:KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION,payload:iter})
+
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -148,43 +150,41 @@ class KMeans extends Component<Props, State> {
         return { centroids, loss };
     };
 
-    calculateVarianceOfClusters  = (clusters: number[][][]) => {
-       const variance:Variance = {total:0,colors:[],labels:[],variances:[]};
-       
+    calculateVarianceOfClusters = (clusters: number[][][]) => {
+        const variance: Variance = { total: 0, colors: [], labels: [], variances: [] };
+
         for (let iter = 0; iter < this.numberOfClusters; iter++) {
-       
             const cluster = clusters[iter];
 
-            const temp =calculateVariance(cluster);
+            const temp = calculateVariance(cluster);
 
             variance.total += temp;
-variance.colors.push(this.colors[iter]);
-variance.variances.push(temp);
-variance.labels.push(`C${iter+1}`)
-    
+            variance.colors.push(this.colors[iter]);
+            variance.variances.push(temp);
+            variance.labels.push(`C${iter + 1}`);
         }
 
         return variance;
-    }
+    };
 
-    handleSingleIteration = async ():Promise<Variance>=> {
+    handleSingleIteration = async (): Promise<Variance> => {
+
         let loss = 1000;
         let clusters: number[][][] = [];
 
         while (Math.floor(loss) > 0) {
+
             this.props.resetAlgoData();
 
-            // console.log("length",this.props.kmeans.render)
-
             clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
-            console.log('NUmber OF Clusters', this.numberOfClusters);
+
             for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
                 const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
 
                 let min = distance(currentNode, this.state.centroids[0]);
 
                 let pos = 0;
- 
+
                 for (let j = 0; j < this.numberOfClusters; j++) {
                     this.props.addToRender(
                         <g key={`a-${this.props.kmeans.render.length}`}>
@@ -204,7 +204,7 @@ variance.labels.push(`C${iter+1}`)
                             />
                         </g>,
                     );
-                    
+
                     await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
                     this.props.popRender();
                     const dist = distance(currentNode, this.state.centroids[j]);
@@ -213,6 +213,7 @@ variance.labels.push(`C${iter+1}`)
                         pos = j;
                     }
                 }
+
                 //console.log('Clusters', clusters, 'pos', pos, 'centroids', this.state.centroids);
 
                 if (clusters.length !== this.numberOfClusters) {
@@ -308,21 +309,38 @@ variance.labels.push(`C${iter+1}`)
         }
 
         this.props.setInfo(null);
-
+    
         const totalIterations =
             this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;
 
-        for (let it = 0; it < totalIterations; it++) {
-            const variance = await this.handleSingleIteration();
-            this.props.setInfo(variance);
-           // console.log('one iteration COMPLETE');
-            if (it + 1 < totalIterations) {
-                if (this.props.kmeans.mode === KMEANSMode.PlotKversusVariance) {
-                    this.numberOfClusters += 1;
-                    this.props.setNumberOfClusters(this.numberOfClusters);
+        //will be used it the mode is multiple iterations
+        const render:ReactElement[][] = [];
+        const variances:Variance[] = [];
+        let best = 0;
 
-                    await new Promise((done) => this.randomlyInitializeCentroids(true, () => done()));
-                } else await new Promise((done) => this.randomlyInitializeCentroids(false, () => done()));
+
+
+        for (let it = 0; it < totalIterations; it++) {
+            this.props.setCurrentIteration(it);
+
+            const variance = await this.handleSingleIteration();
+            console.log('complted one iter');
+
+            if (this.props.kmeans.mode === KMEANSMode.SingleIteration) {
+                this.props.setInfo(variance);
+            } else {
+
+                render.push(this.props.kmeans.render);
+                variances.push(variance);
+                if(variances[best].total > variance.total){
+                    best = it;
+                }
+                console.log({render,best,variances})
+                this.props.setInfo(({render,best,variances}));
+            }
+
+            if (it + 1 < totalIterations) {
+                await new Promise((done) => this.randomlyInitializeCentroids(false, () => done()));
             }
         }
 
@@ -333,16 +351,14 @@ variance.labels.push(`C${iter+1}`)
     componentDidUpdate() {
         if (this.props.global.start) {
             if (!this.state.started) {
-                this.numberOfClusters =
-                    this.props.kmeans.mode === KMEANSMode.PlotKversusVariance ? 2 : this.props.kmeans.numberOfClusters;
-                this.randomlyInitializeCentroids(true, () => {
-                    this.setState(
-                        () => ({
-                            started: true,
-                        }),
-                        () => this.handleStart(),
-                    );
-                });
+                this.numberOfClusters = this.props.kmeans.numberOfClusters;
+
+                this.setState(
+                    () => ({
+                        started: true,
+                    }),
+                    () => this.randomlyInitializeCentroids(true, () => this.handleStart()),
+                );
             }
         }
     }
