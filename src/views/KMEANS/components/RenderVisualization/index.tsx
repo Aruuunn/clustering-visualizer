@@ -10,6 +10,7 @@ import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 
+
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
@@ -36,7 +37,7 @@ const mapDispatchToProps = {
         type: KMEANSAlgorithmActionTypes.SET_NUMBER_OF_CLUSTERS,
         payload: numberOfClusters,
     }),
-    setInfo:(info :Variance | DetailedInfo[]) => ({type:KMEANSAlgorithmActionTypes.SET_INFO,payload:info})
+    setInfo:(info :Variance | DetailedInfo[]|null) => ({type:KMEANSAlgorithmActionTypes.SET_INFO,payload:info})
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -203,6 +204,7 @@ variance.labels.push(`C${iter+1}`)
                             />
                         </g>,
                     );
+                    
                     await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
                     this.props.popRender();
                     const dist = distance(currentNode, this.state.centroids[j]);
@@ -211,8 +213,7 @@ variance.labels.push(`C${iter+1}`)
                         pos = j;
                     }
                 }
-
-                console.log('Clusters', clusters, 'pos', pos, 'centroids', this.state.centroids);
+                //console.log('Clusters', clusters, 'pos', pos, 'centroids', this.state.centroids);
 
                 if (clusters.length !== this.numberOfClusters) {
                     clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
@@ -305,6 +306,8 @@ variance.labels.push(`C${iter+1}`)
             console.log('CANNOT START VISUALIZATION');
             return;
         }
+
+        this.props.setInfo(null);
 
         const totalIterations =
             this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;

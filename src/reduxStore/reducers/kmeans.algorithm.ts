@@ -10,7 +10,7 @@ export type Variance = {
     labels:string[]
 }
 
-export type DetailedInfo =  { render: ReactElement[]; variances: Variance[] };
+export type DetailedInfo =  { render: ReactElement[][]; variances: Variance[] ,best:number};
 
 
 

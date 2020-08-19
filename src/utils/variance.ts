@@ -36,7 +36,7 @@ export function calculateVariance(coordinates:number[][]):number{
             }
             
         }
-        return variance;
+        return parseInt(variance.toFixed(1));
 
     }
 
