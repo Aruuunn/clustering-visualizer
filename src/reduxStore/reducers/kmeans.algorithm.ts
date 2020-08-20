@@ -77,7 +77,7 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
         //     return { ...state, showInfo: action.payload };
 
         case KMEANSAlgorithmActionTypes.ADD_TO_INFO:
-            return { ...state, info: {...state.info as DetailedInfo} };
+            return { ...state, info: {...(state.info as DetailedInfo)} };
 
         default:
             return state;

@@ -1,10 +1,10 @@
-import React, { ReactElement, useState,useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Doughnut } from 'react-chartjs-2';
+import { Fab, useMediaQuery, Paper, Typography, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
-import { Fab, useMediaQuery, Paper, Typography, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
 import { RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
@@ -16,23 +16,38 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
-
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 function InfoModal(props: Props): ReactElement {
-    const xs = !useMediaQuery('(min-width:310px)');    
-    const info = props.kmeans.info;
+    const xs = !useMediaQuery('(min-width:310px)');
+
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState<number>(props.kmeans.currentIteration===null?0:props.kmeans.currentIteration);
-    
-    if (info === null || (page===0&& props.kmeans.mode===KMEANSMode.MultipleIteration) ) {
+    const [page, setPage] = useState<number>(1);
+
+    const info = props.kmeans.info;
+    if (
+        info === null ||
+        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
+    ) {
         return <div />;
     }
-    console.log("INFO",info);
 
-
+    if (!open) {
+        return (
+            <Grow in={!open}>
+                <Fab
+                    disabled={info === null}
+                    color="secondary"
+                    onClick={() => setOpen((s) => !s)}
+                    style={{ position: 'fixed', bottom: 20, right: 20 }}
+                >
+                    <img src={barChartIcon} />
+                </Fab>
+            </Grow>
+        );
+    }
 
     const data = {
         datasets: [
@@ -64,20 +79,11 @@ function InfoModal(props: Props): ReactElement {
         responsive: true,
     };
 
+    console.log(page,'INFO', info,{data});
+
     return (
         <div>
-            <Grow in={!open}>
-                <Fab
-                    disabled={info === null}
-                    color="secondary"
-                    onClick={() => setOpen((s) => !s)}
-                    style={{ position: 'fixed', bottom: 20, right: 20 }}
-                >
-                    <img src={barChartIcon} />
-                </Fab>
-            </Grow>
-
-            <Grow in={open}>
+            <Grow in={open} timeout={100}>
                 <Paper
                     component={Grid}
                     variant="outlined"
@@ -125,13 +131,12 @@ function InfoModal(props: Props): ReactElement {
                             style={{ width: '100%', height: '100%' }}
                         >
                             <Typography variant="h6" style={{ paddingTop: '50px' }}>
-                                Total Variance -{' '}
-                                {info !== null ? (info as Variance).total.toFixed(1) : null}
+                                Total Variance - {info !== null ? (info as Variance).total.toFixed(1) : null}
                             </Typography>
 
                             <Doughnut width={50} height={50} options={options} data={data} />
                         </Grid>
-                    ) : page!==0 ? (
+                    ) : (
                         <Grid
                             container
                             alignItems="center"
@@ -141,26 +146,22 @@ function InfoModal(props: Props): ReactElement {
                         >
                             <Typography variant="h6" style={{ paddingTop: '50px' }}>
                                 Total Variance -{' '}
-                                {info !== null
-                                    ? (info as DetailedInfo).variances[page - 1].total.toFixed(1)
-                                    : null}
+                                {info !== null ? (info as DetailedInfo).variances[page - 1].total.toFixed(1) : null}
                             </Typography>
 
-                            <Doughnut
-                                width={50}
-                                height={50}
-                                options={options}
-                                data={data}
-                            />
+                            <Doughnut width={50} height={50} options={options} data={data} />
                             <Pagination
-                            defaultPage={page}
-                                count={(info as DetailedInfo).render.length||0}
+                                defaultPage={page}
+                                count={(info as DetailedInfo).render.length || 0}
                                 page={page}
-                                onChange={(e, val) => setPage(val)}
+                                onChange={(e, val) => {
+                                    e.persist();
+                                    setPage(val);
+                                }}
                                 color="secondary"
                             />
                         </Grid>
-                    ):null}
+                    )}
                 </Paper>
             </Grow>
         </div>
