@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import { PersistGate } from 'redux-persist/integration/react';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 import App from './App';
@@ -15,11 +15,14 @@ const { store, persistor } = initStore();
 
 ReactDOM.render(
     <React.StrictMode>
+        {' '}
         <BrowserRouter>
             <Provider store={store}>
                 <PersistGate loading={'loading...'} persistor={persistor}>
                     <ThemeProvider theme={theme}>
-                        <App />
+                        <StylesProvider injectFirst>
+                            <App />
+                        </StylesProvider>
                     </ThemeProvider>
                 </PersistGate>
             </Provider>

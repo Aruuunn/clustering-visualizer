@@ -27,8 +27,8 @@ function InfoModal(props: Props): ReactElement {
     const [page, setPage] = useState<number>(1);
 
     const info = props.kmeans.info;
-    if (
-        info === null ||
+
+    if ( info === null ||
         (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
     ) {
         return <div />;
@@ -49,24 +49,26 @@ function InfoModal(props: Props): ReactElement {
         );
     }
 
-    const data = {
+
+
+    const data = { 
         datasets: [
             {
                 data:
-                    props.kmeans.mode === KMEANSMode.SingleIteration
+                  (  props.kmeans.mode === KMEANSMode.SingleIteration
                         ? (info as Variance).variances
-                        : (info as DetailedInfo).variances[page - 1].variances || [],
+                        : (info as DetailedInfo).variances[page - 1].variances) || [],
                 backgroundColor:
-                    props.kmeans.mode === KMEANSMode.SingleIteration
+                   ( props.kmeans.mode === KMEANSMode.SingleIteration
                         ? (info as Variance).colors
-                        : (info as DetailedInfo).variances[page - 1].colors || [],
+                        : (info as DetailedInfo).variances[page - 1].colors) || [],
                 borderColor: 'transparent',
             },
         ],
         labels:
-            props.kmeans.mode === KMEANSMode.SingleIteration
+           ( props.kmeans.mode === KMEANSMode.SingleIteration
                 ? (info as Variance).labels
-                : (info as DetailedInfo).variances[page - 1].labels || [],
+                : (info as DetailedInfo).variances[page - 1].labels) || [],
     };
 
     const options = {
@@ -78,8 +80,6 @@ function InfoModal(props: Props): ReactElement {
         },
         responsive: true,
     };
-
-    console.log(page,'INFO', info,{data});
 
     return (
         <div>
@@ -144,18 +144,16 @@ function InfoModal(props: Props): ReactElement {
                             justify="space-around"
                             style={{ width: '100%', height: '100%' }}
                         >
-                            <Typography variant="h6" style={{ paddingTop: '50px' }}>
+                           { page!==0?<Typography variant="h6" style={{ paddingTop: '50px' }}>
                                 Total Variance -{' '}
                                 {info !== null ? (info as DetailedInfo).variances[page - 1].total.toFixed(1) : null}
-                            </Typography>
+                            </Typography>:null}
 
                             <Doughnut width={50} height={50} options={options} data={data} />
                             <Pagination
-                                defaultPage={page}
                                 count={(info as DetailedInfo).render.length || 0}
-                                page={page}
+                                defaultPage={1}
                                 onChange={(e, val) => {
-                                    e.persist();
                                     setPage(val);
                                 }}
                                 color="secondary"

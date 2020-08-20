@@ -7,11 +7,13 @@ import InfoModal from './components/InfoModal';
 function KMEANS(): ReactElement {
     return (
         <div>
+
             <NavBar />
 
             <Board component={<RenderVisualization />} />
 
             <InfoModal />
+            
         </div>
     );
 }
