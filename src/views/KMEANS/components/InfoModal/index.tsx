@@ -34,6 +34,16 @@ function InfoModal(props: Props): ReactElement {
 
     const info = props.kmeans.info;
 
+    if (
+        props.kmeans.info === null ||
+        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
+    ) {
+        return <div />;
+    }
+
+    //To preload the image
+    const Image = <img src={barChartIcon} alt="statistics" />;
+
     if (!open) {
         return (
             <Grow in={!open}>
@@ -43,7 +53,7 @@ function InfoModal(props: Props): ReactElement {
                     onClick={() => setOpen((s) => !s)}
                     style={{ position: 'fixed', bottom: sm ? '45vh' : 20, right: 20 }}
                 >
-                    <img src={barChartIcon} alt="statistics" />
+                    {Image}
                 </Fab>
             </Grow>
         );

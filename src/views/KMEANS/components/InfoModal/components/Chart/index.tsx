@@ -16,6 +16,8 @@ export const options = {
         },
     },
     responsive: true,
+    events: [],
+    cutoutPercentage: 60,
 };
 
 function Chart(props: Props): ReactElement {
