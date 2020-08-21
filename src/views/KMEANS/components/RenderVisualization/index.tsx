@@ -10,6 +10,7 @@ import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 
+
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
@@ -314,8 +315,8 @@ class KMeans extends Component<Props, State> {
             this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;
 
         //will be used it the mode is multiple iterations
-        const render:ReactElement[][] = [];
-        const variances:Variance[] = [];
+        let render:ReactElement[][] = [];
+        let variances:Variance[] = [];
         let best = 0;
 
 
@@ -324,17 +325,19 @@ class KMeans extends Component<Props, State> {
             this.props.setCurrentIteration(it);
 
             const variance = await this.handleSingleIteration();
-            console.log('complted one iter');
+            console.log('complted one iter',it+1,variance);
 
             if (this.props.kmeans.mode === KMEANSMode.SingleIteration) {
                 this.props.setInfo(variance);
             } else {
 
-                render.push(this.props.kmeans.render);
-                variances.push(variance);
+                render = [...render,[...this.props.kmeans.render]];
+                variances = [...variances,{...variance}];
+
                 if(variances[best].total > variance.total){
                     best = it;
                 }
+                
                 console.log({render,best,variances})
                 this.props.setInfo(({render,best,variances}));
             }

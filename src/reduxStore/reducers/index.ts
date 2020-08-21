@@ -19,7 +19,6 @@ export const rootReducer = combineReducers({
 });
 
 
-
 export interface RootState {
   userPreferences:UserPreferencesState,
   global:GlobalState,

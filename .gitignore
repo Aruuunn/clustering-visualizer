@@ -28,6 +28,3 @@ yarn-error.log*
 firebase.json
 
 .vscode
-
-.prettierrc.js
-.eslintrc.js
