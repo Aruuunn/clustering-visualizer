@@ -73,63 +73,55 @@ function InfoModal(props: Props): ReactElement {
     return (
         <div>
             <Grow in={open} timeout={100}>
-                <Paper
-                    component={Grid}
-                    variant="outlined"
-                    style={{
-                        position: 'fixed',
-                        right: 20,
-                        top: '70px',
-                        width: xs ? '80vw' : '300px',
-                        height: '80vh',
-                        padding: '10px',
-                        overflow: 'auto',
-                    }}
+                <Swipeable
+                    onSwipedRight={handleSwipeRight}
+                    onSwipedLeft={handleSwipeLeft}
+                    onSwipedDown={handleSwipeDown}
+                    {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
+                    style={{ height: '100%', width: '100%' }}
                 >
-                    <IconButton
+                    <Paper
                         component={Grid}
-                        container
-                        onClick={() => setOpen((s) => !s)}
-                        justify="center"
-                        alignItems="center"
+                        variant="outlined"
                         style={{
-                            height: 'auto',
-                            width: '100%',
-                            position: 'absolute',
-                            backgroundColor: 'grey',
-                            color: 'white',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            borderRadius: 0,
+                            position: 'fixed',
+                            right: 20,
+                            top: '70px',
+                            width: xs ? '80vw' : '300px',
+                            height: '80vh',
+                            padding: '10px',
+                            overflow: 'auto',
                         }}
                     >
-                        <SvgIcon>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
-                            </svg>
-                        </SvgIcon>
-                    </IconButton>
+                        <IconButton
+                            component={Grid}
+                            container
+                            onClick={() => setOpen((s) => !s)}
+                            justify="center"
+                            alignItems="center"
+                            style={{
+                                height: 'auto',
+                                width: '100%',
+                                position: 'absolute',
+                                backgroundColor: 'grey',
+                                color: 'white',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                borderRadius: 0,
+                            }}
+                        >
+                            <SvgIcon>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                    <path d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                                </svg>
+                            </SvgIcon>
+                        </IconButton>
 
-                    {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                        <Swipeable
-                            style={{ height: '100%', width: '100%' }}
-                            onSwipedRight={handleSwipeRight}
-                            onSwipedLeft={handleSwipeLeft}
-                            onSwipedDown={handleSwipeDown}
-                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
-                        >
+                        {props.kmeans.mode === KMEANSMode.SingleIteration ? (
                             <Chart variance={info as Variance} />
-                        </Swipeable>
-                    ) : page !== 0 ? (
-                        <Swipeable
-                            onSwipedRight={handleSwipeRight}
-                            onSwipedLeft={handleSwipeLeft}
-                            onSwipedDown={handleSwipeDown}
-                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
-                            style={{ height: '100%', width: '100%' }}
-                        >
+                        ) : page !== 0 ? (
                             <Chart variance={(info as DetailedInfo).variances[page - 1]}>
                                 <Pagination
                                     style={{ position: 'absolute', bottom: '10px' }}
@@ -141,16 +133,7 @@ function InfoModal(props: Props): ReactElement {
                                     color="secondary"
                                 />
                             </Chart>
-                        </Swipeable>
-                    ) : (
-                        <Swipeable
-                            onSwipedRight={handleSwipeRight}
-                            onSwipedLeft={handleSwipeLeft}
-                            onSwipedDown={handleSwipeDown}
-                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
-                            style={{ height: '100%', width: '100%' }}
-                        >
-                            {' '}
+                        ) : (
                             <Chart variance={null}>
                                 {[
                                     <div key={0} style={{ padding: '10px', position: 'absolute', top: '80px' }}>
@@ -190,9 +173,9 @@ function InfoModal(props: Props): ReactElement {
                                     />,
                                 ]}
                             </Chart>
-                        </Swipeable>
-                    )}
-                </Paper>
+                        )}
+                    </Paper>
+                </Swipeable>
             </Grow>
         </div>
     );
