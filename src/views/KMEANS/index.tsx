@@ -23,9 +23,10 @@ function KMEANS(props: Props): ReactElement {
     <div>
       <NavBar />
       <Board component={<RenderVisualization />} />
-      {props.kmeans.info === null ||
+      {
+     ( props.kmeans.info === null ||
       (props.kmeans.currentIteration === null &&
-        props.kmeans.mode === KMEANSMode.MultipleIteration) ? null : (
+        props.kmeans.mode === KMEANSMode.MultipleIteration)) ? null : (
         <InfoModal />
       )}
     </div>

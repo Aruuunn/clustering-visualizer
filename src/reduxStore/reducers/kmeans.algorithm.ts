@@ -73,9 +73,6 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
         case KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION:
             return { ...state, currentIteration: action.payload as number };
 
-        // case KMEANSAlgorithmActionTypes.SET_SHOW_INFO:
-        //     return { ...state, showInfo: action.payload };
-
         case KMEANSAlgorithmActionTypes.ADD_TO_INFO:
             return { ...state, info: {...(state.info as DetailedInfo)} };
 

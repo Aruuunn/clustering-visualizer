@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
+import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow, Typography } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
@@ -8,8 +8,8 @@ import { RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
+import PieChartIcon from '../../../../assets/pie-chart.svg';
 import Chart from './components/Chart';
-
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -17,21 +17,18 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
-
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
-
 function InfoModal(props: Props): ReactElement {
-
     const xs = !useMediaQuery('(min-width:310px)');
+    const below650px = !useMediaQuery('(min-height:620px)');
 
     const [open, setOpen] = useState(false);
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
 
     const info = props.kmeans.info;
-
 
     if (!open) {
         return (
@@ -48,7 +45,6 @@ function InfoModal(props: Props): ReactElement {
         );
     }
 
-
     return (
         <div>
             <Grow in={open} timeout={100}>
@@ -62,6 +58,7 @@ function InfoModal(props: Props): ReactElement {
                         width: xs ? '80vw' : '300px',
                         height: '80vh',
                         padding: '10px',
+                        overflow: 'auto',
                     }}
                 >
                     <IconButton
@@ -91,18 +88,58 @@ function InfoModal(props: Props): ReactElement {
                     </IconButton>
 
                     {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                        <Chart variance={(info as Variance)} mode={props.kmeans.mode}/>
-                    ) : (
-                      <Chart variance={(info as DetailedInfo).variances[page - 1]} mode={props.kmeans.mode} >
-                             <Pagination
+                        <Chart variance={info as Variance} />
+                    ) : page !== 0 ? (
+                        <Chart variance={(info as DetailedInfo).variances[page - 1]}>
+                            <Pagination
                                 count={(info as DetailedInfo).render.length || 0}
-                                defaultPage={1}
-                                onChange={( _ , val) => {
+                                page={page}
+                                onChange={(_, val) => {
                                     setPage(val);
                                 }}
                                 color="secondary"
                             />
-                      </Chart>                    
+                        </Chart>
+                    ) : (
+                        <Chart variance={null}>
+                            {[
+                                <div key={0} style={{ padding: '10px', position: 'absolute', top: '80px' }}>
+                                    <Typography
+                                        variant="h4"
+                                        align="center"
+                                        style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
+                                    >
+                                        Statistics
+                                    </Typography>
+                                    <Typography variant="body1" align="center">
+                                        Click the Iteration number to see the statistics for that iteration.
+                                    </Typography>
+                                </div>,
+                                <img
+                                    src={PieChartIcon}
+                                    style={{
+                                        maxWidth: 150,
+                                        width: '100%',
+                                        height: 'auto',
+                                        position: below650px ? 'absolute' : 'relative',
+                                        top: '-50px',
+                                        visibility: below650px ? 'hidden' : 'visible',
+                                    }}
+                                    key={1}
+                                    alt="stats"
+                                />,
+                                <Pagination
+                                    style={{ position: 'absolute', bottom: '10px' }}
+                                    key={3}
+                                    count={(info as DetailedInfo).render.length}
+                                    page={page}
+                                    onChange={(_, val) => {
+                                        setPage(val);
+                                    }}
+                                    color="secondary"
+                                />,
+                            ]}
+                        </Chart>
                     )}
                 </Paper>
             </Grow>

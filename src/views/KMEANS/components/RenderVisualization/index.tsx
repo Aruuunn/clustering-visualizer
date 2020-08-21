@@ -10,6 +10,7 @@ import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 
+
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
@@ -331,7 +332,7 @@ class KMeans extends Component<Props, State> {
             } else {
 
                 render = [...render,[...this.props.kmeans.render]];
-                variances = [...variances,variance];
+                variances = [...variances,{...variance}];
 
                 if(variances[best].total > variance.total){
                     best = it;
