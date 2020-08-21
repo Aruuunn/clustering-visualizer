@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow, Typography, useTheme } from '@material-ui/core';
+import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
@@ -48,6 +49,27 @@ function InfoModal(props: Props): ReactElement {
         );
     }
 
+    const handleSwipeLeft = (e: any) => {
+        if (
+            props.kmeans.info &&
+            props.kmeans.mode === KMEANSMode.MultipleIteration &&
+            page < (props.kmeans.info as DetailedInfo).render.length
+        ) {
+            console.log('right swipe');
+            setPage((s) => s + 1);
+        }
+    };
+
+    const handleSwipeRight = (e: any) => {
+        if (props.kmeans.info && props.kmeans.mode === KMEANSMode.MultipleIteration && page !== 0) {
+            setPage((s) => s - 1);
+        }
+    };
+
+    const handleSwipeDown = (e: any) => {
+        setOpen(false);
+    };
+
     return (
         <div>
             <Grow in={open} timeout={100}>
@@ -91,58 +113,81 @@ function InfoModal(props: Props): ReactElement {
                     </IconButton>
 
                     {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                        <Chart variance={info as Variance} />
+                        <Swipeable
+                            style={{ height: '100%', width: '100%' }}
+                            onSwipedRight={handleSwipeRight}
+                            onSwipedLeft={handleSwipeLeft}
+                            onSwipedDown={handleSwipeDown}
+                        >
+                            <Chart variance={info as Variance} />
+                        </Swipeable>
                     ) : page !== 0 ? (
-                        <Chart variance={(info as DetailedInfo).variances[page - 1]}>
-                            <Pagination
-                                count={(info as DetailedInfo).render.length || 0}
-                                page={page}
-                                onChange={(_, val) => {
-                                    setPage(val);
-                                }}
-                                color="secondary"
-                            />
-                        </Chart>
-                    ) : (
-                        <Chart variance={null}>
-                            {[
-                                <div key={0} style={{ padding: '10px', position: 'absolute', top: '80px' }}>
-                                    <Typography
-                                        variant="h4"
-                                        align="center"
-                                        style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
-                                    >
-                                        Statistics
-                                    </Typography>
-                                    <Typography variant="body1" align="center">
-                                        Click the Iteration number to see the statistics for that iteration.
-                                    </Typography>
-                                </div>,
-                                <img
-                                    src={PieChartIcon}
-                                    style={{
-                                        maxWidth: 150,
-                                        width: '100%',
-                                        height: 'auto',
-                                        position: below650px ? 'absolute' : 'relative',
-                                        top: '-50px',
-                                        visibility: below650px ? 'hidden' : 'visible',
-                                    }}
-                                    key={1}
-                                    alt="stats"
-                                />,
+                        <Swipeable
+                            onSwipedRight={handleSwipeRight}
+                            onSwipedLeft={handleSwipeLeft}
+                            onSwipedDown={handleSwipeDown}
+                            style={{ height: '100%', width: '100%' }}
+                        >
+                            <Chart variance={(info as DetailedInfo).variances[page - 1]}>
                                 <Pagination
                                     style={{ position: 'absolute', bottom: '10px' }}
-                                    key={3}
-                                    count={(info as DetailedInfo).render.length}
+                                    count={(info as DetailedInfo).render.length || 0}
                                     page={page}
                                     onChange={(_, val) => {
                                         setPage(val);
                                     }}
                                     color="secondary"
-                                />,
-                            ]}
-                        </Chart>
+                                />
+                            </Chart>
+                        </Swipeable>
+                    ) : (
+                        <Swipeable
+                            onSwipedRight={handleSwipeRight}
+                            onSwipedLeft={handleSwipeLeft}
+                            onSwipedDown={handleSwipeDown}
+                            style={{ height: '100%', width: '100%' }}
+                        >
+                            {' '}
+                            <Chart variance={null}>
+                                {[
+                                    <div key={0} style={{ padding: '10px', position: 'absolute', top: '80px' }}>
+                                        <Typography
+                                            variant="h4"
+                                            align="center"
+                                            style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
+                                        >
+                                            Statistics
+                                        </Typography>
+                                        <Typography variant="body1" align="center">
+                                            Click the Iteration number to see the statistics for that iteration.
+                                        </Typography>
+                                    </div>,
+                                    <img
+                                        src={PieChartIcon}
+                                        style={{
+                                            maxWidth: 150,
+                                            width: '100%',
+                                            height: 'auto',
+                                            position: below650px ? 'absolute' : 'relative',
+                                            top: '-50px',
+                                            visibility: below650px ? 'hidden' : 'visible',
+                                        }}
+                                        key={1}
+                                        alt="stats"
+                                    />,
+                                    <Pagination
+                                        style={{ position: 'absolute', bottom: '10px' }}
+                                        key={3}
+                                        count={(info as DetailedInfo).render.length}
+                                        page={page}
+                                        onChange={(_, val) => {
+                                            setPage(val);
+                                        }}
+                                        color="secondary"
+                                    />,
+                                ]}
+                            </Chart>
+                        </Swipeable>
                     )}
                 </Paper>
             </Grow>
