@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow, Typography } from '@material-ui/core';
+import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow, Typography, useTheme } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
@@ -22,7 +22,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 function InfoModal(props: Props): ReactElement {
+    const theme = useTheme();
     const xs = !useMediaQuery('(min-width:310px)');
+    const sm = useMediaQuery(theme.breakpoints.up('sm'));
+
     const below650px = !useMediaQuery('(min-height:620px)');
 
     const [open, setOpen] = useState(false);
@@ -37,7 +40,7 @@ function InfoModal(props: Props): ReactElement {
                     disabled={info === null}
                     color="secondary"
                     onClick={() => setOpen((s) => !s)}
-                    style={{ position: 'fixed', bottom: 20, right: 20 }}
+                    style={{ position: 'fixed', bottom: sm ? '45vh' : 20, right: 20 }}
                 >
                     <img src={barChartIcon} alt="statistics" />
                 </Fab>

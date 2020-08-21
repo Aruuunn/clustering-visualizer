@@ -7,8 +7,6 @@ import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import { ReactElement } from 'react';
 
-
-
 const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
 
 const mapDispatchToProps = {
@@ -22,7 +20,6 @@ const mapDispatchToProps = {
     }),
 };
 
-
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IBoardProps = PropsFromRedux & {
@@ -32,8 +29,6 @@ type IBoardProps = PropsFromRedux & {
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
 };
-
-
 
 class Board extends React.Component<IBoardProps, BoardState> {
     constructor(props: IBoardProps) {
@@ -134,6 +129,5 @@ class Board extends React.Component<IBoardProps, BoardState> {
         );
     }
 }
-
 
 export default connector(Board);
