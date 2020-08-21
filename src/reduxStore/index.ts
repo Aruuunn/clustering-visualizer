@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers'
 
 export * from './reducers';
-export * from './types';
+export * from './types'; 
 
 
 export default ():{store:Store,persistor:Persistor} => {

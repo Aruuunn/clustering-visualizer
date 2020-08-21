@@ -134,7 +134,7 @@ class NavBar extends Component<Props, State> {
 
                         <Button
                             key={1}
-                            size="small"
+                            // size="small"
                             variant="contained"
                             style={{ marginRight: '20px' }}
                             onClick={() => this.setState({ isIterationModeDialogOpen: true })}
@@ -185,7 +185,7 @@ export default withStyles((theme) => ({
         color: 'inherit',
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 1),
+        padding: theme.spacing(1.15, 1, 1.15, 1),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {

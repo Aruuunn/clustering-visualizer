@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Doughnut } from 'react-chartjs-2';
-import { Fab, useMediaQuery, Paper, Typography, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
+import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 
 import barChartIcon from '../../../../assets/bar_chart-24px.svg';
@@ -9,6 +8,8 @@ import { RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
+import Chart from './components/Chart';
+
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -16,11 +17,14 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
+
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
+
 function InfoModal(props: Props): ReactElement {
+
     const xs = !useMediaQuery('(min-width:310px)');
 
     const [open, setOpen] = useState(false);
@@ -28,11 +32,6 @@ function InfoModal(props: Props): ReactElement {
 
     const info = props.kmeans.info;
 
-    if ( info === null ||
-        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
-    ) {
-        return <div />;
-    }
 
     if (!open) {
         return (
@@ -43,43 +42,12 @@ function InfoModal(props: Props): ReactElement {
                     onClick={() => setOpen((s) => !s)}
                     style={{ position: 'fixed', bottom: 20, right: 20 }}
                 >
-                    <img src={barChartIcon} />
+                    <img src={barChartIcon} alt="statistics" />
                 </Fab>
             </Grow>
         );
     }
 
-
-
-    const data = { 
-        datasets: [
-            {
-                data:
-                  (  props.kmeans.mode === KMEANSMode.SingleIteration
-                        ? (info as Variance).variances
-                        : (info as DetailedInfo).variances[page - 1].variances) || [],
-                backgroundColor:
-                   ( props.kmeans.mode === KMEANSMode.SingleIteration
-                        ? (info as Variance).colors
-                        : (info as DetailedInfo).variances[page - 1].colors) || [],
-                borderColor: 'transparent',
-            },
-        ],
-        labels:
-           ( props.kmeans.mode === KMEANSMode.SingleIteration
-                ? (info as Variance).labels
-                : (info as DetailedInfo).variances[page - 1].labels) || [],
-    };
-
-    const options = {
-        legend: {
-            display: true,
-            labels: {
-                fontColor: 'white',
-            },
-        },
-        responsive: true,
-    };
 
     return (
         <div>
@@ -123,42 +91,18 @@ function InfoModal(props: Props): ReactElement {
                     </IconButton>
 
                     {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                        <Grid
-                            container
-                            alignItems="center"
-                            direction="column"
-                            justify="space-around"
-                            style={{ width: '100%', height: '100%' }}
-                        >
-                            <Typography variant="h6" style={{ paddingTop: '50px' }}>
-                                Total Variance - {info !== null ? (info as Variance).total.toFixed(1) : null}
-                            </Typography>
-
-                            <Doughnut width={50} height={50} options={options} data={data} />
-                        </Grid>
+                        <Chart variance={(info as Variance)} mode={props.kmeans.mode}/>
                     ) : (
-                        <Grid
-                            container
-                            alignItems="center"
-                            direction="column"
-                            justify="space-around"
-                            style={{ width: '100%', height: '100%' }}
-                        >
-                           { page!==0?<Typography variant="h6" style={{ paddingTop: '50px' }}>
-                                Total Variance -{' '}
-                                {info !== null ? (info as DetailedInfo).variances[page - 1].total.toFixed(1) : null}
-                            </Typography>:null}
-
-                            <Doughnut width={50} height={50} options={options} data={data} />
-                            <Pagination
+                      <Chart variance={(info as DetailedInfo).variances[page - 1]} mode={props.kmeans.mode} >
+                             <Pagination
                                 count={(info as DetailedInfo).render.length || 0}
                                 defaultPage={1}
-                                onChange={(e, val) => {
+                                onChange={( _ , val) => {
                                     setPage(val);
                                 }}
                                 color="secondary"
                             />
-                        </Grid>
+                      </Chart>                    
                     )}
                 </Paper>
             </Grow>

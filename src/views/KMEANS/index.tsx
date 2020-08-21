@@ -1,21 +1,35 @@
-import React, { ReactElement } from 'react';
-import Board from '../../components/Board';
-import RenderVisualization from './components/RenderVisualization';
-import NavBar from './components/NavBar';
-import InfoModal from './components/InfoModal';
+import React, { ReactElement } from "react";
+import { connect, ConnectedProps } from "react-redux";
 
-function KMEANS(): ReactElement {
-    return (
-        <div>
+import KMEANSMode from "../../common/kmeans.mode.enum";
+import Board from "../../components/Board";
+import RenderVisualization from "./components/RenderVisualization";
+import NavBar from "./components/NavBar";
+import { RootState } from "../../reduxStore";
+import InfoModal from "./components/InfoModal";
 
-            <NavBar />
+const mapStateToProps = (state: RootState) => ({
+  global: state.global,
+  kmeans: state.kmeans,
+  userPreference: state.userPreferences,
+});
 
-            <Board component={<RenderVisualization />} />
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux;
 
-            <InfoModal />
-            
-        </div>
-    );
+function KMEANS(props: Props): ReactElement {
+  return (
+    <div>
+      <NavBar />
+      <Board component={<RenderVisualization />} />
+      {props.kmeans.info === null ||
+      (props.kmeans.currentIteration === null &&
+        props.kmeans.mode === KMEANSMode.MultipleIteration) ? null : (
+        <InfoModal />
+      )}
+    </div>
+  );
 }
 
-export default KMEANS;
+export default connector(KMEANS);

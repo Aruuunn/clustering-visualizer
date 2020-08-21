@@ -160,7 +160,7 @@ class NavBar extends Component<Props, State> {
                                 <Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
-                                    size="small"
+                                    // size="small"
                                     onClick={this.handleAlgorithmMenu}
                                     startIcon={
                                         <SvgIcon>
@@ -178,7 +178,7 @@ class NavBar extends Component<Props, State> {
 
                                 <Button
                                     variant="contained"
-                                    size="small"
+                                    // size="small"
                                     aria-haspopup="true"
                                     onClick={this.handleSpeeMenu}
                                     style={{ marginRight: '20px' }}
@@ -202,7 +202,7 @@ class NavBar extends Component<Props, State> {
 
                                 <BlueButton
                                     variant="contained"
-                                    size="small"
+                                    // size="small"
                                     onClick={() => { 
                                         this.props.startVisualization();
                                     }}
