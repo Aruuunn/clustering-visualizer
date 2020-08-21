@@ -118,6 +118,7 @@ function InfoModal(props: Props): ReactElement {
                             onSwipedRight={handleSwipeRight}
                             onSwipedLeft={handleSwipeLeft}
                             onSwipedDown={handleSwipeDown}
+                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
                         >
                             <Chart variance={info as Variance} />
                         </Swipeable>
@@ -126,6 +127,7 @@ function InfoModal(props: Props): ReactElement {
                             onSwipedRight={handleSwipeRight}
                             onSwipedLeft={handleSwipeLeft}
                             onSwipedDown={handleSwipeDown}
+                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
                             style={{ height: '100%', width: '100%' }}
                         >
                             <Chart variance={(info as DetailedInfo).variances[page - 1]}>
@@ -145,6 +147,7 @@ function InfoModal(props: Props): ReactElement {
                             onSwipedRight={handleSwipeRight}
                             onSwipedLeft={handleSwipeLeft}
                             onSwipedDown={handleSwipeDown}
+                            {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
                             style={{ height: '100%', width: '100%' }}
                         >
                             {' '}
