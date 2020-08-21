@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Typography, Grid } from '@material-ui/core';
-import { Doughnut } from 'react-chartjs-2';
-
+import Doughnut from '../DoughnutChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 
 interface Props {
@@ -47,7 +46,7 @@ function Chart(props: Props): ReactElement {
                     {`Total Variance - ${variance.total.toFixed(1)}`}
                 </Typography>
             ) : null}
-            <Doughnut width={50} height={50} options={options} data={data} />
+            <Doughnut variance={variance} width={50} height={50} options={options} data={data} />
 
             {children}
         </Grid>
