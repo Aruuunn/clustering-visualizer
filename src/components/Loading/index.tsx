@@ -15,7 +15,7 @@ const Loading = (): ReactElement => {
                 left: 0,
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: 'rgba(0,0,0,0.8)',
+                background: 'linear-gradient(90deg,#434343,black)',
             }}
         >
             <div className="spinner">

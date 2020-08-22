@@ -1,5 +1,6 @@
 import React, { ReactElement, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import Loading from './components/Loading';
 
@@ -9,13 +10,16 @@ const KMEANSView = lazy(() => import('./views/KMEANS'));
 function App(): ReactElement {
     return (
         <div style={{ height: '100vh', overflow: 'hidden' }}>
-            <Suspense fallback={<Loading />}>
+            <ErrorBoundary>
                 {' '}
-                <Switch>
-                    <Route path="/kmeans" component={KMEANSView} />
-                    <Route exact path="/" component={Home} />
-                </Switch>
-            </Suspense>
+                <Suspense fallback={<Loading />}>
+                    {' '}
+                    <Switch>
+                        <Route path="/kmeans" component={KMEANSView} />
+                        <Route exact path="/" component={Home} />
+                    </Switch>
+                </Suspense>
+            </ErrorBoundary>
         </div>
     );
 }
