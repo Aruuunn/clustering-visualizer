@@ -1,17 +1,8 @@
 import React, { ReactElement } from 'react';
-import {
-    Typography,
-    Grid,
-    TableContainer,
-    TableBody,
-    Paper,
-    Table,
-    TableHead,
-    TableCell,
-    TableRow,
-} from '@material-ui/core';
+import { Grid, TableContainer, TableBody, Paper, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
 import Doughnut from '../DoughnutChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
+import LinearDistributionChart from '../../../../../../components/LinearDistributionChart';
 
 interface Props {
     variance: Variance | null;
@@ -45,6 +36,8 @@ function Chart(props: Props): ReactElement {
         labels: (variance ? variance.labels : []) || [],
     };
 
+    const below705px = useMediaQuery('(max-height:705px)');
+
     return (
         <Grid
             container
@@ -53,22 +46,6 @@ function Chart(props: Props): ReactElement {
             justify="space-around"
             style={{ width: '100%', height: '100%', overflow: 'hidden', paddingTop: '50px' }}
         >
-            {/* {variance ? (
-                <div style={{ paddingTop: '50px' }}>
-                    {' '}
-                    {props.iteration ? (
-                        <Typography style={{ width: '100%' }} variant="body1" align="center">
-                            Iteration - {props.iteration}
-                        </Typography>
-                    ) : null}{' '}
-                    <Typography align="left" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
-                        Total within-Cluster Variance : <b>{variance.total.toFixed(1)}</b>
-                    </Typography>
-                    <Typography align="left" variant="h6" style={{ marginTop: '20px', width: '100%' }}>
-                        Silhouette Score : <b>{variance.silhouetteScore.toFixed(2)}</b>
-                    </Typography>
-                </div>
-            ) : null} */}
             <TableContainer component={Paper} variant="outlined">
                 <Table>
                     <TableBody>
@@ -99,7 +76,16 @@ function Chart(props: Props): ReactElement {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Doughnut variance={variance} width={5} height={5} options={options} data={data} />
+            {!below705px ? (
+                <Doughnut variance={variance} width={5} height={5} options={options} data={data} />
+            ) : (
+                <LinearDistributionChart
+                    height={10}
+                    data={variance?.variances.map((o) => o / variance.total)}
+                    colors={variance?.colors}
+                    labels={variance?.labels}
+                />
+            )}
             {children}
         </Grid>
     );

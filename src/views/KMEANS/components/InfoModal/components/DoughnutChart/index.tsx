@@ -21,7 +21,7 @@ function DoughnutChart(props: Props): ReactElement {
 
         const ctx = ele.getContext('2d');
         if (ctx) {
-            const myChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'doughnut',
                 data: data,
                 options: options,
