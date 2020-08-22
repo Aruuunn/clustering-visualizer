@@ -1,15 +1,14 @@
-import React, { ReactElement } from 'react'
-import NavBar from '../../components/CommonNavBar'
-import Board from '../../components/Board'
-
+import React, { ReactElement } from 'react';
+import NavBar from '../../components/CommonNavBar';
+import Board from '../../components/Board';
 
 function Home(): ReactElement {
     return (
         <div>
-            <NavBar/>
-            <Board/>
+            <NavBar />
+            <Board />
         </div>
-    )
+    );
 }
 
 export default Home;

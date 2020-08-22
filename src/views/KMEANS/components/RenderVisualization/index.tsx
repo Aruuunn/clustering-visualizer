@@ -9,7 +9,7 @@ import { getColor } from '../../../../utils/getRandomColor';
 import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
-
+import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -39,8 +39,7 @@ const mapDispatchToProps = {
     }),
     setInfo: (info: Variance | DetailedInfo | null) => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: info }),
 
-    setCurrentIteration:(iter:number) => ({type:KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION,payload:iter})
-
+    setCurrentIteration: (iter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION, payload: iter }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -152,7 +151,7 @@ class KMeans extends Component<Props, State> {
     };
 
     calculateVarianceOfClusters = (clusters: number[][][]) => {
-        const variance: Variance = { total: 0, colors: [], labels: [], variances: [] };
+        const variance: Variance = { total: 0, colors: [], labels: [], variances: [], silhouetteScore: -1 };
 
         for (let iter = 0; iter < this.numberOfClusters; iter++) {
             const cluster = clusters[iter];
@@ -164,17 +163,16 @@ class KMeans extends Component<Props, State> {
             variance.variances.push(temp);
             variance.labels.push(`C${iter + 1}`);
         }
+        variance.silhouetteScore = calculateSilhouetteScore(clusters, this.state.centroids);
 
         return variance;
     };
 
     handleSingleIteration = async (): Promise<Variance> => {
-
         let loss = 1000;
         let clusters: number[][][] = [];
 
         while (Math.floor(loss) > 0) {
-
             this.props.resetAlgoData();
 
             clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
@@ -310,36 +308,33 @@ class KMeans extends Component<Props, State> {
         }
 
         this.props.setInfo(null);
-    
+
         const totalIterations =
             this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;
 
         //will be used it the mode is multiple iterations
-        let render:ReactElement[][] = [];
-        let variances:Variance[] = [];
+        let render: ReactElement[][] = [];
+        let variances: Variance[] = [];
         let best = 0;
-
-
 
         for (let it = 0; it < totalIterations; it++) {
             this.props.setCurrentIteration(it);
 
             const variance = await this.handleSingleIteration();
-            console.log('complted one iter',it+1,variance);
+            console.log('complted one iter', it + 1, variance);
 
             if (this.props.kmeans.mode === KMEANSMode.SingleIteration) {
                 this.props.setInfo(variance);
             } else {
+                render = [...render, [...this.props.kmeans.render]];
+                variances = [...variances, { ...variance }];
 
-                render = [...render,[...this.props.kmeans.render]];
-                variances = [...variances,{...variance}];
-
-                if(variances[best].total > variance.total){
+                if (variances[best].silhouetteScore < variance.silhouetteScore) {
                     best = it;
                 }
-                
-                console.log({render,best,variances})
-                this.props.setInfo(({render,best,variances}));
+
+                console.log({ render, best, variances });
+                this.props.setInfo({ render, best, variances });
             }
 
             if (it + 1 < totalIterations) {

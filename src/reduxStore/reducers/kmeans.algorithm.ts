@@ -3,12 +3,12 @@ import { ReactElement } from 'react';
 import { KMEANSAlgorithmActionTypes } from '../types/KMEANS.algorithm.types';
 import KMEANSMode from '../../common/kmeans.mode.enum';
 
-
 export type Variance = {
     total: number;
     colors: string[];
     variances: number[];
     labels: string[];
+    silhouetteScore: number;
 };
 
 export type DetailedInfo = { render: ReactElement[][]; variances: Variance[]; best: number };
@@ -56,10 +56,10 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
             temp.pop();
             return { ...state, render: temp };
         case KMEANSAlgorithmActionTypes.SET_RENDER:
-            return { ...state, render: [...action.payload ]};
+            return { ...state, render: [...action.payload] };
 
         case KMEANSAlgorithmActionTypes.SET_ITERATION_MODE:
-            return { ...state, mode: action.payload as KMEANSMode};
+            return { ...state, mode: action.payload as KMEANSMode };
 
         case KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS:
             return { ...state, maxIterations: action.payload as number };
@@ -67,14 +67,20 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
         case KMEANSAlgorithmActionTypes.RESET_DATA:
             return { ...state, render: [] };
 
-        case KMEANSAlgorithmActionTypes.SET_INFO: 
-            return { ...state, info: state.mode===KMEANSMode.SingleIteration || action.payload===null ? action.payload:{...action.payload} };
+        case KMEANSAlgorithmActionTypes.SET_INFO:
+            return {
+                ...state,
+                info:
+                    state.mode === KMEANSMode.SingleIteration || action.payload === null
+                        ? action.payload
+                        : { ...action.payload },
+            };
 
         case KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION:
             return { ...state, currentIteration: action.payload as number };
 
         case KMEANSAlgorithmActionTypes.ADD_TO_INFO:
-            return { ...state, info: {...(state.info as DetailedInfo)} };
+            return { ...state, info: { ...(state.info as DetailedInfo) } };
 
         default:
             return state;
