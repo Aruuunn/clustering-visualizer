@@ -9,6 +9,7 @@ interface Props {
     width: number;
     height: number;
     variance: Variance | null;
+    key?: any;
 }
 
 function BarChart(props: Props): ReactElement {
@@ -39,7 +40,7 @@ function BarChart(props: Props): ReactElement {
     }, [props.variance]);
 
     return (
-        <div id="wrapper" style={{ position: 'relative', height: '30vh' }}>
+        <div id="wrapper" {...(props.key ? { key: props.key } : {})} style={{ position: 'relative', height: '40vh' }}>
             <canvas id="myChart"></canvas>{' '}
         </div>
     );

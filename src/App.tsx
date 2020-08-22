@@ -1,5 +1,6 @@
 import React, { ReactElement, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import TabsComponent from './views/KMEANS/components/InfoModal/components/TabsComponent';
 
 const Home = lazy(() => import('./views/Home'));
 
