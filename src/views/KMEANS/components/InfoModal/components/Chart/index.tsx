@@ -42,7 +42,6 @@ function Chart(props: Props): ReactElement {
             direction="column"
             justify="space-around"
             style={{ width: '100%', height: '100%' }}
-            {...rest}
         >
             {variance ? (
                 <div style={{ paddingTop: '50px' }}>
@@ -52,13 +51,15 @@ function Chart(props: Props): ReactElement {
                             Iteration - {props.iteration}
                         </Typography>
                     ) : null}{' '}
-                    <Typography align="center" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
-                        {`Total Variance - ${variance.total.toFixed(1)}`}
+                    <Typography align="left" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
+                        Total within-Cluster Variance : <b>{variance.total.toFixed(1)}</b>
+                    </Typography>
+                    <Typography align="left" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
+                        Silhouette Score : <b>{variance.silhouetteScore.toFixed(2)}</b>
                     </Typography>
                 </div>
             ) : null}
             <Doughnut variance={variance} width={50} height={50} options={options} data={data} />
-
             {children}
         </Grid>
     );

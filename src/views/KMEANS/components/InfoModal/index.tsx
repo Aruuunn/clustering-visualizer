@@ -31,6 +31,11 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
+enum Mode {
+    RESULT,
+    INFO,
+}
+
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
@@ -40,14 +45,17 @@ function InfoModal(props: Props): ReactElement {
     const xs = !useMediaQuery('(min-width:310px)');
     const sm = useMediaQuery(theme.breakpoints.up('sm'));
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [mode, setMode] = useState<Mode>(Mode.INFO); //show either result or info
+
     const [page, setPage] = useState<number>(0);
 
     const info = props.kmeans.info;
 
     if (
         props.kmeans.info === null ||
-        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
+        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration) ||
+        (mode === Mode.RESULT && props.global.start === true)
     ) {
         return <div />;
     }
@@ -63,7 +71,10 @@ function InfoModal(props: Props): ReactElement {
                     {' '}
                     <BlueFab
                         disabled={info === null}
-                        onClick={() => setOpen((s) => !s)}
+                        onClick={() => {
+                            setOpen((s) => !s);
+                            setMode(Mode.RESULT);
+                        }}
                         style={{ position: 'fixed', bottom: sm ? '30vh' : 20, right: 20 }}
                     >
                         {ResultImage}
@@ -71,7 +82,10 @@ function InfoModal(props: Props): ReactElement {
                     <Fab
                         disabled={info === null}
                         color="secondary"
-                        onClick={() => setOpen((s) => !s)}
+                        onClick={() => {
+                            setOpen((s) => !s);
+                            setMode(Mode.INFO);
+                        }}
                         style={{ position: 'fixed', bottom: sm ? '45vh' : 20, right: 20 }}
                     >
                         {InfoImage}
@@ -150,26 +164,77 @@ function InfoModal(props: Props): ReactElement {
                                 </svg>
                             </SvgIcon>
                         </IconButton>
-
-                        {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                            <Chart iteration={null} variance={info as Variance} />
-                        ) : page !== 0 ? (
-                            <Chart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
-                                <Grid alignItems="center" justify="center" container key={3} style={{ width: '100%' }}>
-                                    {' '}
-                                    <Pagination
-                                        count={(info as DetailedInfo).render.length}
-                                        page={page}
-                                        onChange={(_, val) => {
-                                            setPage(val);
+                        {mode === Mode.INFO ? (
+                            props.kmeans.mode === KMEANSMode.SingleIteration ? (
+                                <Chart iteration={null} variance={info as Variance} />
+                            ) : page !== 0 ? (
+                                <Chart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
+                                    <Grid
+                                        alignItems="center"
+                                        justify="center"
+                                        container
+                                        key={3}
+                                        style={{ width: '100%' }}
+                                    >
+                                        {' '}
+                                        <Pagination
+                                            count={(info as DetailedInfo).render.length}
+                                            page={page}
+                                            onChange={(_, val) => {
+                                                setPage(val);
+                                            }}
+                                            color="secondary"
+                                        />
+                                        {props.global.start === true ? (
+                                            <CircularProgress size={20} color="secondary" />
+                                        ) : null}
+                                    </Grid>
+                                </Chart>
+                            ) : (
+                                <Grid
+                                    container
+                                    alignItems="center"
+                                    direction="column"
+                                    justify="space-around"
+                                    style={{ width: '100%', height: '100%' }}
+                                >
+                                    <div style={{ paddingTop: '60px' }}>
+                                        <Typography
+                                            variant="h4"
+                                            align="center"
+                                            style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
+                                        >
+                                            Statistics
+                                        </Typography>
+                                        <Typography variant="body1" align="center">
+                                            Click the Iteration number to see the statistics for that iteration.
+                                        </Typography>
+                                    </div>
+                                    <img
+                                        src={PieChartIcon}
+                                        style={{
+                                            maxWidth: 150,
+                                            width: '100%',
+                                            height: 'auto',
                                         }}
-                                        color="secondary"
+                                        alt="stats"
                                     />
-                                    {props.global.start === true ? (
-                                        <CircularProgress size={20} color="secondary" />
-                                    ) : null}
+                                    <Grid alignItems="center" justify="center" container style={{ width: '100%' }}>
+                                        {' '}
+                                        <Pagination
+                                            count={(info as DetailedInfo).render.length}
+                                            page={page}
+                                            onChange={(_, val) => {
+                                                setPage(val);
+                                            }}
+                                            color="secondary"
+                                        />
+                                        {props.global.start === true ? (
+                                            <CircularProgress size={20} color="secondary" />
+                                        ) : null}
+                                    </Grid>
                                 </Grid>
-                            </Chart>
+                            )
                         ) : (
                             <Grid
                                 container
@@ -178,41 +243,7 @@ function InfoModal(props: Props): ReactElement {
                                 justify="space-around"
                                 style={{ width: '100%', height: '100%' }}
                             >
-                                <div style={{ paddingTop: '60px' }}>
-                                    <Typography
-                                        variant="h4"
-                                        align="center"
-                                        style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
-                                    >
-                                        Statistics
-                                    </Typography>
-                                    <Typography variant="body1" align="center">
-                                        Click the Iteration number to see the statistics for that iteration.
-                                    </Typography>
-                                </div>
-                                <img
-                                    src={PieChartIcon}
-                                    style={{
-                                        maxWidth: 150,
-                                        width: '100%',
-                                        height: 'auto',
-                                    }}
-                                    alt="stats"
-                                />
-                                <Grid alignItems="center" justify="center" container style={{ width: '100%' }}>
-                                    {' '}
-                                    <Pagination
-                                        count={(info as DetailedInfo).render.length}
-                                        page={page}
-                                        onChange={(_, val) => {
-                                            setPage(val);
-                                        }}
-                                        color="secondary"
-                                    />
-                                    {props.global.start === true ? (
-                                        <CircularProgress size={20} color="secondary" />
-                                    ) : null}
-                                </Grid>
+                                <Typography>Best</Typography>
                             </Grid>
                         )}
                     </Paper>

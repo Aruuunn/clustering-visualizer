@@ -8,6 +8,7 @@ export type Variance = {
     colors: string[];
     variances: number[];
     labels: string[];
+    silhouetteScore: number;
 };
 
 export type DetailedInfo = { render: ReactElement[][]; variances: Variance[]; best: number };

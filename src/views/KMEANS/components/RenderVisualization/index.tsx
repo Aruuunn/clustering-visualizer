@@ -9,6 +9,7 @@ import { getColor } from '../../../../utils/getRandomColor';
 import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
+import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -150,7 +151,7 @@ class KMeans extends Component<Props, State> {
     };
 
     calculateVarianceOfClusters = (clusters: number[][][]) => {
-        const variance: Variance = { total: 0, colors: [], labels: [], variances: [] };
+        const variance: Variance = { total: 0, colors: [], labels: [], variances: [], silhouetteScore: -1 };
 
         for (let iter = 0; iter < this.numberOfClusters; iter++) {
             const cluster = clusters[iter];
@@ -162,6 +163,7 @@ class KMeans extends Component<Props, State> {
             variance.variances.push(temp);
             variance.labels.push(`C${iter + 1}`);
         }
+        variance.silhouetteScore = calculateSilhouetteScore(clusters, this.state.centroids);
 
         return variance;
     };
