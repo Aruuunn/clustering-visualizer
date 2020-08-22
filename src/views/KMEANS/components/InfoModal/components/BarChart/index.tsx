@@ -1,5 +1,6 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Chart from 'chart.js';
+
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 
 interface Props {
@@ -10,8 +11,10 @@ interface Props {
     variance: Variance | null;
 }
 
-function DoughnutChart(props: Props): ReactElement {
+function BarChart(props: Props): ReactElement {
     const { data, options } = props;
+    Chart.defaults.global.defaultFontColor = '#D3D3D3';
+    const [chart, setChart] = useState<Chart | null>(null);
 
     useEffect(() => {
         const ele = document.getElementById('myChart') as HTMLCanvasElement;
@@ -21,15 +24,21 @@ function DoughnutChart(props: Props): ReactElement {
 
         const ctx = ele.getContext('2d');
         if (ctx) {
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: data,
-                options: options,
-            });
+            if (!chart) {
+                const newChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: data,
+                    options: options,
+                });
+                setChart(newChart);
+            } else {
+                chart.data = data;
+                chart.update();
+            }
         }
     }, [props.variance]);
 
     return <canvas id="myChart" width={props.width} height={props.height}></canvas>;
 }
 
-export default DoughnutChart;
+export default BarChart;

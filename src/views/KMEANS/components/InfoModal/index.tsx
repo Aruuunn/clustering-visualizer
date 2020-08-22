@@ -22,7 +22,7 @@ import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import PieChartIcon from '../../../../assets/pie-chart.svg';
 import ResultIcon from '../../../../assets/result.svg';
-import Chart from './components/Chart';
+import RenderChart from './components/RenderChart';
 import BlueFab from '../../../../components/BlueFab';
 
 const mapStateToProps = (state: RootState) => ({
@@ -166,9 +166,9 @@ function InfoModal(props: Props): ReactElement {
                         </IconButton>
                         {mode === Mode.INFO ? (
                             props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                                <Chart iteration={null} variance={info as Variance} />
+                                <RenderChart iteration={null} variance={info as Variance} />
                             ) : page !== 0 ? (
-                                <Chart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
+                                <RenderChart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
                                     <Grid
                                         alignItems="center"
                                         justify="center"
@@ -189,7 +189,7 @@ function InfoModal(props: Props): ReactElement {
                                             <CircularProgress size={20} color="secondary" />
                                         ) : null}
                                     </Grid>
-                                </Chart>
+                                </RenderChart>
                             ) : (
                                 <Grid
                                     container
@@ -240,7 +240,7 @@ function InfoModal(props: Props): ReactElement {
                                 <Typography variant="h6" style={{ paddingTop: '60px' }}>
                                     Clusters with Best Silhouette Score
                                 </Typography>
-                                <Chart
+                                <RenderChart
                                     iteration={(props.kmeans.info as DetailedInfo).best + 1}
                                     variance={
                                         (props.kmeans.info as DetailedInfo).variances[

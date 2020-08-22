@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Grid, TableContainer, TableBody, Paper, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
-import Doughnut from '../DoughnutChart';
+import BarChart from '../BarChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 import LinearDistributionChart from '../../../../../../components/LinearDistributionChart';
 
@@ -12,17 +12,22 @@ interface Props {
 
 export const options = {
     legend: {
-        display: true,
+        display: false,
         labels: {
             fontColor: 'white',
         },
     },
+    title: {
+        display: true,
+        text: 'Variance Distribution',
+        fontColor: '#ffff',
+    },
     responsive: true,
-    events: [],
-    cutoutPercentage: 60,
+    // events: ['click'],
+    // cutoutPercentage: 60,
 };
 
-function Chart(props: Props): ReactElement {
+function ChartComponent(props: Props): ReactElement {
     const { variance, children } = props;
 
     const data = {
@@ -77,7 +82,7 @@ function Chart(props: Props): ReactElement {
                 </Table>
             </TableContainer>
             {!below705px ? (
-                <Doughnut variance={variance} width={5} height={5} options={options} data={data} />
+                <BarChart variance={variance} width={5} height={5} options={options} data={data} />
             ) : (
                 <LinearDistributionChart
                     height={10}
@@ -91,4 +96,4 @@ function Chart(props: Props): ReactElement {
     );
 }
 
-export default Chart;
+export default ChartComponent;
