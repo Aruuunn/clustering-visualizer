@@ -48,13 +48,11 @@ class NavBar extends Component<Props, State> {
         }
     };
 
-    componentDidMount(){
-        if(this.props.global.algorithm!==AlgorithmNames.KMEANS)
-        this.props.setAlgorithm(AlgorithmNames.KMEANS);
+    componentDidMount() {
+        if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
     componentDidUpdate() {
-        if(this.props.global.algorithm!==AlgorithmNames.KMEANS)
-        this.props.setAlgorithm(AlgorithmNames.KMEANS);
+        if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
 
     render() {
@@ -92,12 +90,12 @@ class NavBar extends Component<Props, State> {
                                 key={1}
                                 variant="contained"
                                 style={{
-                                    width: "100%",
-                                    maxWidth: "500px",
+                                    width: '100%',
+                                    maxWidth: '500px',
                                     marginLeft: 0,
                                     marginRight: 0,
-                                    marginTop: "10px",
-                                  }}
+                                    marginTop: '10px',
+                                }}
                                 onClick={() => this.setState({ isIterationModeDialogOpen: true })}
                                 startIcon={
                                     <SvgIcon>
@@ -112,7 +110,6 @@ class NavBar extends Component<Props, State> {
                                     ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
                                     : `Find best value of K - ${this.props.kmeans.maxIterations}`}
                             </Button>
-                            
                         </Grid>,
                     ]}
                 >

@@ -8,7 +8,7 @@ import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
 import Speed from '../../common/speed.enum';
 import menuIcon from '../../assets/menu.svg';
-import BlueButton from '../../common/BlueButton';
+import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';
 import Drawer from '../Drawer';
 import { withRouter, RouteComponentProps } from 'react-router-dom';

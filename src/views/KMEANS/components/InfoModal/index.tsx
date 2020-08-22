@@ -21,7 +21,9 @@ import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import PieChartIcon from '../../../../assets/pie-chart.svg';
+import ResultIcon from '../../../../assets/result.svg';
 import Chart from './components/Chart';
+import BlueFab from '../../../../components/BlueFab';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -38,8 +40,6 @@ function InfoModal(props: Props): ReactElement {
     const xs = !useMediaQuery('(min-width:310px)');
     const sm = useMediaQuery(theme.breakpoints.up('sm'));
 
-    const below650px = !useMediaQuery('(min-height:620px)');
-
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState<number>(0);
 
@@ -53,19 +53,30 @@ function InfoModal(props: Props): ReactElement {
     }
 
     //To preload the image
-    const Image = <img src={barChartIcon} alt="statistics" />;
+    const InfoImage = <img src={barChartIcon} alt="statistics" />;
+    const ResultImage = <img src={ResultIcon} alt="statistics" />;
 
     if (!open) {
         return (
             <Grow in={!open}>
-                <Fab
-                    disabled={info === null}
-                    color="secondary"
-                    onClick={() => setOpen((s) => !s)}
-                    style={{ position: 'fixed', bottom: sm ? '45vh' : 20, right: 20 }}
-                >
-                    {Image}
-                </Fab>
+                <div>
+                    {' '}
+                    <BlueFab
+                        disabled={info === null}
+                        onClick={() => setOpen((s) => !s)}
+                        style={{ position: 'fixed', bottom: sm ? '30vh' : 20, right: 20 }}
+                    >
+                        {ResultImage}
+                    </BlueFab>
+                    <Fab
+                        disabled={info === null}
+                        color="secondary"
+                        onClick={() => setOpen((s) => !s)}
+                        style={{ position: 'fixed', bottom: sm ? '45vh' : 20, right: 20 }}
+                    >
+                        {InfoImage}
+                    </Fab>
+                </div>
             </Grow>
         );
     }

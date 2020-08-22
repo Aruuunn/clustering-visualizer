@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import { Dialog, DialogTitle, List, ListItem, ListItemText, Typography, TextField, Grid } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 
-import BlueButton from '../../../../common/BlueButton';
+import BlueButton from '../../../../components/BlueButton';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { RootState } from '../../../../reduxStore';
 import KMEANSAlgorithmActionTypes from '../../../../reduxStore/types/KMEANS.algorithm.types';

@@ -17,7 +17,7 @@ import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import UserDataActionTypes from '../../reduxStore/types/UserPreferences.types';
 import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
 import Speed from '../../common/speed.enum';
-import BlueButton from '../../common/BlueButton';
+import BlueButton from '../BlueButton';
 import { RootState } from '../../reduxStore';
 
 const mapStateToProps = (state: RootState) => ({
