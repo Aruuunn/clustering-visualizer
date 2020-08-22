@@ -1,6 +1,17 @@
 import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Fab, useMediaQuery, Paper, Grid, IconButton, SvgIcon, Grow, Typography, useTheme } from '@material-ui/core';
+import {
+    Fab,
+    useMediaQuery,
+    Paper,
+    Grid,
+    IconButton,
+    SvgIcon,
+    Grow,
+    Typography,
+    useTheme,
+    CircularProgress,
+} from '@material-ui/core';
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 
@@ -130,59 +141,68 @@ function InfoModal(props: Props): ReactElement {
                         </IconButton>
 
                         {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                            <Chart variance={info as Variance} />
+                            <Chart iteration={null} variance={info as Variance} />
                         ) : page !== 0 ? (
-                            <Chart variance={(info as DetailedInfo).variances[page - 1]}>
-                                <Pagination
-                                    style={{ position: 'absolute', bottom: '10px' }}
-                                    count={(info as DetailedInfo).render.length || 0}
-                                    page={page}
-                                    onChange={(_, val) => {
-                                        setPage(val);
-                                    }}
-                                    color="secondary"
-                                />
-                            </Chart>
-                        ) : (
-                            <Chart variance={null}>
-                                {[
-                                    <div key={0} style={{ padding: '10px', position: 'absolute', top: '80px' }}>
-                                        <Typography
-                                            variant="h4"
-                                            align="center"
-                                            style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
-                                        >
-                                            Statistics
-                                        </Typography>
-                                        <Typography variant="body1" align="center">
-                                            Click the Iteration number to see the statistics for that iteration.
-                                        </Typography>
-                                    </div>,
-                                    <img
-                                        src={PieChartIcon}
-                                        style={{
-                                            maxWidth: 150,
-                                            width: '100%',
-                                            height: 'auto',
-                                            position: below650px ? 'absolute' : 'relative',
-                                            top: '-50px',
-                                            visibility: below650px ? 'hidden' : 'visible',
-                                        }}
-                                        key={1}
-                                        alt="stats"
-                                    />,
+                            <Chart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
+                                <Grid alignItems="center" justify="center" container key={3} style={{ width: '100%' }}>
+                                    {' '}
                                     <Pagination
-                                        style={{ position: 'absolute', bottom: '10px' }}
-                                        key={3}
                                         count={(info as DetailedInfo).render.length}
                                         page={page}
                                         onChange={(_, val) => {
                                             setPage(val);
                                         }}
                                         color="secondary"
-                                    />,
-                                ]}
+                                    />
+                                    {props.global.start === true ? (
+                                        <CircularProgress size={20} color="secondary" />
+                                    ) : null}
+                                </Grid>
                             </Chart>
+                        ) : (
+                            <Grid
+                                container
+                                alignItems="center"
+                                direction="column"
+                                justify="space-around"
+                                style={{ width: '100%', height: '100%' }}
+                            >
+                                <div style={{ paddingTop: '60px' }}>
+                                    <Typography
+                                        variant="h4"
+                                        align="center"
+                                        style={{ width: '100%', marginBottom: '20px', fontWeight: 'bolder' }}
+                                    >
+                                        Statistics
+                                    </Typography>
+                                    <Typography variant="body1" align="center">
+                                        Click the Iteration number to see the statistics for that iteration.
+                                    </Typography>
+                                </div>
+                                <img
+                                    src={PieChartIcon}
+                                    style={{
+                                        maxWidth: 150,
+                                        width: '100%',
+                                        height: 'auto',
+                                    }}
+                                    alt="stats"
+                                />
+                                <Grid alignItems="center" justify="center" container style={{ width: '100%' }}>
+                                    {' '}
+                                    <Pagination
+                                        count={(info as DetailedInfo).render.length}
+                                        page={page}
+                                        onChange={(_, val) => {
+                                            setPage(val);
+                                        }}
+                                        color="secondary"
+                                    />
+                                    {props.global.start === true ? (
+                                        <CircularProgress size={20} color="secondary" />
+                                    ) : null}
+                                </Grid>
+                            </Grid>
                         )}
                     </Paper>
                 </Swipeable>

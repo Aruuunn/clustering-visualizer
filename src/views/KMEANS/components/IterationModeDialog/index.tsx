@@ -12,8 +12,7 @@ const mapStateToProps = (state: RootState) => ({ global: state.global });
 const mapDispatchToProps = {
     setMode: (mode: KMEANSMode) => ({ type: KMEANSAlgorithmActionTypes.SET_ITERATION_MODE, payload: mode }),
     setMaxIterations: (maxIter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS, payload: maxIter }),
-    setInfoNull:() => ({type:KMEANSAlgorithmActionTypes.SET_INFO,payload:null})
-
+    setInfoNull: () => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: null }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -30,7 +29,7 @@ function IterationModeDialog(props: Props): ReactElement {
     const [inputs, setInput] = useState({ input1: '', input2: '' });
 
     return (
-        <Dialog maxWidth="sm"  open={props.open} onClose={props.onClose}>
+        <Dialog maxWidth="sm" open={props.open} onClose={props.onClose}>
             {state === 0 ? (
                 <div>
                     <DialogTitle>Iteration Mode for K Means</DialogTitle>
@@ -42,13 +41,13 @@ function IterationModeDialog(props: Props): ReactElement {
                                 props.onClose();
                             }}
                         >
-                            <ListItemText
-                                primary="Single Iteration"
-                                secondary={"Runs the K-Means algorithm once."}
-                          />
+                            <ListItemText primary="Single Iteration" secondary={'Runs the K-Means algorithm once.'} />
                         </ListItem>
                         <ListItem button onClick={() => setState(1)}>
-                            <ListItemText primary="Multiple Iterations" secondary="Runs the k-means algorithm multiple times and calculates variance for each result and gives the best result"/>
+                            <ListItemText
+                                primary="Multiple Iterations"
+                                secondary="Runs the k-means algorithm multiple times and calculates variance for each result and gives the best result"
+                            />
                         </ListItem>{' '}
                         {/* <ListItem button onClick={() => setState(2)}>
                             <ListItemText primary="Find the best value for K (Recommended if you don't know the value of K)" secondary="Calculates variance for various values of 'K' and gives the best value for 'K'" />
@@ -56,9 +55,11 @@ function IterationModeDialog(props: Props): ReactElement {
                     </List>
                 </div>
             ) : state === 1 ? (
-                <Grid container justify="center" style={{ margin: '5px', padding: '20px',maxWidth:'300px' }}>
+                <Grid container justify="center" style={{ margin: '5px', padding: '20px', maxWidth: '300px' }}>
                     <DialogTitle>Number of Iterations</DialogTitle>
-                    <Typography variant="body2" gutterBottom style={{margin:'5px',width:'100%'}} align="center">How many times do you want to run K-Means algorithm?</Typography>
+                    <Typography variant="body2" gutterBottom style={{ margin: '5px', width: '100%' }} align="center">
+                        How many times do you want to run K-Means algorithm?
+                    </Typography>
                     <div>
                         <TextField
                             color="secondary"
@@ -81,7 +82,7 @@ function IterationModeDialog(props: Props): ReactElement {
                                 props.setInfoNull();
                                 props.onClose();
                             }}
-                         //   disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
+                            //   disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
                         >
                             Save
                         </BlueButton>
@@ -89,8 +90,12 @@ function IterationModeDialog(props: Props): ReactElement {
                 </Grid>
             ) : (
                 <Grid container justify="center" style={{ padding: '10px' }}>
-                    <DialogTitle style={{width:'100%'}}><Typography align="center" style={{width:'100%'}}>What is the maximum value of K?</Typography></DialogTitle>
-                    <div >
+                    <DialogTitle style={{ width: '100%' }}>
+                        <Typography align="center" style={{ width: '100%' }}>
+                            What is the maximum value of K?
+                        </Typography>
+                    </DialogTitle>
+                    <div>
                         <TextField
                             color="secondary"
                             value={inputs.input2}

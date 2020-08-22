@@ -6,6 +6,7 @@ import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm
 interface Props {
     variance: Variance | null;
     children?: ReactElement | ReactElement[];
+    iteration: number | null;
 }
 
 export const options = {
@@ -44,9 +45,17 @@ function Chart(props: Props): ReactElement {
             {...rest}
         >
             {variance ? (
-                <Typography align="center" variant="h6" style={{ paddingTop: '50px', width: '100%' }}>
-                    {`Total Variance - ${variance.total.toFixed(1)}`}
-                </Typography>
+                <div style={{ paddingTop: '50px' }}>
+                    {' '}
+                    {props.iteration ? (
+                        <Typography style={{ width: '100%' }} variant="body1" align="center">
+                            Iteration - {props.iteration}
+                        </Typography>
+                    ) : null}{' '}
+                    <Typography align="center" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
+                        {`Total Variance - ${variance.total.toFixed(1)}`}
+                    </Typography>
+                </div>
             ) : null}
             <Doughnut variance={variance} width={50} height={50} options={options} data={data} />
 
