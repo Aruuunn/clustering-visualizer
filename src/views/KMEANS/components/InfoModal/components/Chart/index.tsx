@@ -1,5 +1,15 @@
 import React, { ReactElement } from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import {
+    Typography,
+    Grid,
+    TableContainer,
+    TableBody,
+    Paper,
+    Table,
+    TableHead,
+    TableCell,
+    TableRow,
+} from '@material-ui/core';
 import Doughnut from '../DoughnutChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 
@@ -22,7 +32,7 @@ export const options = {
 };
 
 function Chart(props: Props): ReactElement {
-    const { variance, children, ...rest } = props;
+    const { variance, children } = props;
 
     const data = {
         datasets: [
@@ -41,9 +51,9 @@ function Chart(props: Props): ReactElement {
             alignItems="center"
             direction="column"
             justify="space-around"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', overflow: 'hidden', paddingTop: '50px' }}
         >
-            {variance ? (
+            {/* {variance ? (
                 <div style={{ paddingTop: '50px' }}>
                     {' '}
                     {props.iteration ? (
@@ -54,12 +64,42 @@ function Chart(props: Props): ReactElement {
                     <Typography align="left" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
                         Total within-Cluster Variance : <b>{variance.total.toFixed(1)}</b>
                     </Typography>
-                    <Typography align="left" variant="h6" style={{ marginTop: '10px', width: '100%' }}>
+                    <Typography align="left" variant="h6" style={{ marginTop: '20px', width: '100%' }}>
                         Silhouette Score : <b>{variance.silhouetteScore.toFixed(2)}</b>
                     </Typography>
                 </div>
-            ) : null}
-            <Doughnut variance={variance} width={50} height={50} options={options} data={data} />
+            ) : null} */}
+            <TableContainer component={Paper} variant="outlined">
+                <Table>
+                    <TableBody>
+                        {props.iteration ? (
+                            <TableRow>
+                                <TableCell align="left">
+                                    <strong>Iteration</strong>
+                                </TableCell>
+                                <TableCell align="left">{props.iteration}</TableCell>
+                            </TableRow>
+                        ) : null}
+                        {variance ? (
+                            <TableRow>
+                                <TableCell align="left">
+                                    <strong>Total within-Cluster Variance</strong>
+                                </TableCell>
+                                <TableCell align="left">{variance.total.toFixed(1)}</TableCell>
+                            </TableRow>
+                        ) : null}
+                        {variance ? (
+                            <TableRow>
+                                <TableCell align="left">
+                                    <strong>Silhouette Score</strong>
+                                </TableCell>
+                                <TableCell align="left">{variance.silhouetteScore.toFixed(2)}</TableCell>
+                            </TableRow>
+                        ) : null}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Doughnut variance={variance} width={5} height={5} options={options} data={data} />
             {children}
         </Grid>
     );

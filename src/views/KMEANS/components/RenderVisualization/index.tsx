@@ -329,7 +329,7 @@ class KMeans extends Component<Props, State> {
                 render = [...render, [...this.props.kmeans.render]];
                 variances = [...variances, { ...variance }];
 
-                if (variances[best].total > variance.total) {
+                if (variances[best].silhouetteScore < variance.silhouetteScore) {
                     best = it;
                 }
 

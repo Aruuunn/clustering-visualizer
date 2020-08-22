@@ -131,7 +131,7 @@ function InfoModal(props: Props): ReactElement {
                         variant="outlined"
                         style={{
                             position: 'fixed',
-                            right: 20,
+                            right: xs ? 10 : 20,
                             top: '70px',
                             width: xs ? '80vw' : '300px',
                             height: '80vh',
@@ -236,15 +236,19 @@ function InfoModal(props: Props): ReactElement {
                                 </Grid>
                             )
                         ) : (
-                            <Grid
-                                container
-                                alignItems="center"
-                                direction="column"
-                                justify="space-around"
-                                style={{ width: '100%', height: '100%' }}
-                            >
-                                <Typography>Best</Typography>
-                            </Grid>
+                            <div>
+                                <Typography variant="h6" style={{ paddingTop: '60px' }}>
+                                    Clusters with Best Silhouette Score
+                                </Typography>
+                                <Chart
+                                    iteration={(props.kmeans.info as DetailedInfo).best + 1}
+                                    variance={
+                                        (props.kmeans.info as DetailedInfo).variances[
+                                            (props.kmeans.info as DetailedInfo).best
+                                        ]
+                                    }
+                                />
+                            </div>
                         )}
                     </Paper>
                 </Swipeable>
