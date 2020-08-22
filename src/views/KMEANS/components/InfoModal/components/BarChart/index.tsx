@@ -38,7 +38,11 @@ function BarChart(props: Props): ReactElement {
         }
     }, [props.variance]);
 
-    return <canvas id="myChart" width={props.width} height={props.height}></canvas>;
+    return (
+        <div id="wrapper" style={{ position: 'relative', height: '30vh' }}>
+            <canvas id="myChart"></canvas>{' '}
+        </div>
+    );
 }
 
 export default BarChart;

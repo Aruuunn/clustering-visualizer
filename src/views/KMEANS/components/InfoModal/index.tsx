@@ -174,7 +174,9 @@ function InfoModal(props: Props): ReactElement {
                                         justify="center"
                                         container
                                         key={3}
-                                        style={{ width: '100%' }}
+                                        style={{
+                                            width: '100%',
+                                        }}
                                     >
                                         {' '}
                                         <Pagination
@@ -196,7 +198,7 @@ function InfoModal(props: Props): ReactElement {
                                     alignItems="center"
                                     direction="column"
                                     justify="space-around"
-                                    style={{ width: '100%', height: '100%' }}
+                                    style={{ width: '100%', height: '100%', overflow: 'auto' }}
                                 >
                                     <div style={{ paddingTop: '60px' }}>
                                         <Typography

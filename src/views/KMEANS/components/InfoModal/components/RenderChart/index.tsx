@@ -23,8 +23,7 @@ export const options = {
         fontColor: '#ffff',
     },
     responsive: true,
-    // events: ['click'],
-    // cutoutPercentage: 60,
+    maintainAspectRatio: false,
 };
 
 function ChartComponent(props: Props): ReactElement {
@@ -41,7 +40,7 @@ function ChartComponent(props: Props): ReactElement {
         labels: (variance ? variance.labels : []) || [],
     };
 
-    const below705px = useMediaQuery('(max-height:705px)');
+    const below705px = useMediaQuery('(max-height:200)');
 
     return (
         <Grid
