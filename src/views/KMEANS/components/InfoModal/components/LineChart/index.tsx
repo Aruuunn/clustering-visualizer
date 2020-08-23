@@ -32,7 +32,7 @@ const LineChart = (props: Props): ReactElement => {
         labels: details.variances.map((o, i) => i + 1),
         datasets: [
             {
-                data: details.variances.map((o) => o.silhouetteScore),
+                data: details.variances.map((o) => parseInt(o.silhouetteScore.toFixed(2))),
                 borderColor: theme.palette.secondary.main,
                 label: 'Silhouette Score vs Iteration',
                 fill: false,
