@@ -6,6 +6,7 @@ import { DetailedInfo } from '../../../../../../reduxStore/reducers/kmeans.algor
 
 interface Props {
     details: DetailedInfo;
+    key?: any;
 }
 
 export const options = {
@@ -18,14 +19,15 @@ export const options = {
     title: {
         display: true,
         text: 'Silhouette Score vs Iteration',
-        fontColor: '#ffff',
+        fontColor: '#d3d3d3',
+        fontSize: 14,
     },
     responsive: true,
     maintainAspectRatio: false,
 };
 
 const LineChart = (props: Props): ReactElement => {
-    const { details } = props;
+    const { details, ...rest } = props;
     const theme = useTheme();
 
     const data = {
@@ -65,7 +67,7 @@ const LineChart = (props: Props): ReactElement => {
     }, [props.details]);
 
     return (
-        <div id="wrapper" style={{ position: 'relative', height: '40vh' }}>
+        <div {...rest} id="wrapper" style={{ position: 'relative', height: '40vh', margin: '10px' }}>
             <canvas id="linechart"></canvas>{' '}
         </div>
     );

@@ -10,6 +10,7 @@ interface Props {
     children?: ReactElement | ReactElement[];
     iteration: number | null;
     mode: Mode;
+    key?: any;
 }
 
 export const options = {
@@ -22,14 +23,15 @@ export const options = {
     title: {
         display: true,
         text: 'Variance Distribution',
-        fontColor: '#ffff',
+        fontColor: '#d3d3d3',
+        fontSize: 14,
     },
     responsive: true,
     maintainAspectRatio: false,
 };
 
 function RenderChart(props: Props): ReactElement {
-    const { variance, children } = props;
+    const { variance, children, ...rest } = props;
 
     const data = {
         datasets: [
@@ -83,16 +85,24 @@ function RenderChart(props: Props): ReactElement {
 
     return (
         <Grid
+            {...rest}
             container
             alignItems="flex-start"
             direction="column"
             justify="space-around"
-            style={{ width: '100%', height: '100%', overflow: 'hidden', paddingTop: '50px' }}
+            style={{ width: '100%', height: 'auto', overflow: 'hidden', paddingTop: '50px' }}
         >
             {below650px || props.mode === Mode.RESULT ? (
                 <TabsComponent item1={TableComponent} item2={ChartComponent} />
             ) : (
-                [<div key={0}>{TableComponent}</div>, <div key={1}>{ChartComponent}</div>]
+                [
+                    <div key={0} style={{ margin: '10px' }}>
+                        {TableComponent}
+                    </div>,
+                    <div style={{ margin: '10px' }} key={1}>
+                        {ChartComponent}
+                    </div>,
+                ]
             )}
             {children}
         </Grid>
