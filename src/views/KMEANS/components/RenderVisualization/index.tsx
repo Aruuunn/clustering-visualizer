@@ -298,6 +298,12 @@ class KMeans extends Component<Props, State> {
             }
         }
 
+        for (let iter = 0; iter < this.renderCentroids.length; iter++) {
+            this.props.addToRender(this.renderCentroids[iter]);
+        }
+
+        this.renderCentroids = [];
+
         return this.calculateVarianceOfClusters(clusters);
     };
 

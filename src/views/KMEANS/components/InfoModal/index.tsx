@@ -11,12 +11,13 @@ import {
     Typography,
     useTheme,
     CircularProgress,
+    Divider,
 } from '@material-ui/core';
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 import Scrollbars from 'react-scrollbars-custom';
 
-import { RootState } from '../../../../reduxStore';
+import { KMEANSAlgorithmActionTypes, RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
@@ -24,6 +25,7 @@ import PieChartIcon from '../../../../assets/pie-chart.svg';
 import RenderChart from './components/RenderChart';
 import BlueFab from '../../../../components/BlueFab';
 import LineChart from './components/LineChart';
+import BlueButton from '../../../../components/BlueButton';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -36,7 +38,11 @@ export enum Mode {
     INFO,
 }
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+    setRender: (best: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.SET_RENDER, payload: best }),
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
@@ -286,9 +292,31 @@ function InfoModal(props: Props): ReactElement {
                                     )
                                 ) : (
                                     <div style={{ width: '100%', height: '100%' }}>
-                                        <Typography variant="h6" style={{ paddingTop: '60px' }}>
-                                            Clusters with Best Silhouette Score
+                                        <Typography variant="h6" style={{ paddingTop: '60px', paddingBottom: '20px' }}>
+                                            Clusters with The Best Silhouette Score
                                         </Typography>
+                                        <Grid
+                                            container
+                                            justify="center"
+                                            style={{ marginTop: '30px', marginBottom: '30px', width: '100%' }}
+                                        >
+                                            <BlueButton
+                                                variant="contained"
+                                                style={{ width: '100%' }}
+                                                onClick={() =>
+                                                    props.setRender(
+                                                        (props.kmeans.info as DetailedInfo).render[
+                                                            (props.kmeans.info as DetailedInfo).best
+                                                        ],
+                                                    )
+                                                }
+                                            >
+                                                View the best result
+                                            </BlueButton>
+                                        </Grid>
+                                        <Divider />
+                                        <LineChart details={props.kmeans.info as DetailedInfo} />
+
                                         <RenderChart
                                             mode={mode}
                                             iteration={(props.kmeans.info as DetailedInfo).best + 1}
@@ -298,7 +326,6 @@ function InfoModal(props: Props): ReactElement {
                                                 ]
                                             }
                                         />
-                                        <LineChart details={props.kmeans.info as DetailedInfo} />
                                     </div>
                                 )}
                             </Grid>

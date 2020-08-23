@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react';
-import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -61,36 +60,26 @@ export default function FullWidthTabs(props: Props) {
         setValue(newValue);
     };
 
-    const handleChangeIndex = (index: number) => {
-        setValue(index);
-    };
-
     return (
         <div className={classes.root}>
             <Tabs
+                variant="fullWidth"
                 value={value}
                 onChange={handleChange}
                 indicatorColor="secondary"
                 textColor="secondary"
-                variant="fullWidth"
                 aria-label="full width tabs example"
             >
                 <Tab label="Info" {...a11yProps(0)} />
                 <Tab label="Chart" {...a11yProps(1)} />
             </Tabs>
 
-            <SwipeableViews
-                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                    {props.item1}
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                    {props.item2}
-                </TabPanel>
-            </SwipeableViews>
+            <TabPanel value={value} index={0} dir={theme.direction}>
+                {props.item1}
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+                {props.item2}
+            </TabPanel>
         </div>
     );
 }
