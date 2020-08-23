@@ -45,6 +45,9 @@ class Board extends React.Component<IBoardProps, BoardState> {
     }
 
     handleMove = (event: React.PointerEvent<SVGSVGElement>, id: number) => {
+        if (this.props.global.start === true) {
+            return;
+        }
         event.persist();
         const currentNode = event.target as SVGSVGElement;
         let X = 0,
@@ -78,6 +81,9 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+        if (this.props.global.start === true) {
+            return;
+        }
         event.persist();
         const target = event.target as SVGSVGElement;
         const X = event.clientX - target.getBoundingClientRect().left;

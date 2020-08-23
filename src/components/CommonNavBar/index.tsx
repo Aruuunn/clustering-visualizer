@@ -43,6 +43,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux & {
     children?: ReactElement | ReactElement[];
     drawerChildren?: ReactElement | ReactElement[];
+    disabled?: () => boolean;
 } & RouteComponentProps;
 
 // NavBar
@@ -92,7 +93,12 @@ class NavBar extends Component<Props, State> {
     isDisabled = (): boolean => {
         const { global } = this.props;
 
-        if (global.algorithm === null || global.coordinatesOfNodes.length < 5 || global.start) {
+        if (
+            global.algorithm === null ||
+            global.coordinatesOfNodes.length < 5 ||
+            global.start ||
+            (this.props.disabled !== undefined ? this.props.disabled() : false)
+        ) {
             return true;
         }
 

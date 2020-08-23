@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@material-ui/core": "^4.11.0",
+        "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
@@ -12,9 +13,11 @@
         "@types/jest": "^24.0.0",
         "@types/node": "^12.0.0",
         "@types/react": "^16.9.0",
+        "@types/react-custom-scrollbars": "^4.0.7",
         "@types/react-dom": "^16.9.8",
         "@types/react-redux": "^7.1.9",
         "@types/react-router-dom": "^5.1.5",
+        "@types/react-swipeable-views": "^0.13.0",
         "@types/redux-devtools-extension": "^2.13.2",
         "@types/seedrandom": "^2.4.28",
         "@typescript-eslint/eslint-plugin": "^3.9.1",
@@ -23,13 +26,15 @@
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
         "gh-pages": "^3.1.0",
+        "i": "^0.3.6",
         "install": "^0.13.0",
-        "npm": "^6.14.7",
+        "npm": "^6.14.8",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-redux": "^7.2.1",
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.1",
+        "react-scrollbars-custom": "^4.0.25",
         "react-swipeable": "^5.5.1",
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
@@ -71,6 +76,9 @@
         }
     },
     "lint-staged": {
-        "*.{js,jsx,tsx,ts}": ["eslint --fix", "prettier --write"]
+        "*.{js,jsx,tsx,ts}": [
+            "eslint --fix",
+            "prettier --write"
+        ]
     }
 }
