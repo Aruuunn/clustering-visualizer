@@ -214,7 +214,8 @@ function InfoModal(props: Props): ReactElement {
         if (
             props.kmeans.info &&
             props.kmeans.mode === KMEANSMode.MultipleIteration &&
-            page < (props.kmeans.info as DetailedInfo).render.length
+            page < (props.kmeans.info as DetailedInfo).render.length &&
+            mode !== Mode.RESULT
         ) {
             console.log('right swipe');
             setPage((s) => s + 1);
@@ -222,13 +223,18 @@ function InfoModal(props: Props): ReactElement {
     };
 
     const handleSwipeRight = (e: any) => {
-        if (props.kmeans.info && props.kmeans.mode === KMEANSMode.MultipleIteration && page !== 0) {
+        if (
+            props.kmeans.info &&
+            props.kmeans.mode === KMEANSMode.MultipleIteration &&
+            page !== 0 &&
+            mode !== Mode.RESULT
+        ) {
             setPage((s) => s - 1);
         }
     };
 
     const handleSwipeDown = (e: any) => {
-        setOpen(false);
+        if (mode !== Mode.RESULT) setOpen(false);
     };
 
     return (
