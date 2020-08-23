@@ -55,7 +55,7 @@ class NavBar extends Component<Props, State> {
         if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
 
-    disabled = () => this.props.kmeans.numberOfClusters > 1;
+    disabled = () => this.props.kmeans.numberOfClusters <= 1;
 
     render() {
         const { classes } = this.props;

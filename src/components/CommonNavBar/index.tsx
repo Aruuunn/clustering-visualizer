@@ -93,8 +93,13 @@ class NavBar extends Component<Props, State> {
     isDisabled = (): boolean => {
         const { global } = this.props;
 
-        if (global.algorithm === null || global.coordinatesOfNodes.length < 5 || global.start) {
-            return true && (this.props.disabled ? this.props.disabled() : true);
+        if (
+            global.algorithm === null ||
+            global.coordinatesOfNodes.length < 5 ||
+            global.start ||
+            (this.props.disabled !== undefined ? this.props.disabled() : false)
+        ) {
+            return true;
         }
 
         return false;
