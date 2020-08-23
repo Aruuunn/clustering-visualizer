@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react';
 import { Grid, TableContainer, TableBody, Paper, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
 import BarChart from '../BarChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
-//import LinearDistributionChart from '../../../../../../components/LinearDistributionChart';
-
+import { Mode } from '../../index';
 import TabsComponent from '../TabsComponent';
 
 interface Props {
     variance: Variance | null;
     children?: ReactElement | ReactElement[];
     iteration: number | null;
+    mode: Mode;
 }
 
 export const options = {
@@ -89,7 +89,7 @@ function RenderChart(props: Props): ReactElement {
             justify="space-around"
             style={{ width: '100%', height: '100%', overflow: 'hidden', paddingTop: '50px' }}
         >
-            {below650px ? (
+            {below650px || props.mode === Mode.RESULT ? (
                 <TabsComponent item1={TableComponent} item2={ChartComponent} />
             ) : (
                 [<div key={0}>{TableComponent}</div>, <div key={1}>{ChartComponent}</div>]

@@ -15,15 +15,14 @@ import {
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 
-import barChartIcon from '../../../../assets/bar_chart-24px.svg';
 import { RootState } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import PieChartIcon from '../../../../assets/pie-chart.svg';
-import ResultIcon from '../../../../assets/result.svg';
 import RenderChart from './components/RenderChart';
 import BlueFab from '../../../../components/BlueFab';
+import LineChart from './components/LineChart';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -31,7 +30,7 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
-enum Mode {
+export enum Mode {
     RESULT,
     INFO,
 }
@@ -54,8 +53,7 @@ function InfoModal(props: Props): ReactElement {
 
     if (
         props.kmeans.info === null ||
-        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration) ||
-        (mode === Mode.RESULT && props.global.start === true)
+        (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
     ) {
         return <div />;
     }
@@ -67,24 +65,26 @@ function InfoModal(props: Props): ReactElement {
             <Grow in={!open}>
                 <div>
                     {' '}
-                    <BlueFab
-                        disabled={info === null}
-                        onClick={() => {
-                            setOpen((s) => !s);
-                            setMode(Mode.RESULT);
-                        }}
-                        style={{ position: 'fixed', bottom: sm ? '30vh' : 20, right: 20 }}
-                    >
-                        <SvgIcon>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"
-                                    fill="white"
-                                />
-                            </svg>
-                        </SvgIcon>
-                    </BlueFab>
+                    {props.kmeans.info !== null && props.global.start === false ? (
+                        <BlueFab
+                            disabled={info === null}
+                            onClick={() => {
+                                setOpen((s) => !s);
+                                setMode(Mode.RESULT);
+                            }}
+                            style={{ position: 'fixed', bottom: sm ? '30vh' : 20, right: 20 }}
+                        >
+                            <SvgIcon>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                    <path d="M0 0h24v24H0z" fill="none" />
+                                    <path
+                                        d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"
+                                        fill="white"
+                                    />
+                                </svg>
+                            </SvgIcon>
+                        </BlueFab>
+                    ) : null}
                     <Fab
                         disabled={info === null}
                         color="secondary"
@@ -177,9 +177,13 @@ function InfoModal(props: Props): ReactElement {
                         </IconButton>
                         {mode === Mode.INFO ? (
                             props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                                <RenderChart iteration={null} variance={info as Variance} />
+                                <RenderChart iteration={null} variance={info as Variance} mode={mode} />
                             ) : page !== 0 ? (
-                                <RenderChart iteration={page} variance={(info as DetailedInfo).variances[page - 1]}>
+                                <RenderChart
+                                    iteration={page}
+                                    variance={(info as DetailedInfo).variances[page - 1]}
+                                    mode={mode}
+                                >
                                     <Grid
                                         alignItems="center"
                                         justify="center"
@@ -256,6 +260,7 @@ function InfoModal(props: Props): ReactElement {
                                     Clusters with Best Silhouette Score
                                 </Typography>
                                 <RenderChart
+                                    mode={mode}
                                     iteration={(props.kmeans.info as DetailedInfo).best + 1}
                                     variance={
                                         (props.kmeans.info as DetailedInfo).variances[
@@ -263,6 +268,7 @@ function InfoModal(props: Props): ReactElement {
                                         ]
                                     }
                                 />
+                                <LineChart details={props.kmeans.info as DetailedInfo} />
                             </div>
                         )}
                     </Paper>
