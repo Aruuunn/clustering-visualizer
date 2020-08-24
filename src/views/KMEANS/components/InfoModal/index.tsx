@@ -27,7 +27,6 @@ import RenderChart from './components/RenderChart';
 import BlueFab from '../../../../components/BlueFab';
 import LineChart from './components/LineChart';
 import BlueButton from '../../../../components/BlueButton';
-import { ExpandLessRounded, YoutubeSearchedForTwoTone } from '@material-ui/icons';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -66,10 +65,6 @@ function InfoModal(props: Props): ReactElement {
 
     const info = props.kmeans.info;
 
-    useEffect(() => {
-        document.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault(), { passive: false });
-    }, []);
-
     if (
         props.kmeans.info === null ||
         (props.kmeans.currentIteration === null && props.kmeans.mode === KMEANSMode.MultipleIteration)
@@ -79,35 +74,27 @@ function InfoModal(props: Props): ReactElement {
 
     const handleMove = (e: any) => {
         e.persist();
-        if (props.global.refToBoard === null) {
-            return;
-        }
+        window.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault(), { passive: false });
+
         const move = (e: any) => {
-            console.log(props.global.refToBoard?.current.getBoundingClientRect().top, props.global.refToBoard);
-            const X: number =
-                e.clientX -
-                    (props.global.refToBoard !== null
-                        ? props.global.refToBoard.current.getBoundingClientRect().left
-                        : 0) || 0;
-            const y: number =
-                e.clientY -
-                    (props.global.refToBoard !== null
-                        ? props.global.refToBoard.current.getBoundingClientRect().top
-                        : 0) || 0;
+            const X: number = e.clientX - 34;
+            let y: number = e.clientY - 29;
+
+            y = y < 60 ? 60 : y;
+
             props.setCoordinatesOfFab([X, y]);
+
             e.target.style.top = X;
             e.target.style.left = y;
         };
+
         const removeListener = (e: any) => {
-            if (props.global.refToBoard === null) {
-                return;
-            }
-            console.log('removing event listeners');
-            props.global.refToBoard.current.removeEventListener('pointermove', move);
+            window.removeEventListener('pointermove', move);
             window.removeEventListener('pointerup', removeListener);
+            window.removeEventListener('touchmove', (e: TouchEvent) => e.preventDefault());
         };
 
-        props.global.refToBoard.current.addEventListener('pointermove', move);
+        window.addEventListener('pointermove', move);
         window.addEventListener('pointerup', removeListener);
     };
 
@@ -130,7 +117,7 @@ function InfoModal(props: Props): ReactElement {
                                     }}
                                 >
                                     <Zoom in={true}>
-                                        <Fab onPointerDown={handleMove}>
+                                        <Fab onPointerDown={handleMove} style={{ backgroundColor: 'white' }}>
                                             <SvgIcon>
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"

@@ -19,7 +19,6 @@ const mapDispatchToProps = {
         type: GlobalActionTypes.UPDATE_COORDINATES,
         payload: node,
     }),
-    setRef: (ref: React.RefObject<any>) => ({ type: GlobalActionTypes.SET_REF_TO_BOARD, payload: ref }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -45,9 +44,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
     componentDidUpdate() {
         if (this.state.bg.current !== null) {
             this.state.bg.current.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault());
-        }
-        if (this.props.global.refToBoard === null) {
-            this.props.setRef(this.state.container);
         }
     }
 

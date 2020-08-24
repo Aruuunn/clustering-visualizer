@@ -6,7 +6,6 @@ export enum GlobalActionTypes {
     END_VISUALIZATION = 'END_VISUALIZATION',
     SET_SPEED = 'SET_SPEED',
     UPDATE_COORDINATES = 'UPDATE_COORDINATES',
-    SET_REF_TO_BOARD = 'SET_REF_TO_BOARD',
 }
 
 export default GlobalActionTypes;
