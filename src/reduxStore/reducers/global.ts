@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 import GlobalActionTypes from '../types/Global.types';
 import { AlgorithmNames } from '../../common/algorithms.enum';
 import { Speed } from '../../common/speed.enum';
@@ -13,6 +15,7 @@ export interface GlobalState {
     speed: Speed;
     coordinatesOfNodes: Node[];
     learnMode: boolean;
+    refToBoard: RefObject<any> | null;
 }
 
 interface Action {
@@ -26,6 +29,7 @@ const initialState: GlobalState = {
     speed: Speed.faster,
     coordinatesOfNodes: [],
     learnMode: false,
+    refToBoard: null,
 };
 
 export default (state: GlobalState = initialState, action: Action): GlobalState => {
@@ -60,6 +64,8 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
                     } else return o;
                 }),
             };
+        case GlobalActionTypes.SET_REF_TO_BOARD:
+            return { ...state, refToBoard: action.payload };
 
         default:
             return state;

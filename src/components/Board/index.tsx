@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Ref } from 'react';
 
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import { Node } from '../../reduxStore/reducers/global';
@@ -18,6 +19,7 @@ const mapDispatchToProps = {
         type: GlobalActionTypes.UPDATE_COORDINATES,
         payload: node,
     }),
+    setRef: (ref: React.RefObject<any>) => ({ type: GlobalActionTypes.SET_REF_TO_BOARD, payload: ref }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -28,6 +30,7 @@ type IBoardProps = PropsFromRedux & {
 
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
+    container: React.RefObject<HTMLDivElement>;
 };
 
 class Board extends React.Component<IBoardProps, BoardState> {
@@ -35,12 +38,16 @@ class Board extends React.Component<IBoardProps, BoardState> {
         super(props);
         this.state = {
             bg: React.createRef(),
+            container: React.createRef(),
         };
     }
 
     componentDidUpdate() {
         if (this.state.bg.current !== null) {
             this.state.bg.current.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault());
+        }
+        if (this.props.global.refToBoard === null) {
+            this.props.setRef(this.state.container);
         }
     }
 
@@ -53,7 +60,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
         let X = 0,
             Y = 0;
 
-        const handleMove = (event: PointerEvent): void => {
+        const handleNodeMove = (event: PointerEvent): void => {
             if (this.state.bg.current === null) {
                 return;
             }
@@ -70,12 +77,12 @@ class Board extends React.Component<IBoardProps, BoardState> {
                 return;
             }
 
-            this.state.bg.current.removeEventListener('pointermove', handleMove);
+            this.state.bg.current.removeEventListener('pointermove', handleNodeMove);
             this.state.bg.current.removeEventListener('pointerup', removeListeners);
         };
 
         if (this.state.bg.current !== null) {
-            this.state.bg.current.addEventListener('pointermove', handleMove);
+            this.state.bg.current.addEventListener('pointermove', handleNodeMove);
             this.state.bg.current.addEventListener('pointerup', removeListeners);
         }
     };
@@ -101,7 +108,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
 
     public render() {
         return (
-            <div>
+            <div ref={this.state.container}>
                 <svg width="100%" height="100vh" ref={this.state.bg} onClick={this.handleClick}>
                     <defs>
                         <marker id="markerArrow" markerWidth="10" markerHeight="10" refX="23" refY="6" orient="auto">
