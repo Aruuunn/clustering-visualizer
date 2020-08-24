@@ -21,8 +21,12 @@ const Result = (props: Props): React.ReactElement => {
         <Fade in={true}>
             <Backdrop open={true} onClick={() => null} style={{ zIndex: 10000 }}>
                 <Paper style={{ padding: sm ? '3px' : '25px', overflow: 'auto', position: 'relative' }}>
-                    <IconButton style={{ position: 'absolute', top: 30, right: 5 }} onClick={() => props.onClose()}>
-                        <SvgIcon>
+                    <IconButton
+                        size="small"
+                        style={{ position: 'absolute', top: 20, right: 5, backgroundColor: 'red' }}
+                        onClick={() => props.onClose()}
+                    >
+                        <SvgIcon fontSize="small">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="24"

@@ -109,12 +109,13 @@ function InfoModal(props: Props): ReactElement {
                                 <Grid
                                     container
                                     direction="column"
-                                    justify="space-between"
+                                    justify="flex-end"
                                     alignItems="center"
                                     style={{
                                         position: 'fixed',
                                         width: 'auto',
                                         ...coordiantesOfFab,
+                                        height: '300px',
                                     }}
                                 >
                                     <Zoom in={true}>
@@ -209,12 +210,13 @@ function InfoModal(props: Props): ReactElement {
                             <Grid
                                 container
                                 direction="column"
-                                justify="space-between"
+                                justify="flex-end"
                                 alignItems="center"
                                 style={{
                                     position: 'fixed',
                                     width: 'auto',
                                     ...coordiantesOfFab,
+                                    height: '300px',
                                 }}
                             >
                                 <Fab color="secondary" onClick={() => setExpand(true)}>

@@ -43,7 +43,7 @@ function BarChart(props: Props): ReactElement {
         <div
             id="wrapper"
             {...(props.key ? { key: props.key } : {})}
-            style={{ position: 'relative', height: '35vh', maxHeight: '500px', width: '100%' }}
+            style={{ position: 'relative', height: '40vh', maxHeight: '500px', width: '100%' }}
         >
             <canvas id="myChart"></canvas>{' '}
         </div>

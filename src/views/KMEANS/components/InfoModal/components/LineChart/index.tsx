@@ -71,7 +71,7 @@ const LineChart = (props: Props): ReactElement => {
         <div
             {...rest}
             id="wrapper"
-            style={{ position: 'relative', height: '35vh', margin: '10px', maxHeight: '500px', width: '100%' }}
+            style={{ position: 'relative', height: '40vh', margin: '10px', maxHeight: '500px', width: '100%' }}
         >
             <canvas id="linechart"></canvas>{' '}
         </div>
