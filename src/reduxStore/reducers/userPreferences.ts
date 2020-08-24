@@ -2,6 +2,7 @@ import UserPreferencesActionTypes from '../types/UserPreferences.types';
 
 export interface UserPreferencesState {
     sizeOfPoint: number;
+    coordinatesOfFab?: number[];
 }
 
 const initialState: UserPreferencesState = {
@@ -19,6 +20,9 @@ export default (state: UserPreferencesState = initialState, action: Action): Use
             return state;
         case UserPreferencesActionTypes.SET_SIZE_OF_POINT:
             return { ...state, sizeOfPoint: action.payload };
+        case UserPreferencesActionTypes.SET_FAB_COORDINATES:
+            return { ...state, coordinatesOfFab: action.payload as number[] };
+
         default:
             return state;
     }
