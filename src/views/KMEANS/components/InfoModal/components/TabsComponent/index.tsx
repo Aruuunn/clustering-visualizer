@@ -2,9 +2,9 @@ import React, { ReactElement } from 'react';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import { Grid } from '@material-ui/core';
+
+import { Mode } from '../../../InfoModal';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -50,13 +50,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
         width: '100%',
-        height: '100%',
     },
 }));
 
 type Props = {
     item1: ReactElement;
     item2: ReactElement;
+    mode?: Mode;
 };
 
 export default function FullWidthTabs(props: Props) {
@@ -69,8 +69,15 @@ export default function FullWidthTabs(props: Props) {
     };
 
     return (
-        <Grid container direction="column" justify="space-between" alignItems="center" className={classes.root}>
-            <Grid container item style={{ paddingTop: '10px' }}>
+        <Grid
+            container
+            direction="column"
+            justify={props.mode !== undefined && props.mode === Mode.RESULT ? 'space-between' : 'flex-start'}
+            alignItems="center"
+            className={classes.root}
+            style={{ height: props.mode === Mode.RESULT ? '100%' : 'auto' }}
+        >
+            <Grid container item style={{ paddingTop: '50px' }}>
                 {' '}
                 <Tabs
                     variant="fullWidth"

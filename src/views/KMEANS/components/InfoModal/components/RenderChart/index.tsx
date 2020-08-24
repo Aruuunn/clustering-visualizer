@@ -91,7 +91,7 @@ function RenderChart(props: Props): ReactElement {
             style={{ width: '100%', overflow: 'hidden', height: '100%' }}
         >
             {below650px || props.mode === Mode.RESULT ? (
-                <TabsComponent item1={TableComponent} item2={ChartComponent} />
+                <TabsComponent mode={props.mode} item1={TableComponent} item2={ChartComponent} />
             ) : (
                 [
                     <div key={0} style={{ margin: '10px' }}>

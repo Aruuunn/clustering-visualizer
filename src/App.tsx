@@ -9,7 +9,7 @@ const KMEANSView = lazy(() => import('./views/KMEANS'));
 
 function App(): ReactElement {
     return (
-        <div style={{ height: '100vh', overflow: 'hidden' }}>
+        <div style={{ minHeight: '100vh', overflow: 'auto' }}>
             <ErrorBoundary>
                 {' '}
                 <Suspense fallback={<Loading />}>

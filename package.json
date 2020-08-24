@@ -48,7 +48,8 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "deploy": "react-scripts build && firebase deploy",
-        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+        "serve": "npm run build && serve -s build"
     },
     "eslintConfig": {
         "extends": "react-app"

@@ -20,8 +20,8 @@ const Result = (props: Props): React.ReactElement => {
     return (
         <Fade in={true}>
             <Backdrop open={true} onClick={() => null} style={{ zIndex: 10000 }}>
-                <Paper style={{ padding: '10px', overflow: 'auto', position: 'relative' }}>
-                    <IconButton style={{ position: 'absolute', top: 0, right: 0 }} onClick={() => props.onClose()}>
+                <Paper style={{ padding: sm ? '3px' : '25px', overflow: 'auto', position: 'relative' }}>
+                    <IconButton style={{ position: 'absolute', top: 30, right: 5 }} onClick={() => props.onClose()}>
                         <SvgIcon>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -39,13 +39,18 @@ const Result = (props: Props): React.ReactElement => {
                         container
                         justify="center"
                         alignItems="stretch"
-                        style={{ padding: 'auto', height: sm ? '95vh' : '60vh', width: sm ? '95vw' : '70vw' }}
+                        style={{
+                            padding: 'auto',
+                            height: sm ? '95vh' : '60vh',
+                            width: sm ? '95vw' : '70vw',
+                            overflow: 'auto',
+                        }}
                     >
                         <Grid
                             container
                             item
                             justify="center"
-                            style={{ padding: '10px' }}
+                            style={{ padding: '10px', overflow: 'auto' }}
                             xs={12}
                             md={6}
                             alignItems="flex-end"
@@ -54,7 +59,15 @@ const Result = (props: Props): React.ReactElement => {
                                 <Typography variant="h5" style={{ width: '100%', marginTop: '20px' }}>
                                     Clusters with the Best Silhouette Score
                                 </Typography>
-                                <BlueButton style={{ marginTop: '20px' }}>VIEW</BlueButton>
+                                <BlueButton
+                                    style={{ marginTop: '20px' }}
+                                    onClick={() => {
+                                        props.setRender();
+                                        props.onClose();
+                                    }}
+                                >
+                                    VIEW
+                                </BlueButton>
                             </Grid>
                             <Grid container item xs={12}>
                                 <LineChart details={details} />
@@ -64,7 +77,11 @@ const Result = (props: Props): React.ReactElement => {
                             container
                             item
                             justify="center"
-                            style={{ padding: sm ? 0 : '20px', borderLeft: sm ? 'none' : 'solid #585858 1px' }}
+                            style={{
+                                padding: sm ? 0 : '20px',
+                                borderLeft: sm ? 'none' : 'solid #585858 1px',
+                                overflow: 'auto',
+                            }}
                             xs={12}
                             md={6}
                             alignItems="flex-start"
