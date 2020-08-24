@@ -48,20 +48,21 @@ class NavBar extends Component<Props, State> {
         }
     };
 
-    componentDidMount(){
-        if(this.props.global.algorithm!==AlgorithmNames.KMEANS)
-        this.props.setAlgorithm(AlgorithmNames.KMEANS);
+    componentDidMount() {
+        if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
     componentDidUpdate() {
-        if(this.props.global.algorithm!==AlgorithmNames.KMEANS)
-        this.props.setAlgorithm(AlgorithmNames.KMEANS);
+        if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
+
+    disabled = () => this.props.kmeans.numberOfClusters <= 1;
 
     render() {
         const { classes } = this.props;
         return (
             <div>
                 <CommonNavBar
+                    disabled={this.disabled}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>
                             <InputBase
@@ -92,12 +93,12 @@ class NavBar extends Component<Props, State> {
                                 key={1}
                                 variant="contained"
                                 style={{
-                                    width: "100%",
-                                    maxWidth: "500px",
+                                    width: '100%',
+                                    maxWidth: '500px',
                                     marginLeft: 0,
                                     marginRight: 0,
-                                    marginTop: "10px",
-                                  }}
+                                    marginTop: '10px',
+                                }}
                                 onClick={() => this.setState({ isIterationModeDialogOpen: true })}
                                 startIcon={
                                     <SvgIcon>
@@ -112,7 +113,6 @@ class NavBar extends Component<Props, State> {
                                     ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
                                     : `Find best value of K - ${this.props.kmeans.maxIterations}`}
                             </Button>
-                            
                         </Grid>,
                     ]}
                 >
@@ -134,7 +134,7 @@ class NavBar extends Component<Props, State> {
 
                         <Button
                             key={1}
-                            size="small"
+                            // size="small"
                             variant="contained"
                             style={{ marginRight: '20px' }}
                             onClick={() => this.setState({ isIterationModeDialogOpen: true })}
@@ -185,7 +185,7 @@ export default withStyles((theme) => ({
         color: 'inherit',
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 1),
+        padding: theme.spacing(1.15, 1, 1.15, 1),
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {

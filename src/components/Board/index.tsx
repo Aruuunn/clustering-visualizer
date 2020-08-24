@@ -7,8 +7,6 @@ import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import { ReactElement } from 'react';
 
-
-
 const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
 
 const mapDispatchToProps = {
@@ -22,7 +20,6 @@ const mapDispatchToProps = {
     }),
 };
 
-
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IBoardProps = PropsFromRedux & {
@@ -32,8 +29,6 @@ type IBoardProps = PropsFromRedux & {
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
 };
-
-
 
 class Board extends React.Component<IBoardProps, BoardState> {
     constructor(props: IBoardProps) {
@@ -50,6 +45,9 @@ class Board extends React.Component<IBoardProps, BoardState> {
     }
 
     handleMove = (event: React.PointerEvent<SVGSVGElement>, id: number) => {
+        if (this.props.global.start === true) {
+            return;
+        }
         event.persist();
         const currentNode = event.target as SVGSVGElement;
         let X = 0,
@@ -83,6 +81,9 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
+        if (this.props.global.start === true) {
+            return;
+        }
         event.persist();
         const target = event.target as SVGSVGElement;
         const X = event.clientX - target.getBoundingClientRect().left;
@@ -134,6 +135,5 @@ class Board extends React.Component<IBoardProps, BoardState> {
         );
     }
 }
-
 
 export default connector(Board);

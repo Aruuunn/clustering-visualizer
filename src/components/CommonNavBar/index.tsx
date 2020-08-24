@@ -8,19 +8,16 @@ import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
 import Speed from '../../common/speed.enum';
 import menuIcon from '../../assets/menu.svg';
-import BlueButton from '../../common/BlueButton';
+import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';
 import Drawer from '../Drawer';
-import { withRouter ,RouteComponentProps} from 'react-router-dom';
-
-
-
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 // define types of Props and State
 interface State {
     anchor1: (EventTarget & Element) | null;
     anchor2: (EventTarget & Element) | null;
-    isDrawerOpen:boolean;
+    isDrawerOpen: boolean;
 }
 
 // define mapStateToProps and mapDispatchToProps
@@ -45,16 +42,16 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & {
     children?: ReactElement | ReactElement[];
-    drawerChildren?:ReactElement | ReactElement[]; 
+    drawerChildren?: ReactElement | ReactElement[];
+    disabled?: () => boolean;
 } & RouteComponentProps;
-
 
 // NavBar
 class NavBar extends Component<Props, State> {
     state = {
         anchor1: null,
         anchor2: null,
-        isDrawerOpen:false
+        isDrawerOpen: false,
     };
 
     handleSpeeMenu = (event: SyntheticEvent) => {
@@ -63,8 +60,6 @@ class NavBar extends Component<Props, State> {
     handleAlgorithmMenu = (event: SyntheticEvent) => {
         this.setState({ anchor1: event.currentTarget });
     };
-
-
 
     handleSpeeMenuClose = (speed: Speed | null) => {
         this.setState({ anchor2: null });
@@ -92,8 +87,8 @@ class NavBar extends Component<Props, State> {
                 case AlgorithmNames.KMEANS:
                     this.props.changeAlgorithm(algo);
                     break;
-            } 
-    }; 
+            }
+    };
 
     isDisabled = (): boolean => {
         const { global } = this.props;
@@ -101,18 +96,18 @@ class NavBar extends Component<Props, State> {
         if (
             global.algorithm === null ||
             global.coordinatesOfNodes.length < 5 ||
-            global.start
+            global.start ||
+            (this.props.disabled !== undefined ? this.props.disabled() : false)
         ) {
-            return true; 
+            return true;
         }
 
         return false;
     };
 
     render() {
-        
         return (
-            <AppBar elevation={0}  className="appbar" color="transparent" style={{ color: 'white' }}>
+            <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white' }}>
                 <Toolbar>
                     <Grid container alignItems="center">
                         <Grid container alignItems="center" item xs={9} md={2} lg={4}>
@@ -126,7 +121,7 @@ class NavBar extends Component<Props, State> {
                                         marginRight: '20px',
                                         padding: '10px',
                                     }}
-                                    onClick={() => this.setState({isDrawerOpen:true})}
+                                    onClick={() => this.setState({ isDrawerOpen: true })}
                                 >
                                     <img src={menuIcon} alt="menu" style={{ height: '36px', width: 'auto' }} />
                                 </Grid>
@@ -147,7 +142,7 @@ class NavBar extends Component<Props, State> {
                                 justify="flex-end"
                                 item
                                 style={{ height: '48px', width: 'auto' }}
-                                onClick={() => this.setState({isDrawerOpen:true})}
+                                onClick={() => this.setState({ isDrawerOpen: true })}
                                 xs={3}
                             >
                                 <img src={menuIcon} alt="menu" style={{ height: '36px', width: 'auto' }} />
@@ -160,7 +155,7 @@ class NavBar extends Component<Props, State> {
                                 <Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
-                                    size="small"
+                                    // size="small"
                                     onClick={this.handleAlgorithmMenu}
                                     startIcon={
                                         <SvgIcon>
@@ -178,7 +173,7 @@ class NavBar extends Component<Props, State> {
 
                                 <Button
                                     variant="contained"
-                                    size="small"
+                                    // size="small"
                                     aria-haspopup="true"
                                     onClick={this.handleSpeeMenu}
                                     style={{ marginRight: '20px' }}
@@ -202,8 +197,8 @@ class NavBar extends Component<Props, State> {
 
                                 <BlueButton
                                     variant="contained"
-                                    size="small"
-                                    onClick={() => { 
+                                    // size="small"
+                                    onClick={() => {
                                         this.props.startVisualization();
                                     }}
                                     disabled={this.isDisabled()}
@@ -222,7 +217,14 @@ class NavBar extends Component<Props, State> {
                     style={{ zIndex: 10000 }}
                     onClose={() => this.handleAlgorithmClose(null)}
                 >
-                    <MenuItem onClick={() => {this.handleAlgorithmClose(AlgorithmNames.KMEANS);this.props.history.push('/kmeans')}}>K Means</MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
+                            this.props.history.push('/kmeans');
+                        }}
+                    >
+                        K Means
+                    </MenuItem>
                 </Menu>
                 <Menu
                     id="menu-speed"
@@ -251,10 +253,5 @@ class NavBar extends Component<Props, State> {
         );
     }
 }
- 
 
-export default  withRouter(connector(NavBar));
-
-
-
-
+export default withRouter(connector(NavBar));
