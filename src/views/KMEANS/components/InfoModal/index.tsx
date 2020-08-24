@@ -27,6 +27,7 @@ import RenderChart from './components/RenderChart';
 import BlueFab from '../../../../components/BlueFab';
 import LineChart from './components/LineChart';
 import BlueButton from '../../../../components/BlueButton';
+import Result from './components/Result';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -264,6 +265,20 @@ function InfoModal(props: Props): ReactElement {
         if (mode !== Mode.RESULT) setOpen(false);
     };
 
+    if (mode === Mode.RESULT) {
+        return (
+            <Result
+                details={props.kmeans.info as DetailedInfo}
+                setRender={() =>
+                    props.setRender(
+                        (props.kmeans.info as DetailedInfo).render[(props.kmeans.info as DetailedInfo).best],
+                    )
+                }
+                onClose={() => setOpen((s) => !s)}
+            />
+        );
+    }
+
     return (
         <div>
             <Zoom in={open} timeout={100}>
@@ -420,44 +435,7 @@ function InfoModal(props: Props): ReactElement {
                                             </Grid>
                                         </Grid>
                                     )
-                                ) : (
-                                    <div style={{ width: '100%', height: '100%' }}>
-                                        <Typography variant="h6" style={{ paddingTop: '60px', paddingBottom: '20px' }}>
-                                            Clusters with The Best Silhouette Score
-                                        </Typography>
-                                        <Grid
-                                            container
-                                            justify="center"
-                                            style={{ marginTop: '30px', marginBottom: '30px', width: '100%' }}
-                                        >
-                                            <BlueButton
-                                                variant="contained"
-                                                style={{ width: '100%' }}
-                                                onClick={() =>
-                                                    props.setRender(
-                                                        (props.kmeans.info as DetailedInfo).render[
-                                                            (props.kmeans.info as DetailedInfo).best
-                                                        ],
-                                                    )
-                                                }
-                                            >
-                                                View the best result
-                                            </BlueButton>
-                                        </Grid>
-                                        <Divider />
-                                        <LineChart details={props.kmeans.info as DetailedInfo} />
-
-                                        <RenderChart
-                                            mode={mode}
-                                            iteration={(props.kmeans.info as DetailedInfo).best + 1}
-                                            variance={
-                                                (props.kmeans.info as DetailedInfo).variances[
-                                                    (props.kmeans.info as DetailedInfo).best
-                                                ]
-                                            }
-                                        />
-                                    </div>
-                                )}
+                                ) : null}
                             </Grid>
                         </Scrollbars>
                     </Paper>

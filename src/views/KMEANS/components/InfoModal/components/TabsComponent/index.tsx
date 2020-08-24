@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { Grid } from '@material-ui/core';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -22,11 +23,17 @@ function TabPanel(props: TabPanelProps) {
             id={`full-width-tabpanel-${index}`}
             aria-labelledby={`full-width-tab-${index}`}
             {...other}
+            style={{ width: '100%', height: '100%' }}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
+                <div
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                    }}
+                >
+                    {children}
+                </div>
             )}
         </div>
     );
@@ -43,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     root: {
         backgroundColor: theme.palette.background.paper,
         width: '100%',
+        height: '100%',
     },
 }));
 
@@ -61,25 +69,30 @@ export default function FullWidthTabs(props: Props) {
     };
 
     return (
-        <div className={classes.root}>
-            <Tabs
-                variant="fullWidth"
-                value={value}
-                onChange={handleChange}
-                indicatorColor="secondary"
-                textColor="secondary"
-                aria-label="full width tabs example"
-            >
-                <Tab label="Info" {...a11yProps(0)} />
-                <Tab label="Chart" {...a11yProps(1)} />
-            </Tabs>
+        <Grid container direction="column" justify="space-between" alignItems="center" className={classes.root}>
+            <Grid container item style={{ paddingTop: '10px' }}>
+                {' '}
+                <Tabs
+                    variant="fullWidth"
+                    value={value}
+                    onChange={handleChange}
+                    indicatorColor="secondary"
+                    textColor="secondary"
+                    aria-label="full width tabs example"
+                >
+                    <Tab label="Info" {...a11yProps(0)} />
+                    <Tab label="Chart" {...a11yProps(1)} />
+                </Tabs>
+            </Grid>
 
-            <TabPanel value={value} index={0} dir={theme.direction}>
-                {props.item1}
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-                {props.item2}
-            </TabPanel>
-        </div>
+            <Grid container item>
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                    {props.item1}
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                    {props.item2}
+                </TabPanel>{' '}
+            </Grid>
+        </Grid>
     );
 }

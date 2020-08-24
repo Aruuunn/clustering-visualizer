@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Grid, TableContainer, TableBody, Paper, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
+import { Grid, TableBody, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
 import BarChart from '../BarChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 import { Mode } from '../../index';
@@ -51,36 +51,34 @@ function RenderChart(props: Props): ReactElement {
     );
 
     const TableComponent = (
-        <TableContainer component={Paper} variant="outlined">
-            <Table>
-                <TableBody>
-                    {props.iteration ? (
-                        <TableRow>
-                            <TableCell align="left">
-                                <strong>Iteration</strong>
-                            </TableCell>
-                            <TableCell align="left">{props.iteration}</TableCell>
-                        </TableRow>
-                    ) : null}
-                    {variance ? (
-                        <TableRow>
-                            <TableCell align="left">
-                                <strong>Total within-Cluster Variance</strong>
-                            </TableCell>
-                            <TableCell align="left">{variance.total.toFixed(1)}</TableCell>
-                        </TableRow>
-                    ) : null}
-                    {variance ? (
-                        <TableRow>
-                            <TableCell align="left">
-                                <strong>Silhouette Score</strong>
-                            </TableCell>
-                            <TableCell align="left">{variance.silhouetteScore.toFixed(2)}</TableCell>
-                        </TableRow>
-                    ) : null}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Table>
+            <TableBody>
+                {props.iteration ? (
+                    <TableRow>
+                        <TableCell align="left">
+                            <strong>Iteration</strong>
+                        </TableCell>
+                        <TableCell align="left">{props.iteration}</TableCell>
+                    </TableRow>
+                ) : null}
+                {variance ? (
+                    <TableRow>
+                        <TableCell align="left">
+                            <strong>Total within-Cluster Variance</strong>
+                        </TableCell>
+                        <TableCell align="left">{variance.total.toFixed(1)}</TableCell>
+                    </TableRow>
+                ) : null}
+                {variance ? (
+                    <TableRow>
+                        <TableCell align="left">
+                            <strong>Silhouette Score</strong>
+                        </TableCell>
+                        <TableCell align="left">{variance.silhouetteScore.toFixed(2)}</TableCell>
+                    </TableRow>
+                ) : null}
+            </TableBody>
+        </Table>
     );
 
     return (
@@ -90,7 +88,7 @@ function RenderChart(props: Props): ReactElement {
             alignItems="flex-start"
             direction="column"
             justify="space-around"
-            style={{ width: '100%', height: 'auto', overflow: 'hidden', paddingTop: '50px' }}
+            style={{ width: '100%', overflow: 'hidden', height: '100%' }}
         >
             {below650px || props.mode === Mode.RESULT ? (
                 <TabsComponent item1={TableComponent} item2={ChartComponent} />
