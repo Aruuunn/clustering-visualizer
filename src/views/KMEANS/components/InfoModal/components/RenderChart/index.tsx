@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Grid, TableBody, Table, TableCell, TableRow, useMediaQuery } from '@material-ui/core';
+import { Grid, TableBody, Table, TableCell, TableRow, useMediaQuery, useTheme } from '@material-ui/core';
 import BarChart from '../BarChart';
 import { Variance } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
 import { Mode } from '../../index';
@@ -10,6 +10,7 @@ interface Props {
     children?: ReactElement | ReactElement[];
     iteration: number | null;
     mode: Mode;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     key?: any;
 }
 
@@ -32,6 +33,7 @@ export const options = {
 
 function RenderChart(props: Props): ReactElement {
     const { variance, children } = props;
+    const theme = useTheme();
 
     const data = {
         datasets: [
@@ -45,6 +47,7 @@ function RenderChart(props: Props): ReactElement {
     };
 
     const below650px = useMediaQuery('(max-height:660px)');
+    const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const ChartComponent: ReactElement = (
         <BarChart variance={variance} width={5} height={5} options={options} data={data} />
@@ -86,17 +89,17 @@ function RenderChart(props: Props): ReactElement {
             container
             alignItems="flex-start"
             direction="column"
-            justify="center"
+            justify={sm ? 'flex-start' : 'center'}
             style={{ width: '100%', overflow: 'hidden', height: '100%' }}
         >
             {below650px || props.mode === Mode.RESULT ? (
                 <TabsComponent mode={props.mode} item1={TableComponent} item2={ChartComponent} />
             ) : (
                 [
-                    <div key={0} style={{ margin: '10px' }}>
+                    <div key={0} style={{ margin: '10px', width: '100%' }}>
                         {TableComponent}
                     </div>,
-                    <div style={{ margin: '10px' }} key={1}>
+                    <div style={{ margin: '10px', width: '100%' }} key={1}>
                         {ChartComponent}
                     </div>,
                 ]

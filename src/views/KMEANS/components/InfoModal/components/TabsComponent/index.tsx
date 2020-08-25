@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Grid } from '@material-ui/core';
+import { Grid, useMediaQuery } from '@material-ui/core';
 
 import { Mode } from '../../../InfoModal';
 
@@ -59,10 +59,12 @@ type Props = {
     mode?: Mode;
 };
 
-export default function FullWidthTabs(props: Props) {
+export default function FullWidthTabs(props: Props): ReactElement {
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+
+    const smUp = useMediaQuery(theme.breakpoints.up('sm'));
 
     const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
         setValue(newValue);
@@ -72,12 +74,19 @@ export default function FullWidthTabs(props: Props) {
         <Grid
             container
             direction="column"
-            justify={props.mode !== undefined && props.mode === Mode.RESULT ? 'space-between' : 'flex-start'}
+            justify={props.mode !== undefined && props.mode === Mode.RESULT && smUp ? 'space-between' : 'flex-start'}
             alignItems="center"
             className={classes.root}
-            style={{ height: props.mode === Mode.RESULT ? '100%' : '60vh' }}
+            style={{ height: props.mode === Mode.RESULT && smUp ? '100%' : '60vh' }}
         >
-            <Grid container item style={{ paddingTop: '50px' }}>
+            <Grid
+                container
+                alignItems="flex-start"
+                item
+                style={{
+                    paddingTop: props.mode !== undefined && props.mode === Mode.RESULT && smUp ? '0px' : '50px',
+                }}
+            >
                 {' '}
                 <Tabs
                     variant="fullWidth"
@@ -86,6 +95,7 @@ export default function FullWidthTabs(props: Props) {
                     indicatorColor="secondary"
                     textColor="secondary"
                     aria-label="full width tabs example"
+                    style={{ marginBottom: '10px' }}
                 >
                     <Tab label="Info" {...a11yProps(0)} />
                     <Tab label="Chart" {...a11yProps(1)} />

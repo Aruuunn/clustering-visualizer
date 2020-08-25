@@ -57,12 +57,18 @@ function IterationModeDialog(props: Props): ReactElement {
             ) : state === 1 ? (
                 <Grid container justify="center" style={{ margin: '5px', padding: '20px', maxWidth: '300px' }}>
                     <DialogTitle>Number of Iterations</DialogTitle>
-                    <Typography variant="body1" gutterBottom style={{ margin: '5px', width: '100%' }} align="center">
+                    <Typography
+                        variant="body2"
+                        gutterBottom
+                        style={{ marginTop: '10px', width: '100%', marginBottom: '20px' }}
+                        align="center"
+                    >
                         How many times do you want to run K-Means algorithm?
                     </Typography>
-                    <div>
+                    <form>
                         <TextField
                             color="secondary"
+                            autoFocus
                             value={inputs.input1}
                             onChange={(e) => {
                                 e.persist();
@@ -74,6 +80,7 @@ function IterationModeDialog(props: Props): ReactElement {
                             style={{ display: 'block' }}
                         />
                         <BlueButton
+                            type="submit"
                             variant="contained"
                             style={{ marginTop: '10px' }}
                             onClick={() => {
@@ -86,7 +93,7 @@ function IterationModeDialog(props: Props): ReactElement {
                         >
                             Save
                         </BlueButton>
-                    </div>
+                    </form>
                 </Grid>
             ) : (
                 <Grid container justify="center" style={{ padding: '10px' }}>

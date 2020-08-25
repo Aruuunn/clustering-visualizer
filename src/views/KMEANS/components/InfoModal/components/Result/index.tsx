@@ -20,7 +20,13 @@ const Result = (props: Props): React.ReactElement => {
     return (
         <Fade in={true}>
             <Backdrop open={true} onClick={() => null} style={{ zIndex: 10000 }}>
-                <Paper style={{ padding: sm ? '10px' : '25px', overflow: 'auto', position: 'relative' }}>
+                <Paper
+                    style={{
+                        padding: sm ? '10px' : '25px',
+                        overflow: 'auto',
+                        position: 'relative',
+                    }}
+                >
                     <IconButton
                         style={{ position: 'absolute', top: sm ? 30 : 20, right: sm ? 5 : 20 }}
                         onClick={() => props.onClose()}
@@ -56,7 +62,7 @@ const Result = (props: Props): React.ReactElement => {
                             container
                             item
                             justify="center"
-                            style={{ padding: '10px', overflow: 'auto' }}
+                            style={{ padding: '10px', overflow: 'auto', height: '100%', width: '100%' }}
                             xs={12}
                             md={6}
                             alignItems="flex-end"
@@ -87,6 +93,8 @@ const Result = (props: Props): React.ReactElement => {
                                 padding: sm ? 0 : '20px',
                                 borderLeft: sm ? 'none' : 'solid #585858 1px',
                                 overflow: 'auto',
+                                height: '100%',
+                                width: '100%',
                             }}
                             xs={12}
                             md={6}

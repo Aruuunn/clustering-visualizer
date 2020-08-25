@@ -8,7 +8,6 @@ import { AlgorithmNames } from '../../common/algorithms.enum';
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
 import Speed from '../../common/speed.enum';
-import menuIcon from '../../assets/menu.svg';
 import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';
 import Drawer from '../Drawer';
@@ -125,7 +124,12 @@ class NavBar extends Component<Props, State> {
                                     }}
                                     onClick={() => this.setState({ isDrawerOpen: true })}
                                 >
-                                    <img src={menuIcon} alt="menu" style={{ height: '36px', width: 'auto' }} />
+                                    <SvgIcon style={{ height: '36px', width: 'auto' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" fill="#fff" width="24">
+                                            <path d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                                        </svg>
+                                    </SvgIcon>
                                 </Grid>
                             </Hidden>
                             <Hidden only={['sm', 'xs']}>
@@ -147,7 +151,12 @@ class NavBar extends Component<Props, State> {
                                 onClick={() => this.setState({ isDrawerOpen: true })}
                                 xs={3}
                             >
-                                <img src={menuIcon} alt="menu" style={{ height: '36px', width: 'auto' }} />
+                                <SvgIcon style={{ height: '36px', width: 'auto' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" fill="#fff" width="24">
+                                        <path d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                                    </svg>
+                                </SvgIcon>
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
