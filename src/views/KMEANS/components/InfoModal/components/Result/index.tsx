@@ -22,8 +22,7 @@ const Result = (props: Props): React.ReactElement => {
             <Backdrop open={true} onClick={() => null} style={{ zIndex: 10000 }}>
                 <Paper style={{ padding: sm ? '10px' : '25px', overflow: 'auto', position: 'relative' }}>
                     <IconButton
-                        size="small"
-                        style={{ position: 'absolute', top: 20, right: 5 }}
+                        style={{ position: 'absolute', top: sm ? 30 : 20, right: sm ? 5 : 20 }}
                         onClick={() => props.onClose()}
                     >
                         <SvgIcon fontSize="small">

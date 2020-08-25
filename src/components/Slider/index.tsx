@@ -12,7 +12,7 @@ export const PrettoSlider = withStyles({
         width: 24,
         backgroundColor: '#fff',
         border: '2px solid currentColor',
-        marginTop: -12,
+        marginTop: -9,
         marginLeft: -12,
         '&:focus, &:hover, &$active': {
             boxShadow: 'inherit',

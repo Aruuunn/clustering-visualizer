@@ -31,7 +31,7 @@ export const options = {
 };
 
 function RenderChart(props: Props): ReactElement {
-    const { variance, children, ...rest } = props;
+    const { variance, children } = props;
 
     const data = {
         datasets: [
@@ -83,11 +83,10 @@ function RenderChart(props: Props): ReactElement {
 
     return (
         <Grid
-            {...rest}
             container
             alignItems="flex-start"
             direction="column"
-            justify="space-around"
+            justify="center"
             style={{ width: '100%', overflow: 'hidden', height: '100%' }}
         >
             {below650px || props.mode === Mode.RESULT ? (

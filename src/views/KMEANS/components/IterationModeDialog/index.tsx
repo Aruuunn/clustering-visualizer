@@ -32,7 +32,7 @@ function IterationModeDialog(props: Props): ReactElement {
         <Dialog maxWidth="sm" open={props.open} onClose={props.onClose}>
             {state === 0 ? (
                 <div>
-                    <DialogTitle>Iteration Mode for K Means</DialogTitle>
+                    <DialogTitle>Iteration Mode for K Means Algorithm</DialogTitle>
                     <List>
                         <ListItem
                             button
@@ -57,7 +57,7 @@ function IterationModeDialog(props: Props): ReactElement {
             ) : state === 1 ? (
                 <Grid container justify="center" style={{ margin: '5px', padding: '20px', maxWidth: '300px' }}>
                     <DialogTitle>Number of Iterations</DialogTitle>
-                    <Typography variant="body2" gutterBottom style={{ margin: '5px', width: '100%' }} align="center">
+                    <Typography variant="body1" gutterBottom style={{ margin: '5px', width: '100%' }} align="center">
                         How many times do you want to run K-Means algorithm?
                     </Typography>
                     <div>
@@ -82,7 +82,7 @@ function IterationModeDialog(props: Props): ReactElement {
                                 props.setInfoNull();
                                 props.onClose();
                             }}
-                            //   disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
+                            disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
                         >
                             Save
                         </BlueButton>

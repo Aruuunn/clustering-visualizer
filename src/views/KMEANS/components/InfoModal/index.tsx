@@ -153,8 +153,7 @@ function InfoModal(props: Props): ReactElement {
                             style={{ margin: 0, padding: '10px', height: '85vh' }}
                         >
                             <IconButton
-                                size="small"
-                                style={{ position: 'absolute', top: 15, right: 15 }}
+                                style={{ position: 'absolute', top: 7, right: 7 }}
                                 onClick={() => setOpen((s) => !s)}
                             >
                                 <SvgIcon fontSize="small">
