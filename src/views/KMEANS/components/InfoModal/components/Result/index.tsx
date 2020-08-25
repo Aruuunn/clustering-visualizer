@@ -20,10 +20,10 @@ const Result = (props: Props): React.ReactElement => {
     return (
         <Fade in={true}>
             <Backdrop open={true} onClick={() => null} style={{ zIndex: 10000 }}>
-                <Paper style={{ padding: sm ? '3px' : '25px', overflow: 'auto', position: 'relative' }}>
+                <Paper style={{ padding: sm ? '10px' : '25px', overflow: 'auto', position: 'relative' }}>
                     <IconButton
                         size="small"
-                        style={{ position: 'absolute', top: 20, right: 5, backgroundColor: 'red' }}
+                        style={{ position: 'absolute', top: 20, right: 5, backgroundColor: 'white' }}
                         onClick={() => props.onClose()}
                     >
                         <SvgIcon fontSize="small">
@@ -31,7 +31,7 @@ const Result = (props: Props): React.ReactElement => {
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="24"
                                 viewBox="0 0 24 24"
-                                fill="white"
+                                fill="black"
                                 width="24"
                             >
                                 <path d="M0 0h24v24H0z" fill="none" />
@@ -59,7 +59,7 @@ const Result = (props: Props): React.ReactElement => {
                             md={6}
                             alignItems="flex-end"
                         >
-                            <Grid container item xs={12}>
+                            <Grid container item xs={12} style={{ marginBottom: '20px' }}>
                                 <Typography variant="h5" style={{ width: '100%', marginTop: '20px' }}>
                                     Clusters with the Best Silhouette Score
                                 </Typography>
