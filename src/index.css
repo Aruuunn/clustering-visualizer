@@ -12,12 +12,11 @@ code {
 
 html {
 	overflow: auto;
-	min-height: 100vh;
+	height:100vh;
     background: linear-gradient(90deg,#434343,black);
     width: 100%;
 }
 
 ::-webkit-scrollbar {
-	width: 0px; /* Remove scrollbar space */
-	background: rgb(92, 85, 85); /* Optional: just make scrollbar invisible */
+	width: 3px;
 }
