@@ -155,7 +155,7 @@ function Drawer(props: Props): ReactElement {
                         alignItems="center"
                     >
                         <Typography gutterBottom style={{ width: '100%' }}>
-                            Change size of the points
+                            Point Size
                         </Typography>
                         <Slider
                             disabled={props.isSliderDisabled}

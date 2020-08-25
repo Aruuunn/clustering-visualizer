@@ -371,7 +371,7 @@ class KMeans extends Component<Props, State> {
         return (
             <g>
                 {this.props.kmeans.render}
-                {this.props.kmeans.render.length && this.renderCentroids}
+                {(this.props.kmeans.render.length || this.props.global.start) && this.renderCentroids}
             </g>
         );
     }
