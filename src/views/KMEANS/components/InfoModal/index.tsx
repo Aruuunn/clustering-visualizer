@@ -150,7 +150,7 @@ function InfoModal(props: Props): ReactElement {
                             direction="column"
                             justify="space-around"
                             alignItems="center"
-                            style={{ margin: 0, padding: '10px', height: '85vh' }}
+                            style={{ margin: 0, padding: '10px', height: xs ? '70vh' : '85vh' }}
                         >
                             <IconButton
                                 style={{ position: 'absolute', top: 7, right: 7 }}
