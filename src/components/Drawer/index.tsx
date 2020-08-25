@@ -1,15 +1,5 @@
 import React, { ReactElement } from 'react';
-import {
-    SwipeableDrawer,
-    useMediaQuery,
-    useTheme,
-    Grid,
-    Button,
-    Divider,
-    Slider,
-    Typography,
-    SvgIcon,
-} from '@material-ui/core';
+import { SwipeableDrawer, useMediaQuery, useTheme, Grid, Divider, Typography, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { AlgorithmNames } from '../../common/algorithms.enum';
@@ -19,6 +9,8 @@ import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types'
 import Speed from '../../common/speed.enum';
 import BlueButton from '../BlueButton';
 import { RootState } from '../../reduxStore';
+import FlatButton from '../../components/FlatButton';
+import Slider from '../../components/Slider';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -54,6 +46,7 @@ type Props = PropsFromRedux & {
     handleSpeeMenu: (event: React.SyntheticEvent<Element, Event>) => void;
     isDisabled: () => boolean;
     children?: ReactElement | ReactElement[];
+    isSliderDisabled?: boolean;
 };
 
 function Drawer(props: Props): ReactElement {
@@ -68,7 +61,7 @@ function Drawer(props: Props): ReactElement {
                         {' '}
                         {props.children}
                         <Grid container justify="center" alignItems="center">
-                            <Button
+                            <FlatButton
                                 variant="contained"
                                 onClick={props.handleAlgorithmMenu}
                                 style={{
@@ -87,10 +80,10 @@ function Drawer(props: Props): ReactElement {
                             >
                                 {' '}
                                 {props.global.algorithm === null ? 'Select Algorithm' : props.global.algorithm}
-                            </Button>
+                            </FlatButton>
                         </Grid>
                         <Grid container justify="center" alignItems="center">
-                            <Button
+                            <FlatButton
                                 style={{
                                     width: '100%',
                                     maxWidth: '500px',
@@ -117,7 +110,7 @@ function Drawer(props: Props): ReactElement {
                                     : props.global.speed === Speed.fast
                                     ? 'Fast'
                                     : 'Faster'}
-                            </Button>
+                            </FlatButton>
                         </Grid>
                         <Grid container justify="center" alignItems="center">
                             <BlueButton
@@ -141,7 +134,7 @@ function Drawer(props: Props): ReactElement {
                         </Grid>{' '}
                     </Grid>
                 ) : null}
-                <Divider style={{ margin: '30px' }} />
+                <Divider style={{ margin: '30px', opacity: sm ? 1 : 0 }} />
                 <Grid
                     container
                     direction="column"
@@ -165,18 +158,18 @@ function Drawer(props: Props): ReactElement {
                             Change size of the points
                         </Typography>
                         <Slider
+                            disabled={props.isSliderDisabled}
                             value={props.userPreference.sizeOfPoint}
                             onChange={(e, value) => props.setPointSize(value)}
                             color="secondary"
                             min={5}
                             max={15}
-                            marks
                             valueLabelDisplay="auto"
                             step={1}
                         />
                     </Grid>
                     <Grid container justify="center" alignItems="center">
-                        <Button
+                        <FlatButton
                             onClick={() => props.resetAlgorithmVisualization()}
                             style={{
                                 width: '100%',
@@ -189,10 +182,10 @@ function Drawer(props: Props): ReactElement {
                         >
                             {' '}
                             Clear Visualization
-                        </Button>
+                        </FlatButton>
                     </Grid>
                     <Grid container justify="center" alignItems="center">
-                        <Button
+                        <FlatButton
                             onClick={() => {
                                 props.clearPoints();
                                 props.resetAlgorithmVisualization();
@@ -208,7 +201,7 @@ function Drawer(props: Props): ReactElement {
                         >
                             {' '}
                             Clear Data Points
-                        </Button>
+                        </FlatButton>
                     </Grid>
                 </Grid>
             </SwipeableDrawer>

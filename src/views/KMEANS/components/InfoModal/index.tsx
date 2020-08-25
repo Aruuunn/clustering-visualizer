@@ -126,7 +126,7 @@ function InfoModal(props: Props): ReactElement {
 
     return (
         <div>
-            <Zoom in={open} timeout={100}>
+            <Zoom in={open}>
                 <Swipeable
                     onSwipedRight={() => handleSwipeRight()}
                     onSwipedLeft={() => handleSwipeLeft()}
@@ -154,7 +154,7 @@ function InfoModal(props: Props): ReactElement {
                         >
                             <IconButton
                                 size="small"
-                                style={{ position: 'absolute', top: 15, right: 15, backgroundColor: 'white' }}
+                                style={{ position: 'absolute', top: 15, right: 15 }}
                                 onClick={() => setOpen((s) => !s)}
                             >
                                 <SvgIcon fontSize="small">
@@ -166,7 +166,10 @@ function InfoModal(props: Props): ReactElement {
                                         width="24"
                                     >
                                         <path d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                        <path
+                                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                            fill="white"
+                                        />
                                     </svg>
                                 </SvgIcon>
                             </IconButton>

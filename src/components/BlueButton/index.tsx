@@ -7,6 +7,7 @@ export const BlueButton = withStyles({
         '&:hover': {
             backgroundColor: '#4791db',
         },
+        boxShadow: 'inset 0 -4px #1034A6',
     },
 })(Button);
 

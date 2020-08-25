@@ -1,6 +1,7 @@
 import React, { Component, SyntheticEvent, ReactElement } from 'react';
 import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import logo from '../../assets/logo.svg';
 import { AlgorithmNames } from '../../common/algorithms.enum';
@@ -11,7 +12,7 @@ import menuIcon from '../../assets/menu.svg';
 import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';
 import Drawer from '../Drawer';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import FlatButton from '../../components/FlatButton';
 
 // define types of Props and State
 interface State {
@@ -44,6 +45,7 @@ type Props = PropsFromRedux & {
     children?: ReactElement | ReactElement[];
     drawerChildren?: ReactElement | ReactElement[];
     disabled?: () => boolean;
+    isSliderDisabled?: boolean;
 } & RouteComponentProps;
 
 // NavBar
@@ -152,7 +154,7 @@ class NavBar extends Component<Props, State> {
                             <Grid container alignItems="center" justify="flex-end" item xs={12} md={10} lg={8}>
                                 {this.props.children}
 
-                                <Button
+                                <FlatButton
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
                                     // size="small"
@@ -164,14 +166,14 @@ class NavBar extends Component<Props, State> {
                                         </SvgIcon>
                                     }
                                     variant="contained"
-                                    style={{ marginRight: '20px' }}
+                                    style={{ marginRight: '20px', borderRadius: 'none' }}
                                 >
                                     {this.props.global.algorithm === null
                                         ? 'Select Algorithm'
                                         : this.props.global.algorithm}
-                                </Button>
+                                </FlatButton>
 
-                                <Button
+                                <FlatButton
                                     variant="contained"
                                     // size="small"
                                     aria-haspopup="true"
@@ -193,7 +195,7 @@ class NavBar extends Component<Props, State> {
                                         : this.props.global.speed === Speed.fast
                                         ? 'Fast'
                                         : 'Faster'}
-                                </Button>
+                                </FlatButton>
 
                                 <BlueButton
                                     variant="contained"
@@ -240,6 +242,7 @@ class NavBar extends Component<Props, State> {
                     <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.faster)}>Faster</MenuItem>
                 </Menu>
                 <Drawer
+                    isSliderDisabled={this.props.isSliderDisabled}
                     isDisabled={this.isDisabled}
                     handleSpeeMenu={this.handleSpeeMenu}
                     handleAlgorithmMenu={this.handleAlgorithmMenu}

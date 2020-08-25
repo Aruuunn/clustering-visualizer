@@ -8,6 +8,7 @@ import { RootState, GlobalActionTypes, KMEANSAlgorithmActionTypes } from '../../
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import AlgorithmNames from '../../../../common/algorithms.enum';
 import IterationModeDialog from '../IterationModeDialog';
+import FlatButton from '../../../../components/FlatButton';
 
 interface State {
     anchor3: (EventTarget & Element) | null;
@@ -62,6 +63,7 @@ class NavBar extends Component<Props, State> {
         return (
             <div>
                 <CommonNavBar
+                    isSliderDisabled={this.props.global.start || this.props.kmeans.render.length !== 0}
                     disabled={this.disabled}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>
@@ -89,7 +91,7 @@ class NavBar extends Component<Props, State> {
                             />
                         </Grid>,
                         <Grid container justify="center" alignItems="center" key={1}>
-                            <Button
+                            <FlatButton
                                 key={1}
                                 variant="contained"
                                 style={{
@@ -112,7 +114,7 @@ class NavBar extends Component<Props, State> {
                                     : this.props.kmeans.mode === KMEANSMode.MultipleIteration
                                     ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
                                     : `Find best value of K - ${this.props.kmeans.maxIterations}`}
-                            </Button>
+                            </FlatButton>
                         </Grid>,
                     ]}
                 >
@@ -132,7 +134,7 @@ class NavBar extends Component<Props, State> {
                             type="number"
                         />,
 
-                        <Button
+                        <FlatButton
                             key={1}
                             // size="small"
                             variant="contained"
@@ -150,7 +152,7 @@ class NavBar extends Component<Props, State> {
                                 : this.props.kmeans.mode === KMEANSMode.MultipleIteration
                                 ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
                                 : `Find best value of K - ${this.props.kmeans.maxIterations}`}
-                        </Button>,
+                        </FlatButton>,
                     ]}
                 </CommonNavBar>
                 {this.state.isIterationModeDialogOpen ? (
