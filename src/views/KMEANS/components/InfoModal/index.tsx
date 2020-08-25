@@ -1,7 +1,6 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import {
-    Fab,
     useMediaQuery,
     Paper,
     Grid,
@@ -11,7 +10,6 @@ import {
     Typography,
     useTheme,
     CircularProgress,
-    Collapse,
 } from '@material-ui/core';
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
@@ -47,7 +45,7 @@ type Props = PropsFromRedux;
 
 function InfoModal(props: Props): ReactElement {
     const theme = useTheme();
-    const xs = !useMediaQuery('(min-width:310px)');
+    const xs = !useMediaQuery('(min-width:330px)');
     const sm = useMediaQuery(theme.breakpoints.up('sm'));
 
     const [open, setOpen] = useState<boolean>(false);
@@ -85,7 +83,7 @@ function InfoModal(props: Props): ReactElement {
         );
     }
 
-    const handleSwipeLeft = (e: any) => {
+    const handleSwipeLeft = () => {
         if (
             props.kmeans.info &&
             props.kmeans.mode === KMEANSMode.MultipleIteration &&
@@ -97,7 +95,7 @@ function InfoModal(props: Props): ReactElement {
         }
     };
 
-    const handleSwipeRight = (e: any) => {
+    const handleSwipeRight = () => {
         if (
             props.kmeans.info &&
             props.kmeans.mode === KMEANSMode.MultipleIteration &&
@@ -108,7 +106,7 @@ function InfoModal(props: Props): ReactElement {
         }
     };
 
-    const handleSwipeDown = (e: any) => {
+    const handleSwipeDown = () => {
         if (mode !== Mode.RESULT) setOpen(false);
     };
 
@@ -130,9 +128,9 @@ function InfoModal(props: Props): ReactElement {
         <div>
             <Zoom in={open} timeout={100}>
                 <Swipeable
-                    onSwipedRight={handleSwipeRight}
-                    onSwipedLeft={handleSwipeLeft}
-                    onSwipedDown={handleSwipeDown}
+                    onSwipedRight={() => handleSwipeRight()}
+                    onSwipedLeft={() => handleSwipeLeft()}
+                    onSwipedDown={() => handleSwipeDown()}
                     {...{ preventDefaultTouchmoveEvent: true, trackTouch: true }}
                     style={{ height: '100%', width: '100%' }}
                 >
@@ -143,7 +141,7 @@ function InfoModal(props: Props): ReactElement {
                             position: 'fixed',
                             right: xs ? 10 : 20,
                             top: '70px',
-                            width: xs ? '80vw' : '300px',
+                            width: xs ? '90vw' : '300px',
                             backgroundColor: theme.palette.background.paper,
                         }}
                     >
@@ -152,30 +150,23 @@ function InfoModal(props: Props): ReactElement {
                             direction="column"
                             justify="space-around"
                             alignItems="center"
-                            style={{ margin: 0, padding: '10px', height: '90vh' }}
+                            style={{ margin: 0, padding: '10px', height: '85vh' }}
                         >
                             <IconButton
-                                component={Grid}
-                                container
+                                size="small"
+                                style={{ position: 'absolute', top: 15, right: 15, backgroundColor: 'white' }}
                                 onClick={() => setOpen((s) => !s)}
-                                justify="center"
-                                alignItems="center"
-                                style={{
-                                    height: 'auto',
-                                    width: '100%',
-                                    position: 'absolute',
-                                    backgroundColor: 'grey',
-                                    color: 'white',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    borderRadius: 0,
-                                }}
                             >
-                                <SvgIcon>
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <SvgIcon fontSize="small">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="black"
+                                        width="24"
+                                    >
                                         <path d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
                                     </svg>
                                 </SvgIcon>
                             </IconButton>

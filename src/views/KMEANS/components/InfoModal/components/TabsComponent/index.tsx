@@ -75,7 +75,7 @@ export default function FullWidthTabs(props: Props) {
             justify={props.mode !== undefined && props.mode === Mode.RESULT ? 'space-between' : 'flex-start'}
             alignItems="center"
             className={classes.root}
-            style={{ height: props.mode === Mode.RESULT ? '100%' : 'auto' }}
+            style={{ height: props.mode === Mode.RESULT ? '100%' : '60vh' }}
         >
             <Grid container item style={{ paddingTop: '50px' }}>
                 {' '}
