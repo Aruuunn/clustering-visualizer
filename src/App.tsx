@@ -3,11 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import Loading from './components/Loading';
+import { Tutorial } from './components';
 
 const Home = lazy(() => import('./views/Home'));
 const KMEANSView = lazy(() => import('./views/KMEANS'));
 
 function App(): ReactElement {
+    return <Tutorial />;
+
     return (
         <ErrorBoundary>
             {' '}
