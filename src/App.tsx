@@ -9,18 +9,16 @@ const KMEANSView = lazy(() => import('./views/KMEANS'));
 
 function App(): ReactElement {
     return (
-        <div style={{ minHeight: '100vh', overflow: 'auto', backgroundColor: 'black' }}>
-            <ErrorBoundary>
+        <ErrorBoundary>
+            {' '}
+            <Suspense fallback={<Loading />}>
                 {' '}
-                <Suspense fallback={<Loading />}>
-                    {' '}
-                    <Switch>
-                        <Route path="/kmeans" component={KMEANSView} />
-                        <Route exact path="/" component={Home} />
-                    </Switch>
-                </Suspense>
-            </ErrorBoundary>
-        </div>
+                <Switch>
+                    <Route path="/kmeans" component={KMEANSView} />
+                    <Route exact path="/" component={Home} />
+                </Switch>
+            </Suspense>
+        </ErrorBoundary>
     );
 }
 

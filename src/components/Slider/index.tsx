@@ -30,6 +30,9 @@ export const PrettoSlider = withStyles({
         height: 6,
         borderRadius: 4,
     },
+    disabled: {
+        color: 'grey',
+    },
 })(Slider);
 
 export default PrettoSlider;

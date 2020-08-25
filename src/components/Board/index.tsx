@@ -105,7 +105,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div ref={this.state.container}>
-                <svg width="100%" height="100vh" ref={this.state.bg} onClick={this.handleClick}>
+                <svg width="100%" height="99vh" ref={this.state.bg} onClick={this.handleClick}>
                     <defs>
                         <marker id="markerArrow" markerWidth="10" markerHeight="10" refX="23" refY="6" orient="auto">
                             <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />

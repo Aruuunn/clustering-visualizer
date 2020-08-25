@@ -228,7 +228,8 @@ function InfoModal(props: Props): ReactElement {
                                                 Statistics
                                             </Typography>
                                             <Typography variant="body1" align="center">
-                                                Click the Iteration number to see the statistics for that iteration.
+                                                Click the Iteration number <em>below</em> to see the statistics for that
+                                                iteration.
                                             </Typography>
                                         </div>
 

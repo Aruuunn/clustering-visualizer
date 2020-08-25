@@ -86,7 +86,6 @@ function IterationModeDialog(props: Props): ReactElement {
                             onClick={() => {
                                 props.setMaxIterations(parseInt(inputs.input1));
                                 props.setMode(KMEANSMode.MultipleIteration);
-                                props.setInfoNull();
                                 props.onClose();
                             }}
                             disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
