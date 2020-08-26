@@ -126,6 +126,19 @@ function InfoModal(props: Props): ReactElement {
 
     return (
         <div>
+            {open && !sm ? (
+                <div
+                    style={{
+                        height: '100vh',
+                        width: '100vw',
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        backgroundColor: 'rgba(0,0,0,0.5)',
+                        zIndex: 10000,
+                    }}
+                ></div>
+            ) : null}
             <Zoom in={open}>
                 <Swipeable
                     onSwipedRight={() => handleSwipeRight()}
@@ -140,9 +153,10 @@ function InfoModal(props: Props): ReactElement {
                         style={{
                             position: 'fixed',
                             right: xs ? 10 : 20,
-                            top: '70px',
+                            top: xs ? '20px' : '70px',
                             width: xs ? '90vw' : '300px',
                             backgroundColor: theme.palette.background.paper,
+                            zIndex: 10001,
                         }}
                     >
                         <Grid
