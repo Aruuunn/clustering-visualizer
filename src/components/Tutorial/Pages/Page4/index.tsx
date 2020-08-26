@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 
-import createDataPoints from '../../../../assets/create-data-points.gif';
+import createDataPoints from '../../../../assets/create-data-points-min.gif';
 
 export const Page2 = () => {
     return (

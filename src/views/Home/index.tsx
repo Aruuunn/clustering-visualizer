@@ -3,7 +3,8 @@ import NavBar from '../../components/CommonNavBar';
 import Board from '../../components/Board';
 import { RootState, UserPreferencesActionTypes } from '../../reduxStore';
 import { connect, ConnectedProps } from 'react-redux';
-import { Tutorial } from '../../components';
+
+const Tutorial = React.lazy(() => import('../../components/Tutorial'));
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,

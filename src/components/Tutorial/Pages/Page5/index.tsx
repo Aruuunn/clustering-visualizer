@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid, Link } from '@material-ui/core';
 
-import selectAlgorithm from '../../../../assets/select-algorithm.gif';
+import selectAlgorithm from '../../../../assets/select-algorithm-min.gif';
 
 export const Page2 = () => {
     return (

@@ -31,7 +31,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                     <Pages page={page} />
                 </div>
 
-                <Grid container justify="space-between" style={{ width: '100%' }}>
+                <Grid container justify="space-between" alignItems="center" style={{ width: '100%' }}>
                     {page !== 8 ? (
                         <FlatButton
                             variant="contained"

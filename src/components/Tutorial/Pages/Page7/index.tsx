@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 
-import fab from '../../../../assets/fab.gif';
+import fab from '../../../../assets/fab-min.gif';
 
 export const Page7 = () => {
     return (
