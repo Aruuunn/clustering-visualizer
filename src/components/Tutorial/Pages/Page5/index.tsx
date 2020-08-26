@@ -15,7 +15,7 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Algorithm Selection
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%' }}>
+            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 Select the Algorithm you want to visualize!
             </Typography>
             <img

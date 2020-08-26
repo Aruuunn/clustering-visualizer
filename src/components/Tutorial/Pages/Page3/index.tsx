@@ -17,7 +17,7 @@ export const Page3 = () => {
                 There are a lot of clustering Algorithms. For Now <em>only</em> the algorithms given below are supported
                 in this application.
             </Typography>
-            <div style={{ width: '100%', marginTop: '20px' }}>
+            <div style={{ width: '100%', marginTop: '20px', fontWeight: 'normal' }}>
                 <ul>
                     <li>
                         {' '}

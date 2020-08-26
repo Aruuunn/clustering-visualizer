@@ -15,7 +15,7 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Get Started
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%' }}>
+            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 Start by clicking the blank space for creating data points!
             </Typography>
             <img

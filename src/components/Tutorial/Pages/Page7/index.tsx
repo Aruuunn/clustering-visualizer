@@ -15,7 +15,7 @@ export const Page7 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Floating Action Buttons
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%' }}>
+            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 Floating Action Buttons contains special options such as Statistics. You can drag them and place
                 wherever you want them to be!
             </Typography>

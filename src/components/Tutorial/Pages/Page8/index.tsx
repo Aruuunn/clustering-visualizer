@@ -13,7 +13,7 @@ export const Page8 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Finish
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%' }}>
+            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 You have been introduced to the core features of the application. Hope you enjoy using it!
             </Typography>
             <Typography variant="body1" style={{ marginTop: '30px', width: '100%' }}>

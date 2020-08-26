@@ -18,7 +18,7 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 What is Clustering?
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px' }}>
+            <Typography variant="h6" style={{ marginTop: '50px', fontWeight: 'normal' }}>
                 Cluster analysis or clustering is the task of grouping a set of objects in such a way that objects in
                 the same group (called a cluster) are more similar (in some sense) to each other than to those in other
                 groups (clusters). Clustering Algorithms are widely used in lot of different domains.
