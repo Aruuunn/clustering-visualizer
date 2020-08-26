@@ -10,6 +10,11 @@ export const BlueButton = withStyles({
             position: 'relative',
             top: '1px',
         },
+        '&:active': {
+            boxShadow: 'inset 0 -1px 	#B8B8B8',
+            position: 'relative',
+            top: '2px',
+        },
     },
 })(Button);
 

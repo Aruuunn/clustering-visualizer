@@ -1,5 +1,3 @@
-import { RefObject } from 'react';
-
 import GlobalActionTypes from '../types/Global.types';
 import { AlgorithmNames } from '../../common/algorithms.enum';
 import { Speed } from '../../common/speed.enum';
