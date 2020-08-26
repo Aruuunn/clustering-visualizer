@@ -1,9 +1,12 @@
 import React from 'react';
-import { Typography, Grid, Link } from '@material-ui/core';
+import { Typography, Grid, Link, useMediaQuery, useTheme } from '@material-ui/core';
 
 import clustersImage from '../../../../assets/clusters.png';
 
 export const Page2 = () => {
+    const theme = useTheme();
+    const xs = useMediaQuery(theme.breakpoints.down('xs'));
+
     return (
         <Grid
             container
@@ -20,27 +23,31 @@ export const Page2 = () => {
                 the same group (called a cluster) are more similar (in some sense) to each other than to those in other
                 groups (clusters). Clustering Algorithms are widely used in lot of different domains.
             </Typography>
-            <div
-                style={{
-                    width: '100%',
-                    marginTop: '10px',
-                    flexGrow: 1,
-                    backgroundRepeat: 'no-repeat',
-                    background: `url(${clustersImage})`,
-                    backgroundSize: 'cover',
-                }}
-            ></div>
-            <Typography variant="caption" gutterBottom>
-                Clusters
-                <Link
-                    target="_blank"
-                    rel="no-referrer"
-                    href="https://dev.to/nexttech/k-means-clustering-with-scikit-learn-14kk"
-                    style={{ color: 'white', marginLeft: '10px' }}
-                >
-                    @credits/Photo source
-                </Link>
-            </Typography>
+            {!xs ? (
+                <div
+                    style={{
+                        width: '100%',
+                        marginTop: '10px',
+                        flexGrow: 1,
+                        backgroundRepeat: 'no-repeat',
+                        background: `url(${clustersImage})`,
+                        backgroundSize: 'cover',
+                    }}
+                ></div>
+            ) : null}
+            {!xs ? (
+                <Typography variant="caption" gutterBottom>
+                    Clusters
+                    <Link
+                        target="_blank"
+                        rel="no-referrer"
+                        href="https://dev.to/nexttech/k-means-clustering-with-scikit-learn-14kk"
+                        style={{ color: 'white', marginLeft: '10px' }}
+                    >
+                        @credits/Photo source
+                    </Link>
+                </Typography>
+            ) : null}
         </Grid>
     );
 };

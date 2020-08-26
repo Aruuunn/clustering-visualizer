@@ -8,7 +8,7 @@ export const Page3 = () => {
             direction="column"
             justify="flex-start"
             alignItems="center"
-            style={{ width: '100%', height: '100%', padding: '10px' }}
+            style={{ width: '100%', height: '100%', padding: '10px', overflow: 'auto' }}
         >
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Clustering Algorithms

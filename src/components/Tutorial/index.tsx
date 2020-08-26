@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from 'react';
-import { Backdrop, Paper, Grid } from '@material-ui/core';
+import { Backdrop, Paper, Grid, useTheme, useMediaQuery } from '@material-ui/core';
 
 import Pages from './Pages';
 import { BlueButton, FlatButton } from '../../components';
 
 const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
     const [page, setPage] = useState(1);
+    const theme = useTheme();
+    const xs = useMediaQuery(theme.breakpoints.down('xs'));
 
     return (
         <Backdrop open={true} style={{ zIndex: 10000 }}>
@@ -22,20 +24,37 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                     height: '100%',
                     padding: '15px',
                     margin: '10px',
+                    overflowY: 'auto',
+                    position: 'relative',
+                    paddingBottom: '50px',
                 }}
             >
-                <Grid container justify="flex-end">
+                <Grid container justify="flex-end" style={{ width: '100%' }}>
                     {page}/8
                 </Grid>
                 <div style={{ width: '100%', flexGrow: 1 }}>
                     <Pages page={page} />
                 </div>
 
-                <Grid container justify="space-between" alignItems="center" style={{ width: '100%' }}>
+                <Grid
+                    container
+                    justify="space-between"
+                    alignItems="center"
+                    style={{
+                        width: '100%',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        paddingLeft: xs ? 0 : '20px',
+                        paddingRight: xs ? 0 : '20px',
+                        paddingBottom: xs ? 0 : '5px',
+                    }}
+                >
                     {page !== 8 ? (
                         <FlatButton
                             variant="contained"
-                            style={{ margin: '10px' }}
+                            style={{ margin: '5px' }}
                             onClick={() => props.setTutorialComplete()}
                         >
                             SKIP
@@ -47,19 +66,27 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                         {page !== 1 ? (
                             <FlatButton
                                 variant="contained"
-                                style={{ margin: '10px' }}
+                                style={{ margin: '5px' }}
                                 onClick={() => setPage((page) => page - 1)}
                             >
                                 Previous
                             </FlatButton>
                         ) : null}
                         {page !== 8 ? (
-                            <BlueButton variant="contained" onClick={() => setPage((page) => page + 1)}>
+                            <BlueButton
+                                style={{ margin: '5px' }}
+                                variant="contained"
+                                onClick={() => setPage((page) => page + 1)}
+                            >
                                 Next
                             </BlueButton>
                         ) : null}
                         {page === 8 ? (
-                            <BlueButton variant="contained" onClick={() => props.setTutorialComplete()}>
+                            <BlueButton
+                                style={{ margin: '5px' }}
+                                variant="contained"
+                                onClick={() => props.setTutorialComplete()}
+                            >
                                 Finish
                             </BlueButton>
                         ) : null}
