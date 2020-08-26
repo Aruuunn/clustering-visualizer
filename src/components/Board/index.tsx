@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Ref } from 'react';
 
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import { Node } from '../../reduxStore/reducers/global';

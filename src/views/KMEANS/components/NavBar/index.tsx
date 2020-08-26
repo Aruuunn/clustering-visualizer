@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ChangeEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { InputBase, Button, SvgIcon, withStyles, fade, Grid } from '@material-ui/core';
+import { InputBase, SvgIcon, withStyles, fade, Grid } from '@material-ui/core';
 
 import CommonNavBar from '../../../../components/CommonNavBar';
 import { RootState, GlobalActionTypes, KMEANSAlgorithmActionTypes } from '../../../../reduxStore';
@@ -56,7 +56,9 @@ class NavBar extends Component<Props, State> {
         if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
     }
 
-    disabled = () => this.props.kmeans.numberOfClusters <= 1;
+    disabled = () =>
+        this.props.kmeans.numberOfClusters <= 1 ||
+        this.props.kmeans.numberOfClusters >= this.props.global.coordinatesOfNodes.length;
 
     render() {
         const { classes } = this.props;
@@ -136,7 +138,7 @@ class NavBar extends Component<Props, State> {
 
                         <FlatButton
                             key={1}
-                            // size="small"
+                            size="small"
                             variant="contained"
                             style={{ marginRight: '20px' }}
                             onClick={() => this.setState({ isIterationModeDialogOpen: true })}
@@ -187,7 +189,10 @@ export default withStyles((theme) => ({
         color: 'inherit',
     },
     inputInput: {
-        padding: theme.spacing(1.15, 1, 1.15, 1),
+        padding: theme.spacing(0.75, 1, 0.75, 1),
+        [theme.breakpoints.up('lg')]: {
+            padding: theme.spacing(1.15, 1, 1.15, 1),
+        },
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {

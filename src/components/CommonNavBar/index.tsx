@@ -1,5 +1,5 @@
 import React, { Component, SyntheticEvent, ReactElement } from 'react';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -166,7 +166,7 @@ class NavBar extends Component<Props, State> {
                                 <FlatButton
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
-                                    // size="small"
+                                    size="small"
                                     onClick={this.handleAlgorithmMenu}
                                     startIcon={
                                         <SvgIcon>
@@ -184,7 +184,7 @@ class NavBar extends Component<Props, State> {
 
                                 <FlatButton
                                     variant="contained"
-                                    // size="small"
+                                    size="small"
                                     aria-haspopup="true"
                                     onClick={this.handleSpeeMenu}
                                     style={{ marginRight: '20px' }}
@@ -208,7 +208,7 @@ class NavBar extends Component<Props, State> {
 
                                 <BlueButton
                                     variant="contained"
-                                    // size="small"
+                                    size="small"
                                     onClick={() => {
                                         this.props.startVisualization();
                                     }}

@@ -1,6 +1,7 @@
-import { Button, withStyles } from '@material-ui/core';
+import React from 'react';
+import { Button, withStyles, useTheme, useMediaQuery } from '@material-ui/core';
 
-export const BlueButton = withStyles({
+export const FlatButton = withStyles({
     root: {
         // borderRadius: '0%',
         // -webkitox-shadow: inset 0 -2px #d3d3d3;
@@ -18,4 +19,9 @@ export const BlueButton = withStyles({
     },
 })(Button);
 
-export default BlueButton;
+const FlatButtonComponent = (props: any) => {
+    const theme = useTheme();
+    const lg = useMediaQuery(theme.breakpoints.up('lg'));
+    return <FlatButton {...{ ...props, size: lg ? 'medium' : 'small' }} />;
+};
+export default FlatButtonComponent;

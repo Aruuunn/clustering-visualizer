@@ -18,7 +18,6 @@ import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes } fro
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
-import PieChartIcon from '../../../../assets/pie-chart.svg';
 import RenderChart from './components/RenderChart';
 import FloatingActionButtons from './components/FloatingActionButtons';
 import Result from './components/Result';

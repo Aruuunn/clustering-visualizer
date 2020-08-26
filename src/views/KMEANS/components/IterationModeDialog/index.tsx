@@ -8,7 +8,6 @@ import { RootState } from '../../../../reduxStore';
 import KMEANSAlgorithmActionTypes from '../../../../reduxStore/types/KMEANS.algorithm.types';
 
 const mapStateToProps = (state: RootState) => ({ global: state.global });
-
 const mapDispatchToProps = {
     setMode: (mode: KMEANSMode) => ({ type: KMEANSAlgorithmActionTypes.SET_ITERATION_MODE, payload: mode }),
     setMaxIterations: (maxIter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS, payload: maxIter }),
@@ -49,9 +48,6 @@ function IterationModeDialog(props: Props): ReactElement {
                                 secondary="Runs the k-means algorithm multiple times and calculates variance for each result and gives the best result"
                             />
                         </ListItem>{' '}
-                        {/* <ListItem button onClick={() => setState(2)}>
-                            <ListItemText primary="Find the best value for K (Recommended if you don't know the value of K)" secondary="Calculates variance for various values of 'K' and gives the best value for 'K'" />
-                        </ListItem> */}
                     </List>
                 </div>
             ) : state === 1 ? (
@@ -86,6 +82,7 @@ function IterationModeDialog(props: Props): ReactElement {
                             onClick={() => {
                                 props.setMaxIterations(parseInt(inputs.input1));
                                 props.setMode(KMEANSMode.MultipleIteration);
+                                props.setInfoNull();
                                 props.onClose();
                             }}
                             disabled={inputs.input1.trim() === '' || parseInt(inputs.input1) < 2}
@@ -94,42 +91,7 @@ function IterationModeDialog(props: Props): ReactElement {
                         </BlueButton>
                     </form>
                 </Grid>
-            ) : (
-                <Grid container justify="center" style={{ padding: '10px' }}>
-                    <DialogTitle style={{ width: '100%' }}>
-                        <Typography align="center" style={{ width: '100%' }}>
-                            What is the maximum value of K?
-                        </Typography>
-                    </DialogTitle>
-                    <div>
-                        <TextField
-                            color="secondary"
-                            value={inputs.input2}
-                            onChange={(e) => {
-                                e.persist();
-                                setInput((s) => ({ ...s, input2: e.target.value }));
-                            }}
-                            variant="outlined"
-                            inputProps={{ min: 0 }}
-                            type="number"
-                            style={{ display: 'block' }}
-                        />
-                        <BlueButton
-                            variant="contained"
-                            style={{ marginTop: '5px' }}
-                            onClick={() => {
-                                props.setMaxIterations(parseInt(inputs.input2));
-                                props.setMode(KMEANSMode.PlotKversusVariance);
-                                props.setInfoNull();
-                                props.onClose();
-                            }}
-                            disabled={inputs.input2.trim() === '' || parseInt(inputs.input2) < 2}
-                        >
-                            Save
-                        </BlueButton>
-                    </div>
-                </Grid>
-            )}
+            ) : null}
         </Dialog>
     );
 }

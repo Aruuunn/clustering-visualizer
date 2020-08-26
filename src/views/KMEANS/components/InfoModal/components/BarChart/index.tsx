@@ -9,6 +9,7 @@ interface Props {
     width: number;
     height: number;
     variance: Variance | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     key?: any;
 }
 

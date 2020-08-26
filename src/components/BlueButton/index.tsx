@@ -1,4 +1,5 @@
-import { Button, withStyles } from '@material-ui/core';
+import React from 'react';
+import { Button, withStyles, useTheme, useMediaQuery } from '@material-ui/core';
 
 export const BlueButton = withStyles({
     root: {
@@ -21,4 +22,10 @@ export const BlueButton = withStyles({
     },
 })(Button);
 
-export default BlueButton;
+export const BlueButtonComponent = (props: any) => {
+    const theme = useTheme();
+    const lg = useMediaQuery(theme.breakpoints.up('lg'));
+    return <BlueButton {...{ ...props, size: lg ? 'medium' : 'small' }} />;
+};
+
+export default BlueButtonComponent;
