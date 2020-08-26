@@ -163,6 +163,7 @@ class KMeans extends Component<Props, State> {
             variance.variances.push(temp);
             variance.labels.push(`C${iter + 1}`);
         }
+        variance.total /= this.numberOfClusters;
         variance.silhouetteScore = calculateSilhouetteScore(clusters, this.state.centroids);
 
         return variance;

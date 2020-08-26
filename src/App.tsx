@@ -1,13 +1,28 @@
 import React, { ReactElement, Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+
 import ErrorBoundary from './components/ErrorBoundary';
 
 import Loading from './components/Loading';
+import { RootState, UserPreferencesActionTypes } from './reduxStore';
 
 const Home = lazy(() => import('./views/Home'));
 const KMEANSView = lazy(() => import('./views/KMEANS'));
+const Tutorial = React.lazy(() => import('./components/Tutorial'));
 
-function App(): ReactElement {
+const mapStateToProps = (state: RootState) => ({
+    userPreferences: state.userPreferences,
+});
+
+const mapDispatchToProps = {
+    setTutorialComplete: () => ({ type: UserPreferencesActionTypes.FINISH_TUTORIAL }),
+};
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type Props = ConnectedProps<typeof connector>;
+
+function App(props: Props): ReactElement {
     return (
         <ErrorBoundary>
             {' '}
@@ -17,9 +32,12 @@ function App(): ReactElement {
                     <Route path="/kmeans" component={KMEANSView} />
                     <Route exact path="/" component={Home} />
                 </Switch>
+                {props.userPreferences.tutorialComplete === false ? (
+                    <Tutorial setTutorialComplete={props.setTutorialComplete} />
+                ) : null}
             </Suspense>
         </ErrorBoundary>
     );
 }
 
-export default App;
+export default connector(App);

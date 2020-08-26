@@ -67,7 +67,7 @@ function RenderChart(props: Props): ReactElement {
                 {variance ? (
                     <TableRow>
                         <TableCell align="left">
-                            <strong>Total within-Cluster Variance</strong>
+                            <strong>Average within-Cluster Variance</strong>
                         </TableCell>
                         <TableCell align="left">{variance.total.toFixed(1)}</TableCell>
                     </TableRow>
