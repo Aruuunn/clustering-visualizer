@@ -1,7 +1,9 @@
 import React from 'react';
-import { Typography, Grid, Link, useMediaQuery, useTheme } from '@material-ui/core';
+import { Typography, Grid, CircularProgress, useMediaQuery, useTheme } from '@material-ui/core';
+import ProgressiveImage from 'react-progressive-image';
 
 import clustersImage from '../../../../assets/clusters.png';
+import ClusterProgressiveImage from '../../../../assets/clusters-min.jpg';
 
 export const Page2 = () => {
     const theme = useTheme();
@@ -24,29 +26,32 @@ export const Page2 = () => {
                 groups (clusters). Clustering Algorithms are widely used in lot of different domains.
             </Typography>
             {!xs ? (
-                <div
-                    style={{
-                        width: '100%',
-                        marginTop: '10px',
-                        flexGrow: 1,
-                        backgroundRepeat: 'no-repeat',
-                        background: `url(${clustersImage})`,
-                        backgroundSize: 'cover',
-                    }}
-                ></div>
-            ) : null}
-            {!xs ? (
-                <Typography variant="caption" gutterBottom>
-                    Clusters
-                    <Link
-                        target="_blank"
-                        rel="no-referrer"
-                        href="https://dev.to/nexttech/k-means-clustering-with-scikit-learn-14kk"
-                        style={{ color: 'white', marginLeft: '10px' }}
-                    >
-                        @credits/Photo source
-                    </Link>
-                </Typography>
+                <ProgressiveImage src={clustersImage} placeholder={ClusterProgressiveImage}>
+                    {(src: string, loading: boolean) => (
+                        <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+                            <img
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    opacity: loading ? 0.8 : 1,
+                                    transition: 'opacity 2s ease',
+                                }}
+                                src={src}
+                                alt="an image"
+                            />
+                            {loading ? (
+                                <Grid
+                                    container
+                                    justify="center"
+                                    alignItems="center"
+                                    style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: '100%' }}
+                                >
+                                    <CircularProgress style={{ color: 'white' }} />
+                                </Grid>
+                            ) : null}
+                        </div>
+                    )}
+                </ProgressiveImage>
             ) : null}
         </Grid>
     );
