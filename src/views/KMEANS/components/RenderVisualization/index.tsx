@@ -234,6 +234,7 @@ class KMeans extends Component<Props, State> {
                             y1={currentNode[1]}
                             x2={this.state.centroids[pos][0]}
                             y2={this.state.centroids[pos][1]}
+                            style={{ opacity: 0.7 }}
                         />
                         <circle
                             cx={currentNode[0]}

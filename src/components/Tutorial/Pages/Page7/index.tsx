@@ -31,7 +31,7 @@ export const Page7 = () => {
                             flexGrow: 1,
                             backgroundRepeat: 'no-repeat',
                             background: `url(${src})`,
-                            backgroundSize: 'cover',
+                            backgroundSize: 'auto',
                             opacity: loading ? 0.8 : 1,
                             transition: 'opacity 2s ease',
                             position: 'relative',
