@@ -234,7 +234,15 @@ class NavBar extends Component<Props, State> {
                             this.props.history.push('/kmeans');
                         }}
                     >
-                        K Means
+                        K MEANS
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            this.handleAlgorithmClose(AlgorithmNames.DBSCAN);
+                            this.props.history.push('/dbscan');
+                        }}
+                    >
+                        DBSCAN
                     </MenuItem>
                 </Menu>
                 <Menu

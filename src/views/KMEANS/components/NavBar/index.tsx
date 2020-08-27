@@ -78,6 +78,7 @@ class NavBar extends Component<Props, State> {
                                     marginTop: '10px',
                                     maxWidth: '500px',
                                 }}
+                                inputProps={{ min: 2, type: 'number' }}
                                 fullWidth
                                 color="secondary"
                                 value={
@@ -132,6 +133,7 @@ class NavBar extends Component<Props, State> {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
+                            inputProps={{ min: 0, type: 'number' }}
                             className={classes.input}
                             type="number"
                         />,
