@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 
 import { KMEANSAlgorithmActionTypes } from '../types/KMEANS.algorithm.types';
+import AlgorithmActionTypes from '../types/algorithm.types';
 import KMEANSMode from '../../common/kmeans.mode.enum';
 
 export type Variance = {
@@ -34,7 +35,7 @@ const initialState: KMEANSState = {
 };
 
 interface Action {
-    type: KMEANSAlgorithmActionTypes;
+    type: KMEANSAlgorithmActionTypes | AlgorithmActionTypes;
     payload?: any;
 }
 
@@ -64,7 +65,7 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
         case KMEANSAlgorithmActionTypes.SET_MAX_ITERATIONS:
             return { ...state, maxIterations: action.payload as number };
 
-        case KMEANSAlgorithmActionTypes.RESET_DATA:
+        case AlgorithmActionTypes.RESET_DATA:
             return { ...state, render: [] };
 
         case KMEANSAlgorithmActionTypes.SET_INFO:

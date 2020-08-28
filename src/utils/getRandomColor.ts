@@ -13,4 +13,4 @@ export function getColor(i: number): string {
     return getRandomColor();
 }
 
-export default getRandomColor;
+export default getColor;

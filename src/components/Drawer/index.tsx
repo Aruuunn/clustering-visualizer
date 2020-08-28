@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { AlgorithmNames } from '../../common/algorithms.enum';
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import UserDataActionTypes from '../../reduxStore/types/UserPreferences.types';
-import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
+import AlgorithmActionTypes from '../../reduxStore/types/algorithm.types';
 import Speed from '../../common/speed.enum';
 import BlueButton from '../BlueButton';
 import { RootState } from '../../reduxStore';

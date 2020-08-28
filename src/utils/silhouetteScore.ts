@@ -77,3 +77,5 @@ export const calculateSilhouetteScore = (clusters: number[][][], centroids: numb
 
     return silhouetteScore / total;
 };
+
+export default calculateSilhouetteScore;

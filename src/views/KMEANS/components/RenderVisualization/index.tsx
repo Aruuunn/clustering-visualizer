@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import distance from '../../../../utils/distance';
 import calculateVariance from '../../../../utils/variance';
 import { KMEANSAlgorithmActionTypes } from '../../../../reduxStore/types/KMEANS.algorithm.types';
+import AlgorithmActionTypes from '../../../../reduxStore/types/algorithm.types';
 import GlobalActionTypes from '../../../../reduxStore/types/Global.types';
 import { getColor } from '../../../../utils/getRandomColor';
 import { RootState } from '../../../../reduxStore/reducers';
@@ -27,7 +28,7 @@ const mapDispatchToProps = {
         type: KMEANSAlgorithmActionTypes.SET_RENDER,
         payload: data,
     }),
-    resetAlgoData: () => ({ type: KMEANSAlgorithmActionTypes.RESET_DATA }),
+    resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
     reduceData: (numberOfNodes: number) => ({
         type: KMEANSAlgorithmActionTypes.REDUCE_DATA,
         payload: numberOfNodes,

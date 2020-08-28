@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { AlgorithmNames } from '../../common/algorithms.enum';
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
-import AlgorithmActionTypes from '../../reduxStore/types/KMEANS.algorithm.types';
+import { AlgorithmActionTypes } from '../../reduxStore/types/algorithm.types';
 import Speed from '../../common/speed.enum';
 import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';

@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import DBSCANAlgorithmActionTypes from '../types/dbscan.types';
+import AlgorithmActionTypes from '../types/algorithm.types';
 
 export interface DBSCANState {
     minPts: number;
@@ -8,7 +9,7 @@ export interface DBSCANState {
 }
 
 export interface DBSACNAction {
-    type: DBSCANAlgorithmActionTypes;
+    type: DBSCANAlgorithmActionTypes | AlgorithmActionTypes;
     payload?: ReactElement | number | ReactElement[];
 }
 
@@ -39,6 +40,8 @@ export default (state: DBSCANState = initialState, action: DBSACNAction): DBSCAN
         case DBSCANAlgorithmActionTypes.ADD_TO_RENDER:
             return { ...state, render: [...state.render, action.payload as ReactElement] };
 
+        case AlgorithmActionTypes.RESET_DATA:
+            return { ...state, render: [] };
         default:
             return state;
     }
