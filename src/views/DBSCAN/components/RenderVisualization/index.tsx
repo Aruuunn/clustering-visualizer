@@ -84,7 +84,6 @@ class RenderVisualisation extends Component<Props, State> {
                         strokeWidth="3"
                         fill="transparent"
                     />,
-                    ...this.renderCircles,
                 ];
                 this.props.addToRender(
                     <circle
@@ -98,7 +97,6 @@ class RenderVisualisation extends Component<Props, State> {
                         opacity="0.1"
                     />,
                 );
-                this.renderCircles = this.renderCircles.slice(0, 5);
 
                 for (let i = 0; i < list.length; i++) {
                     this.data[`${list[i].id}`] = colors.length - 1;

@@ -187,8 +187,8 @@ function Drawer(props: Props): ReactElement {
                     <Grid container justify="center" alignItems="center">
                         <FlatButton
                             onClick={() => {
-                                props.clearPoints();
                                 props.resetAlgorithmVisualization();
+                                props.clearPoints();
                             }}
                             style={{
                                 width: '100%',
