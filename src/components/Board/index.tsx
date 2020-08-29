@@ -146,7 +146,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
             cluster = false;
             setTimeout(() => {
                 cluster = true;
-            }, 50);
+            }, 100);
         };
 
         const removeEventListeners = () => {
