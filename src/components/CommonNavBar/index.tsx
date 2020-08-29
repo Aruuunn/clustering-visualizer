@@ -167,6 +167,7 @@ class NavBar extends Component<Props, State> {
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
                                     size="small"
+                                    disabled={this.props.global.start}
                                     onClick={this.handleAlgorithmMenu}
                                     startIcon={
                                         <SvgIcon>

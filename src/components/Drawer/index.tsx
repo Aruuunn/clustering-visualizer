@@ -71,6 +71,7 @@ function Drawer(props: Props): ReactElement {
                                     marginRight: 0,
                                     marginTop: '10px',
                                 }}
+                                disabled={props.global.start}
                                 startIcon={
                                     <SvgIcon>
                                         <path d="M0 0h24v24H0z" fill="none" />
