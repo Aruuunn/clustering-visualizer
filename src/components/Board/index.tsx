@@ -28,7 +28,6 @@ type IBoardProps = PropsFromRedux & {
 
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
-    container: React.RefObject<HTMLDivElement>;
 };
 
 class Board extends React.Component<IBoardProps, BoardState> {
@@ -36,7 +35,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
         super(props);
         this.state = {
             bg: React.createRef(),
-            container: React.createRef(),
         };
     }
 
@@ -101,10 +99,57 @@ class Board extends React.Component<IBoardProps, BoardState> {
         ]);
     };
 
+    handleCreate = () => {
+        if (!this.state.bg.current) {
+            return;
+        }
+        const left = this.state.bg.current.getBoundingClientRect().left;
+        const top = this.state.bg.current.getBoundingClientRect().top;
+        let cluster = true;
+
+        const createCluster = (e: PointerEvent) => {
+            if (!cluster) {
+                return;
+            }
+            const space = 30;
+            const X = e.clientX - left;
+            const y = e.clientY - top;
+            this.props.setCoordinates([
+                ...this.props.global.coordinatesOfNodes,
+                { coordinates: [X, y], id: this.props.global.coordinatesOfNodes.length },
+                { coordinates: [X + space, y], id: this.props.global.coordinatesOfNodes.length + 1 },
+                { coordinates: [X - space, y], id: this.props.global.coordinatesOfNodes.length + 2 },
+                { coordinates: [X, y + space], id: this.props.global.coordinatesOfNodes.length + 3 },
+                { coordinates: [X, y - space], id: this.props.global.coordinatesOfNodes.length + 4 },
+                { coordinates: [X + space, y + space], id: this.props.global.coordinatesOfNodes.length + 5 },
+                { coordinates: [X - space, y - space], id: this.props.global.coordinatesOfNodes.length + 6 },
+                { coordinates: [X + space, y - space], id: this.props.global.coordinatesOfNodes.length + 7 },
+                { coordinates: [X - space, y + space], id: this.props.global.coordinatesOfNodes.length + 8 },
+            ]);
+            cluster = false;
+            setTimeout(() => {
+                cluster = true;
+            }, 50);
+        };
+
+        const removeEventListeners = () => {
+            this.state.bg.current?.removeEventListener('pointermove', createCluster);
+            this.state.bg.current?.removeEventListener('pointerup', () => removeEventListeners());
+        };
+        this.state.bg.current?.addEventListener('pointermove', createCluster);
+        this.state.bg.current?.addEventListener('pointerup', () => removeEventListeners());
+    };
+
     public render() {
         return (
-            <div ref={this.state.container}>
-                <svg width="100%" height="99vh" ref={this.state.bg} onClick={this.handleClick}>
+            <div>
+                <svg
+                    width="100%"
+                    height="99vh"
+                    ref={this.state.bg}
+                    onClick={this.handleClick}
+                    onPointerDown={this.handleCreate}
+                >
                     <defs>
                         <marker id="markerArrow" markerWidth="10" markerHeight="10" refX="23" refY="6" orient="auto">
                             <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />

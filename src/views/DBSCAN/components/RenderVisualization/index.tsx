@@ -85,6 +85,7 @@ class RenderVisualisation extends Component<Props, State> {
                         fill="transparent"
                     />,
                 ];
+
                 this.props.addToRender(
                     <circle
                         key={`c -${node.id}`}
@@ -94,7 +95,7 @@ class RenderVisualisation extends Component<Props, State> {
                         stroke={colors[colors.length - 1]}
                         strokeWidth="3"
                         fill={colors[colors.length - 1]}
-                        opacity="0.1"
+                        opacity="0.06"
                     />,
                 );
 
@@ -107,6 +108,8 @@ class RenderVisualisation extends Component<Props, State> {
                             cx={list[i].coordinates[0]}
                             cy={list[i].coordinates[1]}
                             fill={colors[colors.length - 1]}
+                            stroke="black"
+                            strokeWidth="0.5"
                         />,
                     );
                 }
@@ -139,8 +142,9 @@ class RenderVisualisation extends Component<Props, State> {
     render() {
         return (
             <g>
-                {this.props.dbscan.render}
                 {this.props.global.start && this.renderCircles}
+
+                {this.props.dbscan.render}
             </g>
         );
     }

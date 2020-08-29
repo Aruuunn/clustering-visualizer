@@ -39,6 +39,7 @@
         "redux-devtools-extension": "^2.13.8",
         "redux-persist": "^6.0.0",
         "seedrandom": "^3.0.5",
+        "ts-debounce": "^2.0.1",
         "typescript": "~3.7.2"
     },
     "scripts": {
