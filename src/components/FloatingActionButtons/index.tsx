@@ -18,7 +18,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & {
-    children?: ReactElement[];
+    children?: (ReactElement | null)[];
 };
 
 const FloatingActionButtons = (props: Props) => {
@@ -40,9 +40,9 @@ const FloatingActionButtons = (props: Props) => {
 
         const move = (e: any) => {
             const X: number = e.clientX - 34;
-            let y: number = e.clientY - 210;
+            let y: number = e.clientY - 250;
 
-            y = y < 60 ? 60 : y;
+            y = y < 30 ? 30 : y;
 
             props.setCoordinatesOfFab([X, y]);
 
@@ -75,7 +75,7 @@ const FloatingActionButtons = (props: Props) => {
                                     position: 'fixed',
                                     width: 'auto',
                                     ...coordiantesOfFab,
-                                    height: '300px',
+                                    height: '350px',
                                 }}
                             >
                                 {props.children}

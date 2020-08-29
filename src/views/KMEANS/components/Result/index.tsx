@@ -1,11 +1,11 @@
 import React from 'react';
 import { Backdrop, Grid, Paper, Typography, useMediaQuery, SvgIcon, IconButton, Fade } from '@material-ui/core';
 
-import { DetailedInfo } from '../../../../../../reduxStore/reducers/kmeans.algorithm';
-import { Mode } from '../../../InfoModal';
-import RenderChart from '../RenderChart';
-import LineChart from '../LineChart';
-import BlueButton from '../../../../../../components/BlueButton';
+import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
+import { Mode } from '../InfoModal';
+import RenderChart from '../InfoModal/components/RenderChart';
+import LineChart from '../InfoModal/components/LineChart';
+import BlueButton from '../../../../components/BlueButton';
 
 interface Props {
     details: DetailedInfo;
