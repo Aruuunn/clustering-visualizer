@@ -24,7 +24,8 @@ export default (state: UserPreferencesState = initialState, action: Action): Use
             return { ...state, sizeOfPoint: action.payload };
         case UserPreferencesActionTypes.SET_FAB_COORDINATES:
             return { ...state, coordinatesOfFab: action.payload as number[] };
-
+        case UserPreferencesActionTypes.RESET_FAB_COORDINATES:
+            return { ...state, coordinatesOfFab: undefined };
         default:
             return state;
     }

@@ -7,7 +7,7 @@ import { Node } from '../../reduxStore/reducers/global';
 import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
-import AlgorithmNames from '../../common/algorithms.enum';
+import { UserPreferencesActionTypes } from '../../reduxStore';
 
 const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
 
@@ -20,6 +20,7 @@ const mapDispatchToProps = {
         type: GlobalActionTypes.UPDATE_COORDINATES,
         payload: node,
     }),
+    resetFabCoordinates: () => ({ type: UserPreferencesActionTypes.RESET_FAB_COORDINATES }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -41,6 +42,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
             bg: React.createRef(),
             createClusterMode: false,
         };
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', () => this.props.resetFabCoordinates());
     }
 
     componentDidUpdate() {
@@ -156,6 +161,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
         this.state.bg.current?.addEventListener('pointermove', createCluster);
         this.state.bg.current?.addEventListener('pointerup', () => removeEventListeners());
     };
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', () => this.props.resetFabCoordinates());
+    }
 
     public render() {
         return (
