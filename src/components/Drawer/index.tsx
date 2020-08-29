@@ -179,6 +179,7 @@ function Drawer(props: Props): ReactElement {
                                 marginTop: '10px',
                             }}
                             variant="contained"
+                            disabled={props.global.start}
                         >
                             {' '}
                             Clear Visualization
@@ -190,6 +191,7 @@ function Drawer(props: Props): ReactElement {
                                 props.resetAlgorithmVisualization();
                                 props.clearPoints();
                             }}
+                            disabled={props.global.start}
                             style={{
                                 width: '100%',
                                 maxWidth: '500px',

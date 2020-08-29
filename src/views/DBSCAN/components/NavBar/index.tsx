@@ -55,7 +55,7 @@ class NavBar extends Component<Props, State> {
                                     marginTop: '10px',
                                     maxWidth: '500px',
                                 }}
-                                inputProps={{ min: 0, type: 'number' }}
+                                inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
                                 fullWidth
                                 color="secondary"
                                 value={this.props.dbscan.minPts === 0 ? '' : this.props.dbscan.minPts}
@@ -81,7 +81,7 @@ class NavBar extends Component<Props, State> {
                                     marginTop: '10px',
                                     maxWidth: '500px',
                                 }}
-                                inputProps={{ min: 0, type: 'number' }}
+                                inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
                                 fullWidth
                                 color="secondary"
                                 value={this.props.dbscan.eps === 0 ? '' : this.props.dbscan.eps}
@@ -110,7 +110,7 @@ class NavBar extends Component<Props, State> {
                                 e.persist();
                                 this.props.setMinPts(parseInt(e.target.value));
                             }}
-                            inputProps={{ min: 0, type: 'number' }}
+                            inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
@@ -132,7 +132,7 @@ class NavBar extends Component<Props, State> {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            inputProps={{ min: 0, type: 'number' }}
+                            inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
                             className={classes.input}
                             type="number"
                         />,

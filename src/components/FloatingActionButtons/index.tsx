@@ -18,7 +18,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 type Props = PropsFromRedux & {
-    children?: ReactElement | ReactElement[];
+    children?: ReactElement[];
 };
 
 const FloatingActionButtons = (props: Props) => {
@@ -79,6 +79,7 @@ const FloatingActionButtons = (props: Props) => {
                                 }}
                             >
                                 {props.children}
+
                                 <Zoom in={fabOpen}>
                                     <Fab
                                         onPointerDown={handleMove}
