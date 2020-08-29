@@ -187,27 +187,27 @@ class KMeans extends Component<Props, State> {
                 let pos = 0;
 
                 for (let j = 0; j < this.numberOfClusters; j++) {
-                    this.props.addToRender(
-                        <g key={`a-${this.props.kmeans.render.length}`}>
-                            <circle
-                                r={this.props.userPreference.sizeOfPoint + 1}
-                                cx={currentNode[0]}
-                                cy={currentNode[1]}
-                                style={{ fill: 'yellow' }}
-                            />
-                            <line
-                                x1={this.state.centroids[j][0]}
-                                y1={this.state.centroids[j][1]}
-                                x2={currentNode[0]}
-                                y2={currentNode[1]}
-                                stroke="yellow"
-                                strokeWidth="2.5"
-                            />
-                        </g>,
-                    );
+                    // this.props.addToRender(
+                    //     <g key={`a-${this.props.kmeans.render.length}`}>
+                    //         <circle
+                    //             r={this.props.userPreference.sizeOfPoint + 1}
+                    //             cx={currentNode[0]}
+                    //             cy={currentNode[1]}
+                    //             style={{ fill: 'yellow' }}
+                    //         />
+                    //         <line
+                    //             x1={this.state.centroids[j][0]}
+                    //             y1={this.state.centroids[j][1]}
+                    //             x2={currentNode[0]}
+                    //             y2={currentNode[1]}
+                    //             stroke="yellow"
+                    //             strokeWidth="2.5"
+                    //         />
+                    //     </g>,
+                    // );
 
-                    await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
-                    this.props.popRender();
+                    // await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+                    // this.props.popRender();
                     const dist = distance(currentNode, this.state.centroids[j]);
                     if (dist < min) {
                         min = dist;
@@ -224,7 +224,7 @@ class KMeans extends Component<Props, State> {
                     clusters[pos].push(currentNode);
                 }
 
-                await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
+                //  await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
 
                 this.props.addToRender(
                     <g key={`b-${this.props.kmeans.render.length}`}>
@@ -242,8 +242,8 @@ class KMeans extends Component<Props, State> {
                             cy={currentNode[1]}
                             r={this.props.userPreference.sizeOfPoint}
                             style={{ fill: this.colors[pos] }}
-                            stroke={this.colors[pos]}
-                            strokeWidth="1"
+                            stroke={'black'}
+                            strokeWidth="0.3"
                         />
                     </g>,
                 );
@@ -268,16 +268,20 @@ class KMeans extends Component<Props, State> {
                             Math.abs(temp[iter][0] - result.centroids[iter][0]) +
                                 Math.abs(temp[iter][1] - result.centroids[iter][1]),
                         ) > 0 ? (
-                            <line
-                                x1={temp[iter][0]}
-                                y1={temp[iter][1]}
-                                x2={result.centroids[iter][0]}
-                                y2={result.centroids[iter][1]}
-                                stroke="white"
-                                strokeWidth="1"
-                                strokeDasharray="4"
-                                style={{ markerEnd: 'url(#markerArrow)' }}
-                            />
+                            <g>
+                                {' '}
+                                <line
+                                    x1={temp[iter][0]}
+                                    y1={temp[iter][1]}
+                                    x2={result.centroids[iter][0]}
+                                    y2={result.centroids[iter][1]}
+                                    stroke="white"
+                                    strokeLinecap="round"
+                                    strokeWidth="2"
+                                    strokeDasharray="8"
+                                    style={{ markerEnd: 'url(#markerArrow)' }}
+                                />
+                            </g>
                         ) : null}
 
                         <rect

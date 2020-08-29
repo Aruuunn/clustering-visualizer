@@ -90,7 +90,9 @@ function KMEANS(props: Props): ReactElement {
                                 </Fab>
                             </div>
                         </Zoom>
-                    ) : null,
+                    ) : (
+                        <div style={{ height: '10px' }} />
+                    ),
                 ]}
             />
 
