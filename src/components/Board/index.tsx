@@ -1,11 +1,13 @@
-import * as React from 'react';
+import React, { ReactElement } from 'react';
+
 import { connect, ConnectedProps } from 'react-redux';
 
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import { Node } from '../../reduxStore/reducers/global';
 import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
-import { ReactElement } from 'react';
+import FloatingActionButtons from '../FloatingActionButtons';
+import AlgorithmNames from '../../common/algorithms.enum';
 
 const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
 
@@ -24,10 +26,12 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IBoardProps = PropsFromRedux & {
     component?: ReactElement;
+    fabChildren?: ReactElement | ReactElement[];
 };
 
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
+    createClusterMode: boolean;
 };
 
 class Board extends React.Component<IBoardProps, BoardState> {
@@ -35,6 +39,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
         super(props);
         this.state = {
             bg: React.createRef(),
+            createClusterMode: false,
         };
     }
 
@@ -45,7 +50,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     }
 
     handleMove = (event: React.PointerEvent<SVGSVGElement>, id: number) => {
-        if (this.props.global.start === true) {
+        if (this.props.global.start === true || this.state.createClusterMode) {
             return;
         }
         event.persist();
@@ -81,7 +86,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
-        if (this.props.global.start === true) {
+        if (this.props.global.start === true || this.state.createClusterMode) {
             return;
         }
         event.persist();
@@ -100,7 +105,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleCreate = () => {
-        if (!this.state.bg.current) {
+        if (this.props.global.start === true || !this.state.createClusterMode || !this.state.bg.current) {
             return;
         }
         const left = this.state.bg.current.getBoundingClientRect().left;
@@ -111,20 +116,32 @@ class Board extends React.Component<IBoardProps, BoardState> {
             if (!cluster) {
                 return;
             }
-            const space = 30;
+            const space = 50;
             const X = e.clientX - left;
             const y = e.clientY - top;
             this.props.setCoordinates([
                 ...this.props.global.coordinatesOfNodes,
                 { coordinates: [X, y], id: this.props.global.coordinatesOfNodes.length },
-                { coordinates: [X + space, y], id: this.props.global.coordinatesOfNodes.length + 1 },
-                { coordinates: [X - space, y], id: this.props.global.coordinatesOfNodes.length + 2 },
-                { coordinates: [X, y + space], id: this.props.global.coordinatesOfNodes.length + 3 },
+                { coordinates: [X + space * Math.random(), y], id: this.props.global.coordinatesOfNodes.length + 1 },
+                { coordinates: [X - space * Math.random(), y], id: this.props.global.coordinatesOfNodes.length + 2 },
+                { coordinates: [X, y + space * Math.random()], id: this.props.global.coordinatesOfNodes.length + 3 },
                 { coordinates: [X, y - space], id: this.props.global.coordinatesOfNodes.length + 4 },
-                { coordinates: [X + space, y + space], id: this.props.global.coordinatesOfNodes.length + 5 },
-                { coordinates: [X - space, y - space], id: this.props.global.coordinatesOfNodes.length + 6 },
-                { coordinates: [X + space, y - space], id: this.props.global.coordinatesOfNodes.length + 7 },
-                { coordinates: [X - space, y + space], id: this.props.global.coordinatesOfNodes.length + 8 },
+                {
+                    coordinates: [X + space * Math.random(), y + space * Math.random()],
+                    id: this.props.global.coordinatesOfNodes.length + 5,
+                },
+                {
+                    coordinates: [X - space * Math.random(), y - space * Math.random()],
+                    id: this.props.global.coordinatesOfNodes.length + 6,
+                },
+                {
+                    coordinates: [X + space * Math.random(), y - space],
+                    id: this.props.global.coordinatesOfNodes.length + 7,
+                },
+                {
+                    coordinates: [X - space * Math.random(), y + space * Math.random()],
+                    id: this.props.global.coordinatesOfNodes.length + 8,
+                },
             ]);
             cluster = false;
             setTimeout(() => {
@@ -143,6 +160,9 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div>
+                {this.props.global.algorithm !== AlgorithmNames.KMEANS ? (
+                    <FloatingActionButtons>{this.props.fabChildren}</FloatingActionButtons>
+                ) : null}
                 <svg
                     width="100%"
                     height="99vh"

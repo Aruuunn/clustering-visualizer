@@ -12,7 +12,7 @@ export interface GlobalState {
     start: boolean;
     speed: Speed;
     coordinatesOfNodes: Node[];
-    learnMode: boolean;
+    fabOpen: boolean;
 }
 
 interface Action {
@@ -25,7 +25,7 @@ const initialState: GlobalState = {
     start: false,
     speed: Speed.faster,
     coordinatesOfNodes: [],
-    learnMode: false,
+    fabOpen: true,
 };
 
 export default (state: GlobalState = initialState, action: Action): GlobalState => {
@@ -60,6 +60,8 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
                     } else return o;
                 }),
             };
+        case GlobalActionTypes.SET_OPEN_FAB:
+            return { ...state, fabOpen: action.payload as boolean };
 
         default:
             return state;

@@ -8,3 +8,4 @@ export { default as FlatButton } from './FlatButton';
 export { default as Loading } from './Loading';
 export { default as Slider } from './Slider';
 export { default as Tutorial } from './Tutorial';
+export { default as FloatingActionButtons } from './FloatingActionButtons';

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import KMEANSMode from '../../common/kmeans.mode.enum';
@@ -19,6 +19,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type Props = PropsFromRedux;
 
 function KMEANS(props: Props): ReactElement {
+    const [resultOpen, setResultOpen] = useState(false);
     return (
         <div>
             <NavBar />
