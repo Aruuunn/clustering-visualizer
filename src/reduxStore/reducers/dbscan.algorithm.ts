@@ -14,8 +14,8 @@ export interface DBSACNAction {
 }
 
 const initialState: DBSCANState = {
-    minPts: 0,
-    eps: 0,
+    minPts: 2,
+    eps: 35,
     render: [],
 };
 

@@ -9,7 +9,10 @@ import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
 import { UserPreferencesActionTypes } from '../../reduxStore';
 
-const mapStateToProps = (state: RootState) => ({ global: state.global, userPreference: state.userPreferences });
+const mapStateToProps = (state: RootState) => ({
+    global: state.global,
+    userPreference: state.userPreferences,
+});
 
 const mapDispatchToProps = {
     setCoordinates: (coordinates: Node[]) => ({
@@ -197,7 +200,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
                 >
                     <defs>
                         <marker id="markerArrow" markerWidth="20" markerHeight="20" refX="24" refY="6" orient="auto">
-                            <path d="M2,2 L2,11 L10,6 L2,2" fill="white" />
+                            <path d="M2,2 L2,11 L10,6 L2,2" fill="grey" />
                         </marker>
                     </defs>
                     <Gradients />

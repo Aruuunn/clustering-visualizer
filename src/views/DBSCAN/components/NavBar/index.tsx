@@ -1,9 +1,10 @@
-import { withStyles } from '@material-ui/core';
 import React, { ChangeEvent, Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
+import { Typography, withStyles } from '@material-ui/core';
 import { fade, InputBase, Grid } from '@material-ui/core';
 
 import AlgorithmNames from '../../../../common/algorithms.enum';
+import { Slider } from '../../../../components';
 import { CommonNavBar } from '../../../../components';
 import { GlobalActionTypes, RootState, DBSCANAlgorithmActionTypes } from '../../../../reduxStore';
 
@@ -48,8 +49,9 @@ class NavBar extends Component<Props, State> {
                     disabled={() => this.props.dbscan.minPts <= 1 && this.props.dbscan.eps <= 10}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>
-                            <InputBase
-                                placeholder="Min Points"
+                            <Grid
+                                container
+                                direction="column"
                                 style={{
                                     width: '100%',
                                     marginLeft: 0,
@@ -57,25 +59,23 @@ class NavBar extends Component<Props, State> {
                                     marginTop: '10px',
                                     maxWidth: '500px',
                                 }}
-                                inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
-                                fullWidth
-                                color="secondary"
-                                value={this.props.dbscan.minPts === 0 ? '' : this.props.dbscan.minPts}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                    e.persist();
-                                    this.props.setMinPts(parseInt(e.target.value));
-                                }}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                className={classes.input}
-                                type="number"
-                            />
+                            >
+                                <Typography>Min Points</Typography>
+                                <Slider
+                                    disabled={this.props.global.start}
+                                    valueLabelDisplay="auto"
+                                    color="secondary"
+                                    min={1}
+                                    max={20}
+                                    value={this.props.dbscan.minPts}
+                                    onChange={(e, val) => this.props.setMinPts(val as number)}
+                                />
+                            </Grid>
                         </Grid>,
                         <Grid container justify="center" alignItems="center" key={1}>
-                            <InputBase
-                                placeholder="Epsilon"
+                            <Grid
+                                container
+                                direction="column"
                                 style={{
                                     width: '100%',
                                     marginLeft: 0,
@@ -83,61 +83,57 @@ class NavBar extends Component<Props, State> {
                                     marginTop: '10px',
                                     maxWidth: '500px',
                                 }}
-                                inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
-                                fullWidth
-                                color="secondary"
-                                value={this.props.dbscan.eps === 0 ? '' : this.props.dbscan.eps}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                    e.persist();
-                                    this.props.setEps(parseInt(e.target.value));
-                                }}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                className={classes.input}
-                                type="number"
-                            />
+                            >
+                                <Typography>Epsilon</Typography>
+                                <Slider
+                                    disabled={this.props.global.start}
+                                    valueLabelDisplay="auto"
+                                    color="secondary"
+                                    min={20}
+                                    max={100}
+                                    value={this.props.dbscan.eps}
+                                    onChange={(e, val) => this.props.setEps(val as number)}
+                                />
+                            </Grid>
                         </Grid>,
                     ]}
                 >
                     {[
-                        <InputBase
+                        <Grid
                             key={0}
-                            placeholder="Min Points"
-                            style={{ maxWidth: '180px' }}
-                            color="secondary"
-                            value={this.props.dbscan.minPts === 0 ? '' : this.props.dbscan.minPts}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.persist();
-                                this.props.setMinPts(parseInt(e.target.value));
-                            }}
-                            inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            className={classes.input}
-                            type="number"
-                        />,
-                        <InputBase
+                            container
+                            direction="column"
+                            style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '10px' }}
+                        >
+                            <Typography>Min Points</Typography>
+                            <Slider
+                                disabled={this.props.global.start}
+                                valueLabelDisplay="auto"
+                                color="secondary"
+                                min={1}
+                                max={20}
+                                value={this.props.dbscan.minPts}
+                                onChange={(e, val) => this.props.setMinPts(val as number)}
+                            />
+                        </Grid>,
+
+                        <Grid
                             key={1}
-                            placeholder="Epsilon"
-                            style={{ maxWidth: '180px' }}
-                            color="secondary"
-                            value={this.props.dbscan.eps === 0 ? '' : this.props.dbscan.eps}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                e.persist();
-                                this.props.setEps(parseInt(e.target.value));
-                            }}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ min: 0, type: 'number', disabled: this.props.global.start }}
-                            className={classes.input}
-                            type="number"
-                        />,
+                            container
+                            direction="column"
+                            style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
+                        >
+                            <Typography>Epsilon</Typography>
+                            <Slider
+                                disabled={this.props.global.start}
+                                valueLabelDisplay="auto"
+                                color="secondary"
+                                min={20}
+                                max={100}
+                                value={this.props.dbscan.eps}
+                                onChange={(e, val) => this.props.setEps(val as number)}
+                            />
+                        </Grid>,
                     ]}
                 </CommonNavBar>
             </div>

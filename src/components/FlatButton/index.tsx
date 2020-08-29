@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button, withStyles, useTheme, useMediaQuery } from '@material-ui/core';
+import React, { ReactElement } from 'react';
+import { Button, withStyles, useTheme, useMediaQuery, ButtonProps } from '@material-ui/core';
 
 export const FlatButton = withStyles({
     root: {
@@ -21,7 +21,7 @@ export const FlatButton = withStyles({
     },
 })(Button);
 
-const FlatButtonComponent = (props: any) => {
+const FlatButtonComponent = (props: ButtonProps): ReactElement => {
     const theme = useTheme();
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
     return <FlatButton {...{ ...props, size: lg ? 'medium' : 'small' }} />;

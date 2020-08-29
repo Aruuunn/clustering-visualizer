@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ChangeEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { InputBase, SvgIcon, withStyles, fade, Grid } from '@material-ui/core';
+import { InputBase, SvgIcon, withStyles, fade, Grid, FormControlLabel, Switch } from '@material-ui/core';
 
 import CommonNavBar from '../../../../components/CommonNavBar';
 import { RootState, GlobalActionTypes, KMEANSAlgorithmActionTypes } from '../../../../reduxStore';
@@ -104,6 +104,7 @@ class NavBar extends Component<Props, State> {
                                     marginRight: 0,
                                     marginTop: '10px',
                                 }}
+                                disabled={this.props.global.start}
                                 onClick={() => this.setState({ isIterationModeDialogOpen: true })}
                                 startIcon={
                                     <SvgIcon>
