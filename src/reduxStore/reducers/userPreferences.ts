@@ -4,11 +4,13 @@ export interface UserPreferencesState {
     sizeOfPoint: number;
     coordinatesOfFab?: number[];
     tutorialComplete: boolean;
+    createClusterModeInfoComplete: boolean;
 }
 
 const initialState: UserPreferencesState = {
     sizeOfPoint: 9,
     tutorialComplete: false,
+    createClusterModeInfoComplete: false,
 };
 
 interface Action {
@@ -26,6 +28,8 @@ export default (state: UserPreferencesState = initialState, action: Action): Use
             return { ...state, coordinatesOfFab: action.payload as number[] };
         case UserPreferencesActionTypes.RESET_FAB_COORDINATES:
             return { ...state, coordinatesOfFab: undefined };
+        case UserPreferencesActionTypes.SHOWED_CREATE_CLUSTER_MODE:
+            return { ...state, createClusterModeInfoComplete: true };
         default:
             return state;
     }

@@ -3,6 +3,7 @@ export enum UserPreferencesActionTypes {
     SET_SIZE_OF_POINT = 'SET_SIZE_OF_POINT',
     SET_FAB_COORDINATES = 'SET_FAB_COORDINATES',
     RESET_FAB_COORDINATES = 'RESET_FAB_COORDINATES',
+    SHOWED_CREATE_CLUSTER_MODE = 'SHOWED_CREATE_CLUSTER_MODE',
 }
 
 export default UserPreferencesActionTypes;

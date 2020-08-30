@@ -1,7 +1,6 @@
-import React, { ChangeEvent, Component } from 'react';
+import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Typography, withStyles } from '@material-ui/core';
-import { fade, InputBase, Grid } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 
 import AlgorithmNames from '../../../../common/algorithms.enum';
 import { Slider } from '../../../../components';
@@ -23,9 +22,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type Props = PropsFromRedux & {
-    classes: any;
-};
+type Props = PropsFromRedux;
 
 type State = any;
 
@@ -40,8 +37,6 @@ class NavBar extends Component<Props, State> {
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <div>
                 <CommonNavBar
@@ -141,34 +136,4 @@ class NavBar extends Component<Props, State> {
     }
 }
 
-export default withStyles((theme) => ({
-    input: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            width: 'auto',
-        },
-    },
-
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(0.75, 1, 0.75, 1),
-        [theme.breakpoints.up('lg')]: {
-            padding: theme.spacing(1.15, 1, 1.15, 1),
-        },
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}))(connector(NavBar));
+export default connector(NavBar);

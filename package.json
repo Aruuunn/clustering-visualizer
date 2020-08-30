@@ -39,6 +39,7 @@
         "redux-devtools-extension": "^2.13.8",
         "redux-persist": "^6.0.0",
         "seedrandom": "^3.0.5",
+        "serve": "^11.3.2",
         "ts-debounce": "^2.0.1",
         "typescript": "~3.7.2"
     },
@@ -48,7 +49,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-        "serve": "react-scripts build && serve -s build"
+        "serve": "serve -s build"
     },
     "eslintConfig": {
         "extends": "react-app"
