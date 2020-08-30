@@ -7,6 +7,10 @@ import GlobalReducer, { GlobalState } from './global';
 import KMEANSAlgorithmReducer, { KMEANSState } from './kmeans.algorithm';
 import DBSCANAlgorithmReducer, { DBSCANState } from './dbscan.algorithm';
 
+export * from './dbscan.algorithm';
+export * from './kmeans.algorithm';
+export * from './userPreferences';
+
 const persistConfig = {
     key: 'user',
     storage,

@@ -28,7 +28,7 @@ const initialState: KMEANSState = {
     render: [],
     mode: KMEANSMode.SingleIteration,
     maxIterations: 1,
-    numberOfClusters: 0,
+    numberOfClusters: 3,
     info: null,
     currentIteration: null,
     showInfo: false,

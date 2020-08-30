@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { ChangeEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { InputBase, SvgIcon, withStyles, fade, Grid, FormControlLabel, Switch } from '@material-ui/core';
+import { SvgIcon, Grid, Typography } from '@material-ui/core';
 
 import CommonNavBar from '../../../../components/CommonNavBar';
 import { RootState, GlobalActionTypes, KMEANSAlgorithmActionTypes } from '../../../../reduxStore';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import AlgorithmNames from '../../../../common/algorithms.enum';
 import IterationModeDialog from '../IterationModeDialog';
-import FlatButton from '../../../../components/FlatButton';
+import { FlatButton, Slider } from '../../../../components';
 
 interface State {
     anchor3: (EventTarget & Element) | null;
@@ -33,9 +33,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-type Props = PropsFromRedux & {
-    classes: any;
-};
+type Props = PropsFromRedux;
 
 class NavBar extends Component<Props, State> {
     state = { anchor3: null, isDrawerOpen: false, isIterationModeDialogOpen: false };
@@ -60,8 +58,7 @@ class NavBar extends Component<Props, State> {
         this.props.kmeans.numberOfClusters <= 1 ||
         this.props.kmeans.numberOfClusters >= this.props.global.coordinatesOfNodes.length;
 
-    render() {
-        const { classes } = this.props;
+    public render() {
         return (
             <div>
                 <CommonNavBar
@@ -69,29 +66,29 @@ class NavBar extends Component<Props, State> {
                     disabled={this.disabled}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>
-                            <InputBase
-                                placeholder="Number of Clusters"
+                            <Grid
+                                container
+                                direction="column"
                                 style={{
                                     width: '100%',
-                                    marginLeft: 0,
-                                    marginRight: 0,
-                                    marginTop: '10px',
+                                    margin: '5px',
                                     maxWidth: '500px',
                                 }}
-                                inputProps={{ min: 2, type: 'number' }}
-                                fullWidth
-                                color="secondary"
-                                value={
-                                    this.props.kmeans.numberOfClusters === 0 ? '' : this.props.kmeans.numberOfClusters
-                                }
-                                onChange={this.handleInputChange}
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                className={classes.input}
-                                type="number"
-                            />
+                            >
+                                <Typography>Number of Clusters: {this.props.kmeans.numberOfClusters}</Typography>
+                                <Slider
+                                    valueLabelDisplay="auto"
+                                    color="secondary"
+                                    min={2}
+                                    max={20}
+                                    value={this.props.kmeans.numberOfClusters}
+                                    onChange={(e, val) =>
+                                        this.props.global.start
+                                            ? null
+                                            : this.props.changeNumberOfClusters(val as number)
+                                    }
+                                />
+                            </Grid>
                         </Grid>,
                         <Grid container justify="center" alignItems="center" key={1}>
                             <FlatButton
@@ -123,22 +120,27 @@ class NavBar extends Component<Props, State> {
                     ]}
                 >
                     {[
-                        <InputBase
+                        <Grid
                             key={0}
-                            placeholder="Number of Clusters"
-                            style={{ maxWidth: '180px' }}
-                            disabled={this.props.global.start}
-                            color="secondary"
-                            value={this.props.kmeans.numberOfClusters === 0 ? '' : this.props.kmeans.numberOfClusters}
-                            onChange={this.handleInputChange}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ min: 0, type: 'number' }}
-                            className={classes.input}
-                            type="number"
-                        />,
+                            container
+                            direction="column"
+                            alignItems="center"
+                            style={{ maxWidth: '170px', marginRight: '30px' }}
+                        >
+                            <Typography style={{ width: '100%', position: 'relative', bottom: '-2px' }} align="left">
+                                Number of Clusters: {this.props.kmeans.numberOfClusters}
+                            </Typography>
+                            <Slider
+                                valueLabelDisplay="auto"
+                                color="secondary"
+                                min={2}
+                                max={20}
+                                value={this.props.kmeans.numberOfClusters}
+                                onChange={(e, val) =>
+                                    this.props.global.start ? null : this.props.changeNumberOfClusters(val as number)
+                                }
+                            />
+                        </Grid>,
 
                         <FlatButton
                             key={1}
@@ -173,35 +175,4 @@ class NavBar extends Component<Props, State> {
     }
 }
 
-export default withStyles((theme) => ({
-    input: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    },
-
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
-        padding: theme.spacing(0.75, 1, 0.75, 1),
-        [theme.breakpoints.up('lg')]: {
-            padding: theme.spacing(1.15, 1, 1.15, 1),
-        },
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
-    },
-}))(connector(NavBar));
+export default connector(NavBar);

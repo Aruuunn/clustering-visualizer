@@ -55,7 +55,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Min Points</Typography>
+                                <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
                                 <Slider
                                     disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
@@ -79,7 +79,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Epsilon</Typography>
+                                <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                                 <Slider
                                     disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
@@ -100,7 +100,7 @@ class NavBar extends Component<Props, State> {
                             direction="column"
                             style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '10px' }}
                         >
-                            <Typography>Min Points</Typography>
+                            <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
                             <Slider
                                 disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
@@ -118,7 +118,7 @@ class NavBar extends Component<Props, State> {
                             direction="column"
                             style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
                         >
-                            <Typography>Epsilon</Typography>
+                            <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
                                 disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
