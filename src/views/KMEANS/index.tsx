@@ -6,11 +6,13 @@ import Board from '../../components/Board';
 import { BlueFab } from '../../components';
 import RenderVisualization from './components/RenderVisualization';
 import NavBar from './components/NavBar';
-import { KMEANSAlgorithmActionTypes, RootState } from '../../reduxStore';
+import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes } from '../../reduxStore';
 import InfoModal from './components/InfoModal';
 import Result from './components/Result';
 import { DetailedInfo } from '../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../common/kmeans.mode.enum';
+import AlgorithmInfo from './components/AlgorithmInfo';
+import AlgorithmNames from '../../common/algorithms.enum';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -20,6 +22,10 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
     setRender: (ele: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.SET_RENDER, payload: ele }),
+    setNeverShowAlgorithmModal: () => ({
+        type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,
+        payload: AlgorithmNames.KMEANS,
+    }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -32,6 +38,9 @@ function KMEANS(props: Props): ReactElement {
 
     return (
         <div>
+            {props.userPreference.showAlgorithmModal.KMEANS ? (
+                <AlgorithmInfo setNeverShowAlgorithmModal={props.setNeverShowAlgorithmModal} />
+            ) : null}
             <NavBar />
             <Board
                 component={<RenderVisualization />}

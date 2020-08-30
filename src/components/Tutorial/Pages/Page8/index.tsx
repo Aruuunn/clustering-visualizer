@@ -18,7 +18,12 @@ export const Page8 = () => {
             </Typography>
             <Typography variant="body1" style={{ marginTop: '30px', width: '100%' }}>
                 You can find the source code of this application{' '}
-                <Link color="secondary" href="https://github.com/ArunMurugan78/clustering-visualizer">
+                <Link
+                    target="_blank"
+                    rel="no-referrer"
+                    color="secondary"
+                    href="https://github.com/ArunMurugan78/clustering-visualizer"
+                >
                     Here
                 </Link>
             </Typography>

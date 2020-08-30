@@ -229,14 +229,7 @@ class NavBar extends Component<Props, State> {
                     style={{ zIndex: 10000 }}
                     onClose={() => this.handleAlgorithmClose(null)}
                 >
-                    <MenuItem
-                        onClick={() => {
-                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
-                            this.props.history.push('/kmeans');
-                        }}
-                    >
-                        K MEANS
-                    </MenuItem>
+                    {' '}
                     <MenuItem
                         onClick={() => {
                             this.handleAlgorithmClose(AlgorithmNames.DBSCAN);
@@ -244,6 +237,14 @@ class NavBar extends Component<Props, State> {
                         }}
                     >
                         DBSCAN
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
+                            this.props.history.push('/kmeans');
+                        }}
+                    >
+                        K MEANS
                     </MenuItem>
                 </Menu>
                 <Menu

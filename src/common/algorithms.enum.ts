@@ -1,5 +1,5 @@
 export enum AlgorithmNames {
-    KMEANS = 'K Means',
+    KMEANS = 'KMEANS',
     DBSCAN = 'DBSCAN',
 }
 

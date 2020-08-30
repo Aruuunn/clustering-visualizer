@@ -127,6 +127,7 @@ class NavBar extends Component<Props, State> {
                             key={0}
                             placeholder="Number of Clusters"
                             style={{ maxWidth: '180px' }}
+                            disabled={this.props.global.start}
                             color="secondary"
                             value={this.props.kmeans.numberOfClusters === 0 ? '' : this.props.kmeans.numberOfClusters}
                             onChange={this.handleInputChange}
@@ -143,6 +144,7 @@ class NavBar extends Component<Props, State> {
                             key={1}
                             size="small"
                             variant="contained"
+                            disabled={this.props.global.start}
                             style={{ marginRight: '20px' }}
                             onClick={() => this.setState({ isIterationModeDialogOpen: true })}
                             startIcon={
