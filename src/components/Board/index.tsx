@@ -201,7 +201,18 @@ class Board extends React.Component<IBoardProps, BoardState> {
                 >
                     <defs>
                         <marker id="markerArrow" markerWidth="20" markerHeight="20" refX="24" refY="6" orient="auto">
-                            <path d="M2,2 L2,11 L10,6 L2,2" fill="grey" />
+                            <path d="M2,2 L2,11 L10,6 L2,2" fill="yellow" />
+                        </marker>
+                        <marker
+                            id="arrow"
+                            markerWidth="10"
+                            markerHeight="10"
+                            refX="0"
+                            refY="3"
+                            orient="auto"
+                            markerUnits="strokeWidth"
+                        >
+                            <path d="M0,0 L0,6 L9,3 z" fill="yellow" />
                         </marker>
                     </defs>
                     <Gradients />

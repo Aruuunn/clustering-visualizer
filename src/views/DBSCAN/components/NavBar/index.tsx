@@ -57,7 +57,7 @@ class NavBar extends Component<Props, State> {
                             >
                                 <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
                                 <Slider
-                                    disabled={this.props.global.start}
+                                    //disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
                                     color="secondary"
                                     min={1}
@@ -81,7 +81,7 @@ class NavBar extends Component<Props, State> {
                             >
                                 <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                                 <Slider
-                                    disabled={this.props.global.start}
+                                    //disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
                                     color="secondary"
                                     min={20}
@@ -102,7 +102,7 @@ class NavBar extends Component<Props, State> {
                         >
                             <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
                             <Slider
-                                disabled={this.props.global.start}
+                                // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"
                                 min={1}
@@ -120,7 +120,7 @@ class NavBar extends Component<Props, State> {
                         >
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
-                                disabled={this.props.global.start}
+                                // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"
                                 min={20}

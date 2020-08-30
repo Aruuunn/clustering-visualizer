@@ -275,7 +275,7 @@ class KMeans extends Component<Props, State> {
                                     y1={temp[iter][1]}
                                     x2={result.centroids[iter][0]}
                                     y2={result.centroids[iter][1]}
-                                    stroke="grey"
+                                    stroke="yellow"
                                     strokeLinecap="round"
                                     strokeWidth="2"
                                     strokeDasharray="8"
