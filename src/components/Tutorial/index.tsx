@@ -20,7 +20,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                 style={{
                     maxWidth: '600px',
                     width: '100%',
-                    maxHeight: '600px',
+                    maxHeight: '91vh',
                     height: '100%',
                     padding: '15px',
                     margin: '10px',
