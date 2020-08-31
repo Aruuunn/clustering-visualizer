@@ -6,17 +6,19 @@ export interface DBSCANState {
     minPts: number;
     eps: number;
     render: ReactElement[];
+    showGuideCircle: boolean;
 }
 
 export interface DBSACNAction {
     type: DBSCANAlgorithmActionTypes | AlgorithmActionTypes;
-    payload?: ReactElement | number | ReactElement[];
+    payload?: ReactElement | number | ReactElement[] | boolean;
 }
 
 const initialState: DBSCANState = {
     minPts: 2,
     eps: 35,
     render: [],
+    showGuideCircle: false,
 };
 
 export default (state: DBSCANState = initialState, action: DBSACNAction): DBSCANState => {
@@ -42,6 +44,8 @@ export default (state: DBSCANState = initialState, action: DBSACNAction): DBSCAN
 
         case AlgorithmActionTypes.RESET_DATA:
             return { ...state, render: [] };
+        case DBSCANAlgorithmActionTypes.SET_SHOW_GUIDE_CIRCLE:
+            return { ...state, showGuideCircle: action.payload as boolean };
         default:
             return state;
     }

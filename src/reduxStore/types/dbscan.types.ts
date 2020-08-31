@@ -4,6 +4,7 @@ export enum DBSCANAlgorithmActionTypes {
     ADD_TO_RENDER = 'ADD_TO_RENDER',
     POP_RENDER = 'POP_RENDER',
     SET_RENDER = 'SET_RENDER',
+    SET_SHOW_GUIDE_CIRCLE = 'SET_SHOW_GUIDE_CIRCLE',
 }
 
 export default DBSCANAlgorithmActionTypes;

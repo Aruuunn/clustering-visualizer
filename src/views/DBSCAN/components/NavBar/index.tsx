@@ -16,6 +16,7 @@ const mapDispatchToProps = {
     }),
     setMinPts: (minpts: number) => ({ type: DBSCANAlgorithmActionTypes.SET_MIN_POINTS, payload: minpts }),
     setEps: (eps: number) => ({ type: DBSCANAlgorithmActionTypes.SET_EPSILON, payload: eps }),
+    setShowGuideCircle: (s: boolean) => ({ type: DBSCANAlgorithmActionTypes.SET_SHOW_GUIDE_CIRCLE, payload: s }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -82,6 +83,7 @@ class NavBar extends Component<Props, State> {
                                 <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                                 <Slider
                                     //disabled={this.props.global.start}
+
                                     valueLabelDisplay="auto"
                                     color="secondary"
                                     min={20}
@@ -120,6 +122,8 @@ class NavBar extends Component<Props, State> {
                         >
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
+                                onPointerDown={() => this.props.setShowGuideCircle(true)}
+                                onPointerUp={() => this.props.setShowGuideCircle(false)}
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"

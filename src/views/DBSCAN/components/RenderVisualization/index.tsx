@@ -2,6 +2,7 @@ import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import HashTable from '../../../../common/hashtable';
+import { ShowCircleSize } from '../../../../components';
 import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState } from '../../../../reduxStore';
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateDistance } from '../../../../utils';
@@ -133,7 +134,8 @@ class RenderVisualisation extends Component<Props, State> {
         this.props.endVisualization();
         this.setState({ colors: [], start: false });
     };
-    componentDidUpdate() {
+
+    componentDidUpdate(prevProps: Props) {
         if (this.props.global.start && !this.state.start) {
             this.setState({ start: true }, () => this.handleStart());
         }
@@ -145,6 +147,7 @@ class RenderVisualisation extends Component<Props, State> {
                 {this.props.global.start && this.renderCircles}
 
                 {this.props.dbscan.render}
+                {this.props.dbscan.showGuideCircle ? <ShowCircleSize radius={this.props.dbscan.eps} /> : null}
             </g>
         );
     }

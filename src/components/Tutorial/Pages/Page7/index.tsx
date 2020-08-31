@@ -29,14 +29,12 @@ export const Page7 = () => {
                             width: '100%',
                             marginTop: '10px',
                             flexGrow: 1,
-                            backgroundRepeat: 'no-repeat',
-                            background: `url(${src})`,
-                            backgroundSize: 'auto',
                             opacity: loading ? 0.8 : 1,
                             transition: 'opacity 2s ease',
                             position: 'relative',
                         }}
                     >
+                        <img src={src} style={{ width: '100%', height: 'auto' }} />
                         {loading ? (
                             <Grid
                                 container
