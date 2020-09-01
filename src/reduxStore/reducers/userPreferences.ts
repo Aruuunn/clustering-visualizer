@@ -13,7 +13,7 @@ const initialState: UserPreferencesState = {
     sizeOfPoint: 9,
     tutorialComplete: false,
     createClusterModeInfoComplete: false,
-    showAlgorithmModal: { KMEANS: true, DBSCAN: true },
+    showAlgorithmModal: { KMEANS: true, DBSCAN: true, 'MEAN SHIFT': true },
 };
 
 interface Action {

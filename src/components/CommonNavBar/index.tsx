@@ -83,12 +83,7 @@ class NavBar extends Component<Props, State> {
 
     handleAlgorithmClose = (algo: AlgorithmNames | null) => {
         this.setState({ anchor1: null });
-        if (algo !== null)
-            switch (algo) {
-                case AlgorithmNames.KMEANS:
-                    this.props.changeAlgorithm(algo);
-                    break;
-            }
+        if (algo !== null) this.props.changeAlgorithm(algo);
     };
 
     isDisabled = (): boolean => {
@@ -237,6 +232,14 @@ class NavBar extends Component<Props, State> {
                         }}
                     >
                         DBSCAN
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            this.handleAlgorithmClose(AlgorithmNames.MEAN_SHIFT);
+                            this.props.history.push('/mean-shift');
+                        }}
+                    >
+                        MEAN SHIFT
                     </MenuItem>
                     <MenuItem
                         onClick={() => {

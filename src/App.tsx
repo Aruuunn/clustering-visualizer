@@ -33,7 +33,7 @@ function App(props: Props): ReactElement {
                 <Switch>
                     <Route path="/kmeans" component={KMEANSView} />
                     <Route path="/dbscan" component={DBSCANView} />
-                    <Route path="mean-shift" component={MeanShift} />
+                    <Route path="/mean-shift" component={MeanShift} />
                     <Route exact path="/" component={Home} />
                 </Switch>
                 {props.userPreferences.tutorialComplete === false ? (

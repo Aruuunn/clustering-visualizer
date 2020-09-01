@@ -5,7 +5,7 @@ import HashTable from '../../../../common/hashtable';
 import { ShowCircleSize } from '../../../../components';
 import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState } from '../../../../reduxStore';
 import { Node } from '../../../../reduxStore/reducers/global';
-import { getRandomColor, calculateDistance } from '../../../../utils';
+import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -47,7 +47,7 @@ class RenderVisualisation extends Component<Props, State> {
                 if (
                     node.id !== this.props.global.coordinatesOfNodes[i].id &&
                     Math.sqrt(
-                        calculateDistance(node.coordinates, this.props.global.coordinatesOfNodes[i].coordinates),
+                        calculateSquaredDistance(node.coordinates, this.props.global.coordinatesOfNodes[i].coordinates),
                     ) <= this.props.dbscan.eps
                 ) {
                     if (!this.data.hasOwnProperty(`${this.props.global.coordinatesOfNodes[i].id}`))
