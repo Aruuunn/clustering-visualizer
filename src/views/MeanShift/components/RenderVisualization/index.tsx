@@ -61,9 +61,9 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     };
 
     renderCentroids = (centroids: number[][]) => {
-        this.props.setRender([]);
+        const list: React.ReactElement[] = [];
         for (let i = 0; i < centroids.length; i++) {
-            this.props.addToRender(
+            list.push(
                 <g key={i}>
                     {' '}
                     <circle
@@ -84,6 +84,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
                 </g>,
             );
         }
+        this.props.setRender(list);
     };
 
     calculateCentroids = (centroids: number[][]) => {
@@ -138,7 +139,9 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             for (let i = 0; i < centroids.length; i++) {
                 let points = '';
                 for (let j = 0; j < allCentroids.length; j++) {
-                    points += `${allCentroids[j][i][0]} ${allCentroids[j][i][1]},`;
+                    points += `${allCentroids[j][i][0]} ${allCentroids[j][i][1]}${
+                        j + 1 < allCentroids.length ? ',' : ''
+                    }`;
                 }
                 this.renderPath.push(
                     <polyline
@@ -155,6 +158,34 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             this.setState({ centroids: newCentroids });
             centroids = newCentroids;
         }
+
+        const list: React.ReactElement[] = [];
+        console.time('calc clusters');
+        for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
+            let min = 1e9;
+            let pos = 0;
+            for (let j = 0; j < centroids.length; j++) {
+                const dist = Math.sqrt(
+                    calculateSquaredDistance(centroids[j], this.props.global.coordinatesOfNodes[i].coordinates),
+                );
+                if (dist < min) {
+                    min = dist;
+                    pos = j;
+                }
+            }
+            list.push(
+                <circle
+                    key={this.props.global.coordinatesOfNodes[i].id}
+                    fill={this.state.colors[pos]}
+                    cx={this.props.global.coordinatesOfNodes[i].coordinates[0]}
+                    cy={this.props.global.coordinatesOfNodes[i].coordinates[1]}
+                    r={this.props.userPreferences.sizeOfPoint}
+                />,
+            );
+        }
+        this.props.setRender(list);
+        console.timeEnd('calc clusters');
+
         this.props.endVisualisation();
         this.setState({ start: false });
     };
