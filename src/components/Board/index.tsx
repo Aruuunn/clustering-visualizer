@@ -207,8 +207,8 @@ class Board extends React.Component<IBoardProps, BoardState> {
                         </marker>
                         <marker
                             id="arrow"
-                            markerWidth="10"
-                            markerHeight="10"
+                            markerWidth="5"
+                            markerHeight="15"
                             refX="0"
                             refY="3"
                             orient="auto"
