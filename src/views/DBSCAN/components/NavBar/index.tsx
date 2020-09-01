@@ -34,6 +34,15 @@ class NavBar extends Component<Props, State> {
         if (this.props.global.algorithm !== AlgorithmNames.DBSCAN) this.props.setAlgorithm(AlgorithmNames.DBSCAN);
     }
     componentDidUpdate() {
+        const removeEventListener = () => {
+            window.removeEventListener('pointerup', () => this.props.setShowGuideCircle(false));
+            window.removeEventListener('pointerup', () => removeEventListener());
+        };
+        if (this.props.dbscan.showGuideCircle) {
+            window.addEventListener('pointerup', () => this.props.setShowGuideCircle(false));
+            window.addEventListener('pointerup', () => removeEventListener());
+        }
+
         if (this.props.global.algorithm !== AlgorithmNames.DBSCAN) this.props.setAlgorithm(AlgorithmNames.DBSCAN);
     }
 

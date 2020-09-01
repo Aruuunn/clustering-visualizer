@@ -9,8 +9,9 @@ import { RootState, UserPreferencesActionTypes } from './reduxStore';
 
 const Home = lazy(() => import('./views/Home'));
 const KMEANSView = lazy(() => import('./views/KMEANS'));
-const Tutorial = React.lazy(() => import('./components/Tutorial'));
+const Tutorial = lazy(() => import('./components/Tutorial'));
 const DBSCANView = lazy(() => import('./views/DBSCAN'));
+const MeanShift = lazy(() => import('./views/MeanShift'));
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -32,6 +33,7 @@ function App(props: Props): ReactElement {
                 <Switch>
                     <Route path="/kmeans" component={KMEANSView} />
                     <Route path="/dbscan" component={DBSCANView} />
+                    <Route path="mean-shift" component={MeanShift} />
                     <Route exact path="/" component={Home} />
                 </Switch>
                 {props.userPreferences.tutorialComplete === false ? (

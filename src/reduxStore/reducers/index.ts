@@ -6,10 +6,12 @@ import UserReducer, { UserPreferencesState } from './userPreferences';
 import GlobalReducer, { GlobalState } from './global';
 import KMEANSAlgorithmReducer, { KMEANSState } from './kmeans.algorithm';
 import DBSCANAlgorithmReducer, { DBSCANState } from './dbscan.algorithm';
+import MeanShiftAlgorithmReducer, { MeanShiftState } from './mean-shift.algorithm';
 
 export * from './dbscan.algorithm';
 export * from './kmeans.algorithm';
 export * from './userPreferences';
+export * from './mean-shift.algorithm';
 
 const persistConfig = {
     key: 'user',
@@ -21,6 +23,7 @@ export const rootReducer = combineReducers({
     global: GlobalReducer,
     kmeans: KMEANSAlgorithmReducer,
     dbscan: DBSCANAlgorithmReducer,
+    meanShift: MeanShiftAlgorithmReducer,
 });
 
 export interface RootState {
@@ -28,6 +31,7 @@ export interface RootState {
     global: GlobalState;
     kmeans: KMEANSState;
     dbscan: DBSCANState;
+    meanShift: MeanShiftState;
 }
 
 export default rootReducer;
