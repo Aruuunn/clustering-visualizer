@@ -1,0 +1,13 @@
+version: '3.8'
+services: 
+    dev:
+        stdin_open: true
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        image: arunmurugan78/clustering-visualizer:latest
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - "/app/node_modules"
+            - ".:/app"
