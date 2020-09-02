@@ -43,6 +43,7 @@ class RenderVisualisation extends Component<Props, State> {
             stack.shift();
             const list: Node[] = [];
             let total = 0;
+            let notNew = 0;
             for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
                 if (
                     node.id !== this.props.global.coordinatesOfNodes[i].id &&
@@ -52,9 +53,15 @@ class RenderVisualisation extends Component<Props, State> {
                 ) {
                     if (!this.data.hasOwnProperty(`${this.props.global.coordinatesOfNodes[i].id}`))
                         list.unshift(this.props.global.coordinatesOfNodes[i]);
+                    else {
+                        notNew += 1;
+                    }
 
                     total += 1;
                 }
+            }
+            if (notNew === total) {
+                continue;
             }
             console.log({ list });
             if (total + 1 >= this.props.dbscan.minPts) {

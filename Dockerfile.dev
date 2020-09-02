@@ -10,6 +10,4 @@ COPY . .
 
 EXPOSE 3000 
 
-RUN apk add --update git
-
 CMD [ "npm","run","start" ]
