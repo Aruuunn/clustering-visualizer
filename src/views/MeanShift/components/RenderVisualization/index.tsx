@@ -186,7 +186,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
                         points={points}
                         key={this.renderPath.length}
                         stroke="yellow"
-                        strokeWidth="4"
+                        strokeWidth="3"
                         style={{ markerEnd: 'url(#arrow)' }}
                     />,
                 );
