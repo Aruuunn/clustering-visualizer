@@ -13,7 +13,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
     setNeverShowAlgorithmInfoModal: () => ({
         type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,
-        payload: AlgorithmNames,
+        payload: AlgorithmNames.MEAN_SHIFT,
     }),
 };
 
