@@ -181,8 +181,10 @@ class KMeans extends Component<Props, State> {
         let loss = 1e9;
         let clusters: number[][][] = [];
 
+        this.props.resetAlgoData();
+
         while (Math.floor(loss) > 0) {
-            this.props.resetAlgoData();
+            //  this.props.resetAlgoData();
 
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 3));
 
@@ -221,7 +223,7 @@ class KMeans extends Component<Props, State> {
                             y1={currentNode[1]}
                             x2={this.state.centroids[pos][0]}
                             y2={this.state.centroids[pos][1]}
-                            style={{ opacity: 0.7 }}
+                            style={{ opacity: 0.4 }}
                         />
                         <circle
                             cx={currentNode[0]}
@@ -237,6 +239,7 @@ class KMeans extends Component<Props, State> {
                 //   await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
             }
 
+            this.props.resetAlgoData();
             this.props.setRender(render);
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 4));
             const result = this.calculateNewCentroids(clusters);
