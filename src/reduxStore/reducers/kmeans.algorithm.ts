@@ -28,7 +28,7 @@ const initialState: KMEANSState = {
     render: [],
     mode: KMEANSMode.SingleIteration,
     maxIterations: 1,
-    numberOfClusters: 3,
+    numberOfClusters: 2,
     info: null,
     currentIteration: null,
     showInfo: false,
@@ -82,6 +82,9 @@ export default (state: KMEANSState = initialState, action: Action): KMEANSState 
 
         case KMEANSAlgorithmActionTypes.ADD_TO_INFO:
             return { ...state, info: { ...(state.info as DetailedInfo) } };
+
+        case KMEANSAlgorithmActionTypes.APPEND_TO_RENDER:
+            return { ...state, render: [...state.render, ...action.payload] };
 
         default:
             return state;
