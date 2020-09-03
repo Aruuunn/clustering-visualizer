@@ -6,6 +6,7 @@ import { ShowCircleSize } from '../../../../components';
 import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState } from '../../../../reduxStore';
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
+import Speed from '../../../../common/speed.enum';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -17,6 +18,7 @@ const mapDispatchToProps = {
     addToRender: (ele: ReactElement) => ({ type: DBSCANAlgorithmActionTypes.ADD_TO_RENDER, payload: ele }),
     setRender: (ele: ReactElement[]) => ({ type: DBSCANAlgorithmActionTypes.SET_RENDER, payload: ele }),
     popRender: () => ({ type: DBSCANAlgorithmActionTypes.POP_RENDER }),
+    setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -32,6 +34,10 @@ class RenderVisualisation extends Component<Props, State> {
 
     renderCircles: ReactElement[] = [];
     data: HashTable<null | number> = {};
+
+    componentDidMount() {
+        this.props.setSpeed(Speed.faster);
+    }
 
     handleClustering = async (startNode: Node) => {
         let stack: Node[] = [startNode];
