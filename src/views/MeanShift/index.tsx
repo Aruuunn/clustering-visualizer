@@ -26,8 +26,8 @@ const MeanShift = (props: Props) => {
         <div>
             <NavBar />
             <Board component={<RenderVisualization />} />
-            {!props.userPreferences.showAlgorithmModal['MEAN SHIFT'] ? (
-                <AlgorithmInfoModal setNeverShowAlgorithmModal={() => props.setNeverShowAlgorithmInfoModal()} />
+            {props.userPreferences.showAlgorithmModal['MEAN SHIFT'] ? (
+                <AlgorithmInfoModal setNeverShowAlgorithmModal={props.setNeverShowAlgorithmInfoModal} />
             ) : null}
         </div>
     );

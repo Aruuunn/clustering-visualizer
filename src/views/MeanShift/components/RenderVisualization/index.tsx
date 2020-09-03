@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { GlobalActionTypes, MeanShiftActionTypes, RootState } from '../../../../reduxStore';
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
+import { ShowCircleSize } from '../../../../components';
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -261,6 +262,9 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             <g>
                 {this.props.global.start && this.props.meanShift.render.length !== 0 ? this.renderPath : null}
                 {this.props.meanShift.render}
+                {this.props.meanShift.showGuideCircle ? (
+                    <ShowCircleSize radius={this.props.meanShift.windowSize} />
+                ) : null}
             </g>
         );
     }

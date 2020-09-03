@@ -16,7 +16,7 @@ const mapDispatchToProps = {
     }),
 
     setKernelRadius: (radius: number) => ({ type: MeanShiftActionTypes.SET_WINDOW_SIZE, payload: radius }),
-    // setShowGuideCircle: (s: boolean) => ({ type: MeanShiftActionTypes.SET_SHOW_GUIDE_CIRCLE, payload: s }),
+    setShowGuideCircle: (s: boolean) => ({ type: MeanShiftActionTypes.SET_SHOW_GUIDE_CIRCLE, payload: s }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -77,13 +77,13 @@ class NavBar extends Component<Props, State> {
                         <Grid
                             key={1}
                             container
+                            onPointerUp={() => this.props.setShowGuideCircle(false)}
                             direction="column"
                             style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
                         >
                             <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
                             <Slider
-                                // onPointerDown={() => this.props.setShowGuideCircle(true)}
-                                // onPointerUp={() => this.props.setShowGuideCircle(false)}
+                                onPointerDown={() => this.props.setShowGuideCircle(true)}
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"
