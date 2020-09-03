@@ -79,7 +79,14 @@ class NavBar extends Component<Props, State> {
                             container
                             onPointerUp={() => this.props.setShowGuideCircle(false)}
                             direction="column"
-                            style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
+                            justify="flex-end"
+                            style={{
+                                maxWidth: '170px',
+                                marginLeft: '10px',
+                                marginRight: '30px',
+                                position: 'relative',
+                                top: '12px',
+                            }}
                         >
                             <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
                             <Slider

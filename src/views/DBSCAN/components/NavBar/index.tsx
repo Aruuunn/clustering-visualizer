@@ -109,7 +109,14 @@ class NavBar extends Component<Props, State> {
                             key={0}
                             container
                             direction="column"
-                            style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '10px' }}
+                            justify="flex-end"
+                            style={{
+                                maxWidth: '150px',
+                                marginLeft: '10px',
+                                marginRight: '10px',
+                                position: 'relative',
+                                top: '12px',
+                            }}
                         >
                             <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
                             <Slider
@@ -128,7 +135,14 @@ class NavBar extends Component<Props, State> {
                             onPointerUp={() => this.props.setShowGuideCircle(false)}
                             container
                             direction="column"
-                            style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
+                            justify="flex-end"
+                            style={{
+                                maxWidth: '150px',
+                                marginLeft: '10px',
+                                marginRight: '20px',
+                                position: 'relative',
+                                top: '12px',
+                            }}
                         >
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
