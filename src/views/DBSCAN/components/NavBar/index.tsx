@@ -133,6 +133,7 @@ class NavBar extends Component<Props, State> {
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
+                                onBlur={() => this.props.setShowGuideCircle(false)}
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"

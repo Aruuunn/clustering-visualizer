@@ -84,6 +84,7 @@ class NavBar extends Component<Props, State> {
                             <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
+                                onBlur={() => this.props.setShowGuideCircle(false)}
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"
