@@ -3,6 +3,8 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import { GlobalActionTypes, MeanShiftActionTypes, RootState } from '../../../../reduxStore';
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
+import Speed from '../../../../common/speed.enum';
+import { ShowCircleSize } from '../../../../components';
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -14,6 +16,7 @@ const mapDispatchToProps = {
     addToRender: (ele: React.ReactElement) => ({ type: MeanShiftActionTypes.ADD_TO_RENDER, payload: ele }),
     endVisualisation: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
     setRender: (ele: React.ReactElement[]) => ({ type: MeanShiftActionTypes.SET_RENDER, payload: ele }),
+    setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -33,6 +36,10 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     };
 
     renderPath: React.ReactElement[] = [];
+
+    componentDidMount() {
+        this.props.setSpeed(Speed.average);
+    }
 
     generateCentroids = (callback?: () => void) => {
         const centroids: number[][] = [];
@@ -255,6 +262,9 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             <g>
                 {this.props.global.start && this.props.meanShift.render.length !== 0 ? this.renderPath : null}
                 {this.props.meanShift.render}
+                {this.props.meanShift.showGuideCircle ? (
+                    <ShowCircleSize radius={this.props.meanShift.windowSize} />
+                ) : null}
             </g>
         );
     }

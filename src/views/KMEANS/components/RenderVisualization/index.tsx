@@ -11,6 +11,7 @@ import { RootState } from '../../../../reduxStore/reducers';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
+import Speed from '../../../../common/speed.enum';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -41,6 +42,7 @@ const mapDispatchToProps = {
     setInfo: (info: Variance | DetailedInfo | null) => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: info }),
 
     setCurrentIteration: (iter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION, payload: iter }),
+    setSpeed: (sp: Speed) => ({ type: Speed, payload: Speed.faster }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -61,6 +63,10 @@ class KMeans extends Component<Props, State> {
     renderCentroids: ReactElement[] = [];
     colors: string[] = [];
     numberOfClusters = 0;
+
+    componentDidMount() {
+        this.props.setSpeed(Speed.faster);
+    }
 
     randomlyInitializeCentroids(updateColor = false, callback: () => void): void {
         const centroids: number[][] = [];

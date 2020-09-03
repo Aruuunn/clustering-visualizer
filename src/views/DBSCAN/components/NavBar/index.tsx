@@ -125,6 +125,7 @@ class NavBar extends Component<Props, State> {
 
                         <Grid
                             key={1}
+                            onPointerUp={() => this.props.setShowGuideCircle(false)}
                             container
                             direction="column"
                             style={{ maxWidth: '150px', marginLeft: '10px', marginRight: '20px' }}
@@ -132,7 +133,6 @@ class NavBar extends Component<Props, State> {
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
-                                onPointerUp={() => this.props.setShowGuideCircle(false)}
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
                                 color="secondary"
