@@ -103,14 +103,22 @@ class NavBar extends Component<Props, State> {
 
     render() {
         return (
-            <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white', paddingTop: '5px' }}>
+            <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white', minHeight: '80px' }}>
                 <Toolbar>
                     <Grid container alignItems="center">
-                        <Grid container alignItems="center" item xs={9} md={2} lg={4}>
+                        <Grid
+                            container
+                            alignItems="center"
+                            style={{ position: 'relative', top: '12px' }}
+                            item
+                            xs={9}
+                            md={2}
+                            lg={4}
+                        >
                             <Hidden smDown>
                                 <Grid
                                     container
-                                    alignItems="flex-start"
+                                    alignItems="center"
                                     style={{
                                         height: '48px',
                                         width: 'auto',
@@ -155,7 +163,7 @@ class NavBar extends Component<Props, State> {
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
-                            <Grid container alignItems="center" justify="flex-end" item xs={12} md={10} lg={8}>
+                            <Grid container alignItems="flex-end" justify="flex-end" item xs={12} md={10} lg={8}>
                                 {this.props.children}
 
                                 <FlatButton

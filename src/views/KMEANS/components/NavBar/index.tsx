@@ -124,10 +124,10 @@ class NavBar extends Component<Props, State> {
                             key={0}
                             container
                             direction="column"
-                            alignItems="center"
-                            style={{ maxWidth: '170px', marginRight: '30px' }}
+                            alignItems="flex-end"
+                            style={{ maxWidth: '170px', marginRight: '30px', position: 'relative', top: '12px' }}
                         >
-                            <Typography style={{ width: '100%', position: 'relative', bottom: '-2px' }} align="left">
+                            <Typography style={{ width: '100%', position: 'relative', left: '-2px' }} align="left">
                                 Number of Clusters: {this.props.kmeans.numberOfClusters}
                             </Typography>
                             <Slider
