@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import HashTable from '../../../../common/hashtable';
 import { ShowCircleSize } from '../../../../components';
-import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState } from '../../../../reduxStore';
+import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
@@ -19,6 +19,7 @@ const mapDispatchToProps = {
     setRender: (ele: ReactElement[]) => ({ type: DBSCANAlgorithmActionTypes.SET_RENDER, payload: ele }),
     popRender: () => ({ type: DBSCANAlgorithmActionTypes.POP_RENDER }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
+    resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -136,7 +137,7 @@ class RenderVisualisation extends Component<Props, State> {
         if (!this.state.start) {
             return;
         }
-        this.props.setRender([]);
+        this.props.resetAlgoData();
         for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
             if (!this.data.hasOwnProperty(`${this.props.global.coordinatesOfNodes[i].id}`)) {
                 await this.handleClustering(this.props.global.coordinatesOfNodes[i]);
