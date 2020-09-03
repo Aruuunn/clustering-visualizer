@@ -64,8 +64,8 @@ class NavBar extends Component<Props, State> {
 
                                     valueLabelDisplay="auto"
                                     color="secondary"
-                                    min={20}
-                                    max={100}
+                                    min={50}
+                                    max={300}
                                     value={this.props.meanShift.windowSize}
                                     onChange={(e, val) => this.props.setKernelRadius(val as number)}
                                 />

@@ -70,7 +70,6 @@ class RenderVisualisation extends Component<Props, State> {
             if (notNew === total) {
                 continue;
             }
-            console.log({ list });
             if (total + 1 >= this.props.dbscan.minPts) {
                 stack = [...stack, ...list];
                 if (colorAssigned === false) {
