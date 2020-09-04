@@ -38,6 +38,7 @@ class RenderVisualisation extends Component<Props, State> {
 
     componentDidMount() {
         this.props.setSpeed(Speed.faster);
+        this.props.resetAlgoData();
     }
 
     handleClustering = async (startNode: Node) => {

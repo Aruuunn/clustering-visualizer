@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { GlobalActionTypes, MeanShiftActionTypes, RootState } from '../../../../reduxStore';
+import { GlobalActionTypes, MeanShiftActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
 import { ShowCircleSize } from '../../../../components';
@@ -17,6 +17,7 @@ const mapDispatchToProps = {
     endVisualisation: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
     setRender: (ele: React.ReactElement[]) => ({ type: MeanShiftActionTypes.SET_RENDER, payload: ele }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
+    resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -39,6 +40,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
 
     componentDidMount() {
         this.props.setSpeed(Speed.average);
+        this.props.resetAlgoData();
     }
 
     generateCentroids = (callback?: () => void) => {
@@ -159,6 +161,9 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     };
 
     handleStart = async () => {
+
+        this.props.resetAlgoData();
+
         let loss = 1e9;
 
         let centroids: number[][] = this.state.centroids;

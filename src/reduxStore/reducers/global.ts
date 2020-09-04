@@ -13,6 +13,7 @@ export interface GlobalState {
     speed: Speed;
     coordinatesOfNodes: Node[];
     fabOpen: boolean;
+    logs: string[];
 }
 
 interface Action {
@@ -26,6 +27,7 @@ const initialState: GlobalState = {
     speed: Speed.faster,
     coordinatesOfNodes: [],
     fabOpen: true,
+    logs: [],
 };
 
 export default (state: GlobalState = initialState, action: Action): GlobalState => {
@@ -62,6 +64,14 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
             };
         case GlobalActionTypes.SET_OPEN_FAB:
             return { ...state, fabOpen: action.payload as boolean };
+
+        case GlobalActionTypes.ADD_LOG:
+            return { ...state, logs: [action.payload as string,...state.logs] };
+        case GlobalActionTypes.CLEAR_LOGS:
+            return { ...state, logs: [] };
+
+        case GlobalActionTypes.SET_LOGS:
+            return { ...state, logs: action.payload as string[] };
 
         default:
             return state;

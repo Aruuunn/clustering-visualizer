@@ -8,6 +8,7 @@ import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
 import { UserPreferencesActionTypes } from '../../reduxStore';
+import Logs from '../Logs'
 import { CreateClusterModeInfo } from './components';
 
 const mapStateToProps = (state: RootState) => ({
@@ -175,6 +176,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div>
+                <Logs/>
                 {this.state.createClusterMode ? <CreateClusterModeInfo /> : null}
                 <FloatingActionButtons>
                     {[
