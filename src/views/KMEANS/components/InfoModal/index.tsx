@@ -147,9 +147,10 @@ function InfoModal(props: Props): ReactElement {
                                 </SvgIcon>
                             </IconButton>
                             {props.kmeans.mode === KMEANSMode.SingleIteration ? (
-                                <RenderChart iteration={null} variance={info as Variance} mode={Mode.INFO} />
+                                <RenderChart iteration={null} variance={info as Variance} mode={Mode.INFO} key={page} />
                             ) : page !== 0 ? (
                                 <RenderChart
+                                    key={page}
                                     iteration={page}
                                     variance={(info as DetailedInfo).variances[page - 1]}
                                     mode={Mode.INFO}

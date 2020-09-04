@@ -42,7 +42,7 @@ const mapDispatchToProps = {
     setInfo: (info: Variance | DetailedInfo | null) => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: info }),
 
     setCurrentIteration: (iter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION, payload: iter }),
-    setSpeed: (sp: Speed) => ({ type: Speed, payload: Speed.faster }),
+    setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
     appendToRender: (list: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.APPEND_TO_RENDER, payload: list }),
 };
 
@@ -66,7 +66,7 @@ class KMeans extends Component<Props, State> {
     numberOfClusters = 0;
 
     componentDidMount() {
-        this.props.setSpeed(Speed.faster);
+        this.props.setSpeed(Speed.average);
     }
 
     randomlyInitializeCentroids(updateColor = false, callback: () => void): void {

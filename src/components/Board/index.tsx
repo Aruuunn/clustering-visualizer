@@ -180,7 +180,11 @@ class Board extends React.Component<IBoardProps, BoardState> {
                     {[
                         ...(this.props.fabChildren ? (this.props.fabChildren as ReactElement[]) : []),
                         <Zoom in={true} key={'create clusters'}>
-                            <Fab onClick={() => this.setState((s) => ({ createClusterMode: !s.createClusterMode }))}>
+                            <Fab
+                                onClick={() => {
+                                    this.setState((s) => ({ createClusterMode: !s.createClusterMode }));
+                                }}
+                            >
                                 {' '}
                                 <SvgIcon>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 444.892 444.892">

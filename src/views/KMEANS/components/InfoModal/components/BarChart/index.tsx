@@ -10,7 +10,7 @@ interface Props {
     height: number;
     variance: Variance | null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    key?: any;
+    key: any;
 }
 
 function BarChart(props: Props): ReactElement {
@@ -38,7 +38,7 @@ function BarChart(props: Props): ReactElement {
                 chart.update();
             }
         }
-    }, [props.variance]);
+    }, [props.key]);
 
     return (
         <div

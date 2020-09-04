@@ -11,7 +11,7 @@ interface Props {
     iteration: number | null;
     mode: Mode;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    key?: any;
+    key: any;
 }
 
 export const options = {
@@ -50,7 +50,7 @@ function RenderChart(props: Props): ReactElement {
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
     const ChartComponent: ReactElement = (
-        <BarChart variance={variance} width={5} height={5} options={options} data={data} />
+        <BarChart variance={variance} width={5} height={5} options={options} data={data} key={props.key} />
     );
 
     const TableComponent = (

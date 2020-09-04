@@ -102,6 +102,7 @@ const Result = (props: Props): React.ReactElement => {
                         >
                             {' '}
                             <RenderChart
+                                key={0}
                                 mode={Mode.RESULT}
                                 iteration={details.best + 1}
                                 variance={details.variances[details.best]}
