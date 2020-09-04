@@ -114,8 +114,8 @@ class NavBar extends Component<Props, State> {
                                 maxWidth: '150px',
                                 marginLeft: '10px',
                                 marginRight: '10px',
-                                position: 'relative',
-                                top: '12px',
+                                // position: 'relative',
+                                // top: '12px',
                             }}
                         >
                             <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
@@ -140,8 +140,8 @@ class NavBar extends Component<Props, State> {
                                 maxWidth: '150px',
                                 marginLeft: '10px',
                                 marginRight: '20px',
-                                position: 'relative',
-                                top: '12px',
+                                // position: 'relative',
+                                // top: '12px',
                             }}
                         >
                             <Typography>Epsilon: {this.props.dbscan.eps}</Typography>

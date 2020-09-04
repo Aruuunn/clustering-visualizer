@@ -84,8 +84,6 @@ class NavBar extends Component<Props, State> {
                                 maxWidth: '170px',
                                 marginLeft: '10px',
                                 marginRight: '30px',
-                                position: 'relative',
-                                top: '12px',
                             }}
                         >
                             <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
