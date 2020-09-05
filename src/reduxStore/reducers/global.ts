@@ -73,6 +73,7 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
         case GlobalActionTypes.SET_LOGS:
             return { ...state, logs: action.payload as string[] };
 
+
         default:
             return state;
     }

@@ -46,6 +46,8 @@ export default (state: DBSCANState = initialState, action: DBSACNAction): DBSCAN
             return { ...state, render: [] };
         case DBSCANAlgorithmActionTypes.SET_SHOW_GUIDE_CIRCLE:
             return { ...state, showGuideCircle: action.payload as boolean };
+        case DBSCANAlgorithmActionTypes.APPEND_TO_RENDER:
+            return { ...state, render: [...state.render, ...(action.payload as ReactElement[])] };
         default:
             return state;
     }
