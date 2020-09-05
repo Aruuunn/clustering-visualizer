@@ -5,6 +5,7 @@ import { GlobalActionTypes, MeanShiftActionTypes, RootState, AlgorithmActionType
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
 import { ShowCircleSize } from '../../../../components';
+import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -41,6 +42,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     componentDidMount() {
         this.props.setSpeed(Speed.average);
         this.props.resetAlgoData();
+        Logger.clear();
     }
 
     generateCentroids = (callback?: () => void) => {
@@ -261,6 +263,8 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             }
         }
     }
+
+
 
     public render() {
         return (

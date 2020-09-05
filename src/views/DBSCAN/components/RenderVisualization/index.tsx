@@ -7,6 +7,7 @@ import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState, AlgorithmActi
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
+import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -39,6 +40,7 @@ class RenderVisualisation extends Component<Props, State> {
     componentDidMount() {
         this.props.setSpeed(Speed.faster);
         this.props.resetAlgoData();
+        Logger.clear();
     }
 
     handleClustering = async (startNode: Node) => {
@@ -48,6 +50,9 @@ class RenderVisualisation extends Component<Props, State> {
 
         while (stack.length !== 0) {
             const node = stack[0];
+
+            await new Promise((done) => setTimeout(done, 100));
+
             stack.shift();
             const list: Node[] = [];
             let total = 0;
@@ -71,6 +76,7 @@ class RenderVisualisation extends Component<Props, State> {
             if (notNew === total) {
                 continue;
             }
+
             if (total + 1 >= this.props.dbscan.minPts) {
                 stack = [...stack, ...list];
                 if (colorAssigned === false) {
@@ -131,9 +137,11 @@ class RenderVisualisation extends Component<Props, State> {
             }
             await new Promise((done) => setTimeout(done, this.props.global.speed));
         }
+
     };
 
     handleStart = async () => {
+
         if (!this.state.start) {
             return;
         }
@@ -153,6 +161,10 @@ class RenderVisualisation extends Component<Props, State> {
         if (this.props.global.start && !this.state.start) {
             this.setState({ start: true }, () => this.handleStart());
         }
+    }
+
+    componentWillUnmount(){
+        Logger.clear();
     }
 
     render() {
