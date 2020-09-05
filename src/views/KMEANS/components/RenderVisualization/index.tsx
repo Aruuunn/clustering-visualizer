@@ -69,6 +69,7 @@ class KMeans extends Component<Props, State> {
     componentDidMount() {
         this.props.setSpeed(Speed.average);
         this.props.resetAlgoData();
+        Logger.clear();
     }
 
     randomlyInitializeCentroids(updateColor = false, callback: () => void): void {
@@ -377,6 +378,12 @@ class KMeans extends Component<Props, State> {
                 );
             }
         }
+    }
+
+
+    componentWillUnmount(){
+        Logger.clear();
+
     }
 
     render() {

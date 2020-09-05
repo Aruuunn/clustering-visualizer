@@ -154,8 +154,8 @@ const Logs = (props: Props) => {
                             itemCount={props.global.logs.length}
                             itemSize={50}
                             renderItem={({ index, style }) => (
-                                <ListItem key={index} style={style}>
-                                    <ListItemText primary={props.global.logs[index]} />
+                                <ListItem key={index} style={{ ...style, padding: '10px' }}>
+                                    <Typography>{props.global.logs[index]}</Typography>
                                     <Divider />
                                 </ListItem>
                             )}
