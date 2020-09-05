@@ -85,13 +85,18 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
                         stroke={this.state.colors[i]}
                         strokeWidth="3"
                     />
-                    <g transform={`translate(${centroids[i][0] - 15},${centroids[i][1] - 15.5})`}>
-                        <path
-                            fill={this.state.colors[i]}
-                            transform="scale(1.5)"
-                            d="m10.201,.758l2.478,5.865 6.344,.545c0.44,0.038 0.619,0.587 0.285,0.876l-4.812,4.169 1.442,6.202c0.1,0.431-0.367,0.77-0.745,0.541l-5.452-3.288-5.452,3.288c-0.379,0.228-0.845-0.111-0.745-0.541l1.442-6.202-4.813-4.17c-0.334-0.289-0.156-0.838 0.285-0.876l6.344-.545 2.478-5.864c0.172-0.408 0.749-0.408 0.921,0z"
-                        />
-                    </g>
+                    <rect
+                        x={centroids[i][0] - 10}
+                        y={centroids[i][1] - 10}
+                        width={20 + 10 * (i + 1).toString().length}
+                        height="20"
+                        style={{ fill: this.state.colors[i] }}
+                        stroke="black"
+                        strokeWidth="0.25"
+                    />
+                    <text x={centroids[i][0] - 5} y={centroids[i][1] + 5} style={{ fill: 'black' }}>
+                        C{i + 1}
+                    </text>
                 </g>,
             );
         }
@@ -163,43 +168,42 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     };
 
     handleStart = async () => {
-
         this.props.resetAlgoData();
 
         let loss = 1e9;
 
         let centroids: number[][] = this.state.centroids;
 
-        const allCentroids: number[][][] = [this.state.centroids];
-
         this.renderPath = [];
         this.renderCentroids(this.state.centroids);
+
         while (Math.floor(loss) > 0) {
             await new Promise((done) => setTimeout(done, this.props.global.speed * 3));
             const newCentroids = this.calculateCentroids(centroids);
             loss = this.calculateLoss(centroids, newCentroids);
-            allCentroids.push(newCentroids);
+
             this.renderPath = [];
+
             for (let i = 0; i < centroids.length; i++) {
-                let points = '';
-                for (let j = 0; j < allCentroids.length; j++) {
-                    points += `${allCentroids[j][i][0]} ${allCentroids[j][i][1]}${
-                        j + 1 < allCentroids.length ? ',' : ''
-                    }`;
-                }
                 this.renderPath.push(
-                    <polyline
-                        fill="none"
-                        points={points}
-                        key={this.renderPath.length}
-                        stroke="yellow"
-                        strokeWidth="3"
-                        style={{ markerEnd: 'url(#arrow)' }}
-                    />,
+                    <g key={i}>
+                        <line
+                            x1={centroids[i][0]}
+                            y1={centroids[i][1]}
+                            x2={newCentroids[i][0]}
+                            y2={newCentroids[i][1]}
+                            stroke="yellow"
+                            strokeWidth="2"
+                            style={{ markerEnd: 'url(#arrow)' }}
+                        />
+                    </g>,
                 );
             }
-            this.renderCentroids(newCentroids);
+
             this.setState({ centroids: newCentroids });
+            await new Promise((done) => setTimeout(done, this.props.global.speed * 3));
+            this.renderPath = [];
+            this.renderCentroids(newCentroids);
             centroids = newCentroids;
         }
 
@@ -209,7 +213,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
 
         await new Promise((done) => setTimeout(done, this.props.global.speed * 3));
         const list: React.ReactElement[] = [];
-        console.time('calc clusters');
+
         for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
             let min = 1e9;
             let pos = 0;
@@ -229,6 +233,8 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
                     cx={this.props.global.coordinatesOfNodes[i].coordinates[0]}
                     cy={this.props.global.coordinatesOfNodes[i].coordinates[1]}
                     r={this.props.userPreferences.sizeOfPoint}
+                    stroke="black"
+                    strokeWidth="0.25"
                 />,
             );
         }
@@ -236,13 +242,18 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
         for (let i = 0; i < centroids.length; i++) {
             list.push(
                 <g key={`c-${i}`}>
-                    <g transform={`translate(${centroids[i][0] - 15},${centroids[i][1] - 15.5})`}>
-                        <path
-                            fill={'#FFBF00'}
-                            transform="scale(1.5)"
-                            d="m10.201,.758l2.478,5.865 6.344,.545c0.44,0.038 0.619,0.587 0.285,0.876l-4.812,4.169 1.442,6.202c0.1,0.431-0.367,0.77-0.745,0.541l-5.452-3.288-5.452,3.288c-0.379,0.228-0.845-0.111-0.745-0.541l1.442-6.202-4.813-4.17c-0.334-0.289-0.156-0.838 0.285-0.876l6.344-.545 2.478-5.864c0.172-0.408 0.749-0.408 0.921,0z"
-                        />
-                    </g>
+                    <rect
+                        x={centroids[i][0] - 10}
+                        y={centroids[i][1] - 10}
+                        width={20 + 10 * (i + 1).toString().length}
+                        height="20"
+                        style={{ fill: this.state.colors[i] }}
+                        stroke="black"
+                        strokeWidth="0.25"
+                    />
+                    <text x={centroids[i][0] - 5} y={centroids[i][1] + 5} style={{ fill: 'black' }}>
+                        C{i + 1}
+                    </text>
                 </g>,
             );
         }
@@ -263,8 +274,6 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             }
         }
     }
-
-
 
     public render() {
         return (
