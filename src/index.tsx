@@ -11,7 +11,8 @@ import theme from './themes/DarkTheme';
 import initStore from './reduxStore';
 import './index.css';
 
-const { store, persistor } = initStore();
+export const { store, persistor } = initStore();
+
 
 ReactDOM.render(
     <React.StrictMode>

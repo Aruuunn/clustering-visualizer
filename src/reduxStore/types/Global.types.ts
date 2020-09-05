@@ -7,6 +7,9 @@ export enum GlobalActionTypes {
     SET_SPEED = 'SET_SPEED',
     UPDATE_COORDINATES = 'UPDATE_COORDINATES',
     SET_OPEN_FAB = 'SET_OPEN_FAB',
+    ADD_LOG='ADD_LOG',
+    CLEAR_LOGS='CLEAR_LOGS',
+    SET_LOGS='SET_LOGS'
 }
 
 export default GlobalActionTypes;

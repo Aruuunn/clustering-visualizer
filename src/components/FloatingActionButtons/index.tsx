@@ -29,7 +29,7 @@ const FloatingActionButtons = (props: Props) => {
         setOpen,
     } = props;
 
-    const defaultFabCoordiantes = { bottom: sm ? '60vh' : 20, right: 20 };
+    const defaultFabCoordiantes = { bottom: sm ? '40vh' : 20, right: 20 };
     const coordiantesOfFab = props.userPreference.coordinatesOfFab
         ? { top: props.userPreference.coordinatesOfFab[1], left: props.userPreference.coordinatesOfFab[0] }
         : defaultFabCoordiantes;
