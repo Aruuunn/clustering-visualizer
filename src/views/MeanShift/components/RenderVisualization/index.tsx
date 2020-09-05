@@ -201,7 +201,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             }
 
             this.setState({ centroids: newCentroids });
-            await new Promise((done) => setTimeout(done, this.props.global.speed * 3));
+            await new Promise((done) => setTimeout(done, this.props.global.speed));
             this.renderPath = [];
             this.renderCentroids(newCentroids);
             centroids = newCentroids;
