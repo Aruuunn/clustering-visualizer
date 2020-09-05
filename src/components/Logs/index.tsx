@@ -30,9 +30,10 @@ type Props = ConnectedProps<typeof connector>;
 const Logs = (props: Props) => {
     const theme = useTheme();
     const xs = useMediaQuery(theme.breakpoints.down('xs'));
-    
+    const below600pxw = useMediaQuery('(max-width:600px)');
+
     const [expand, setExpand] = useState(false);
-    const [minimized, setMinimized] = useState<boolean>(false);
+    const [minimized, setMinimized] = useState<null | boolean>(null);
 
     if (props.global.logs.length === 0) {
         return null;
@@ -50,6 +51,15 @@ const Logs = (props: Props) => {
             </BlueFab>
         );
     }
+
+    if (minimized === null) {
+        if (below600pxw) {
+            setMinimized(true);
+        } else {
+            setMinimized(false);
+        }
+    }
+
     return (
         <div>
             {!expand ? (
