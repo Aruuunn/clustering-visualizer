@@ -21,6 +21,7 @@ const mapDispatchToProps = {
     popRender: () => ({ type: DBSCANAlgorithmActionTypes.POP_RENDER }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
     resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
+    appendToRender: (ele: ReactElement[]) => ({ type: DBSCANAlgorithmActionTypes.APPEND_TO_RENDER, payload: ele }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -50,8 +51,6 @@ class RenderVisualisation extends Component<Props, State> {
 
         while (stack.length !== 0) {
             const node = stack[0];
-
-            await new Promise((done) => setTimeout(done, 100));
 
             stack.shift();
             const list: Node[] = [];
@@ -120,9 +119,11 @@ class RenderVisualisation extends Component<Props, State> {
                     />,
                 );
 
+                const render = [];
+
                 for (let i = 0; i < list.length; i++) {
                     this.data[`${list[i].id}`] = colors.length - 1;
-                    this.props.addToRender(
+                    render.push(
                         <circle
                             key={`n-${list[i].id}`}
                             r={this.props.userPreference.sizeOfPoint}
@@ -134,14 +135,13 @@ class RenderVisualisation extends Component<Props, State> {
                         />,
                     );
                 }
+                this.props.appendToRender(render);
             }
             await new Promise((done) => setTimeout(done, this.props.global.speed));
         }
-
     };
 
     handleStart = async () => {
-
         if (!this.state.start) {
             return;
         }
@@ -163,7 +163,7 @@ class RenderVisualisation extends Component<Props, State> {
         }
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         Logger.clear();
     }
 
