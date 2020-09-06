@@ -58,10 +58,8 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
+                                <Typography variant="button">Window Radius: {this.props.meanShift.windowSize}</Typography>
                                 <Slider
-                                    //disabled={this.props.global.start}
-
                                     valueLabelDisplay="auto"
                                     color="secondary"
                                     min={50}
@@ -86,7 +84,7 @@ class NavBar extends Component<Props, State> {
                                 marginRight: '30px',
                             }}
                         >
-                            <Typography>Window Radius: {this.props.meanShift.windowSize}</Typography>
+                            <Typography variant="button">Window Radius: {this.props.meanShift.windowSize}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
                                 onBlur={() => this.props.setShowGuideCircle(false)}

@@ -34,15 +34,6 @@ class NavBar extends Component<Props, State> {
         if (this.props.global.algorithm !== AlgorithmNames.DBSCAN) this.props.setAlgorithm(AlgorithmNames.DBSCAN);
     }
     componentDidUpdate() {
-        // const removeEventListener = () => {
-        //     window.removeEventListener('pointerup', () => this.props.setShowGuideCircle(false));
-        //     window.removeEventListener('pointerup', () => removeEventListener());
-        // };
-        // if (this.props.dbscan.showGuideCircle) {
-        //     window.addEventListener('pointerup', () => this.props.setShowGuideCircle(false));
-        //     window.addEventListener('pointerup', () => removeEventListener());
-        // }
-
         if (this.props.global.algorithm !== AlgorithmNames.DBSCAN) this.props.setAlgorithm(AlgorithmNames.DBSCAN);
     }
 
@@ -65,7 +56,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
+                                <Typography  variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
                                 <Slider
                                     //disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
@@ -89,7 +80,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
+                                <Typography  variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
                                 <Slider
                                     //disabled={this.props.global.start}
 
@@ -118,7 +109,7 @@ class NavBar extends Component<Props, State> {
                                 // top: '12px',
                             }}
                         >
-                            <Typography>Min Points: {this.props.dbscan.minPts}</Typography>
+                            <Typography  variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
                             <Slider
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
@@ -144,7 +135,7 @@ class NavBar extends Component<Props, State> {
                                 // top: '12px',
                             }}
                         >
-                            <Typography>Epsilon: {this.props.dbscan.eps}</Typography>
+                            <Typography  variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
                                 onBlur={() => this.props.setShowGuideCircle(false)}
