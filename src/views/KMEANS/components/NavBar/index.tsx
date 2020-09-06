@@ -75,7 +75,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography>Number of Clusters: {this.props.kmeans.numberOfClusters}</Typography>
+                                <Typography variant="button">Number of Clusters: {this.props.kmeans.numberOfClusters}</Typography>
                                 <Slider
                                     valueLabelDisplay="auto"
                                     color="secondary"
@@ -125,9 +125,9 @@ class NavBar extends Component<Props, State> {
                             container
                             direction="column"
                             alignItems="flex-end"
-                            style={{ maxWidth: '170px', marginRight: '30px' }}
+                            style={{ maxWidth: '200px', marginRight: '30px' }}
                         >
-                            <Typography style={{ width: '100%', position: 'relative', left: '-2px' }} align="left">
+                            <Typography variant="button" style={{ width: '100%', position: 'relative', left: '-2px' }} align="left">
                                 Number of Clusters: {this.props.kmeans.numberOfClusters}
                             </Typography>
                             <Slider

@@ -10,7 +10,7 @@ export interface UserPreferencesState {
 }
 
 const initialState: UserPreferencesState = {
-    sizeOfPoint: 9,
+    sizeOfPoint: 7,
     tutorialComplete: false,
     createClusterModeInfoComplete: false,
     showAlgorithmModal: { KMEANS: true, DBSCAN: true, 'MEAN SHIFT': true },
