@@ -43,8 +43,6 @@ class NavBar extends Component<Props, State> {
         return (
             <div>
                 <CommonNavBar
-                    isSliderDisabled={this.props.meanShift.render.length !== 0}
-                    //  disabled={() => this.props.dbscan.minPts <= 1 && this.props.dbscan.eps <= 10}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={1}>
                             <Grid

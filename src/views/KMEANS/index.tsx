@@ -6,7 +6,7 @@ import Board from '../../components/Board';
 import { BlueFab } from '../../components';
 import RenderVisualization from './components/RenderVisualization';
 import NavBar from './components/NavBar';
-import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes } from '../../reduxStore';
+import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes, AlgorithmActionTypes } from '../../reduxStore';
 import InfoModal from './components/InfoModal';
 import Result from './components/Result';
 import { DetailedInfo } from '../../reduxStore/reducers/kmeans.algorithm';
@@ -21,7 +21,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-    setRender: (ele: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.SET_RENDER, payload: ele }),
+    setRender: (ele: ReactElement[]) => ({ type: AlgorithmActionTypes.SET_RENDER, payload: ele }),
     setNeverShowAlgorithmModal: () => ({
         type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,
         payload: AlgorithmNames.KMEANS,

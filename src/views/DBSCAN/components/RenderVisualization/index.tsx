@@ -13,15 +13,16 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     dbscan: state.dbscan,
     userPreference: state.userPreferences,
+    algorithm:state.algorithm
 });
 const mapDispatchToProps = {
     endVisualization: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
-    addToRender: (ele: ReactElement) => ({ type: DBSCANAlgorithmActionTypes.ADD_TO_RENDER, payload: ele }),
-    setRender: (ele: ReactElement[]) => ({ type: DBSCANAlgorithmActionTypes.SET_RENDER, payload: ele }),
-    popRender: () => ({ type: DBSCANAlgorithmActionTypes.POP_RENDER }),
+    addToRender: (ele: ReactElement) => ({ type: AlgorithmActionTypes.ADD_TO_RENDER, payload: ele }),
+    setRender: (ele: ReactElement[]) => ({ type: AlgorithmActionTypes.SET_RENDER, payload: ele }),
+    popRender: () => ({ type: AlgorithmActionTypes.POP_RENDER }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
     resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
-    appendToRender: (ele: ReactElement[]) => ({ type: DBSCANAlgorithmActionTypes.APPEND_TO_RENDER, payload: ele }),
+    appendToRender: (ele: ReactElement[]) => ({ type: AlgorithmActionTypes.APPEND_TO_RENDER, payload: ele }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -172,7 +173,7 @@ class RenderVisualisation extends Component<Props, State> {
             <g>
                 {this.props.global.start && this.renderCircles}
 
-                {this.props.dbscan.render}
+                {this.props.algorithm.render}
                 {this.props.dbscan.showGuideCircle ? <ShowCircleSize radius={this.props.dbscan.eps} /> : null}
             </g>
         );
