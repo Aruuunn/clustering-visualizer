@@ -14,7 +14,7 @@ import {
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 
-import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes } from '../../../../reduxStore';
+import { RootState, UserPreferencesActionTypes ,AlgorithmActionTypes} from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
@@ -26,6 +26,7 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
     userPreference: state.userPreferences,
+    algorithm:state.algorithm
 });
 
 export enum Mode {
@@ -34,7 +35,7 @@ export enum Mode {
 }
 
 const mapDispatchToProps = {
-    setRender: (best: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.SET_RENDER, payload: best }),
+    setRender: (best: ReactElement[]) => ({ type: AlgorithmActionTypes.SET_RENDER, payload: best }),
     setCoordinatesOfFab: (coor: number[]) => ({ type: UserPreferencesActionTypes.SET_FAB_COORDINATES, payload: coor }),
 };
 
@@ -69,7 +70,6 @@ function InfoModal(props: Props): ReactElement {
             props.kmeans.mode === KMEANSMode.MultipleIteration &&
             page < (props.kmeans.info as DetailedInfo).render.length
         ) {
-            console.log('right swipe');
             setPage((s) => s + 1);
         }
     };

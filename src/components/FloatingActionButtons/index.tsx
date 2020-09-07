@@ -83,7 +83,7 @@ const FloatingActionButtons = (props: Props) => {
                                 <Zoom in={fabOpen}>
                                     <Fab
                                         onPointerDown={handleMove}
-                                        style={{ backgroundColor: 'white', margin: '10px' }}
+                                        style={{ backgroundColor: 'white', margin: '10px',cursor:'grab' }}
                                     >
                                         <SvgIcon>
                                             <svg

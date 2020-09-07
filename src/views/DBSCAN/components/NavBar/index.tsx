@@ -7,7 +7,11 @@ import { Slider } from '../../../../components';
 import { CommonNavBar } from '../../../../components';
 import { GlobalActionTypes, RootState, DBSCANAlgorithmActionTypes } from '../../../../reduxStore';
 
-const mapStateToProps = (state: RootState) => ({ global: state.global, dbscan: state.dbscan });
+const mapStateToProps = (state: RootState) => ({
+    global: state.global,
+    dbscan: state.dbscan,
+    algorithm: state.algorithm,
+});
 
 const mapDispatchToProps = {
     setAlgorithm: (algo: AlgorithmNames) => ({
@@ -41,7 +45,6 @@ class NavBar extends Component<Props, State> {
         return (
             <div>
                 <CommonNavBar
-                    isSliderDisabled={this.props.dbscan.render.length !== 0}
                     disabled={() => this.props.dbscan.minPts <= 1 && this.props.dbscan.eps <= 10}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>
@@ -56,7 +59,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography  variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
+                                <Typography variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
                                 <Slider
                                     //disabled={this.props.global.start}
                                     valueLabelDisplay="auto"
@@ -80,7 +83,7 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography  variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
+                                <Typography variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
                                 <Slider
                                     //disabled={this.props.global.start}
 
@@ -109,7 +112,7 @@ class NavBar extends Component<Props, State> {
                                 // top: '12px',
                             }}
                         >
-                            <Typography  variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
+                            <Typography variant="button">Min Points: {this.props.dbscan.minPts}</Typography>
                             <Slider
                                 // disabled={this.props.global.start}
                                 valueLabelDisplay="auto"
@@ -135,7 +138,7 @@ class NavBar extends Component<Props, State> {
                                 // top: '12px',
                             }}
                         >
-                            <Typography  variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
+                            <Typography variant="button">Epsilon: {this.props.dbscan.eps}</Typography>
                             <Slider
                                 onPointerDown={() => this.props.setShowGuideCircle(true)}
                                 onBlur={() => this.props.setShowGuideCircle(false)}

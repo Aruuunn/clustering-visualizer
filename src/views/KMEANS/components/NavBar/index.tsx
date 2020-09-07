@@ -16,7 +16,7 @@ interface State {
     isIterationModeDialogOpen: boolean;
 }
 
-const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: state.kmeans });
+const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: state.kmeans ,algorithm:state.algorithm});
 
 const mapDispatchToProps = {
     changeNumberOfClusters: (numberOfClusters: number) => ({
@@ -62,7 +62,6 @@ class NavBar extends Component<Props, State> {
         return (
             <div>
                 <CommonNavBar
-                    isSliderDisabled={this.props.global.start || this.props.kmeans.render.length !== 0}
                     disabled={this.disabled}
                     drawerChildren={[
                         <Grid container justify="center" alignItems="center" key={0}>

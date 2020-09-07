@@ -44,7 +44,6 @@ type Props = PropsFromRedux & {
     children?: ReactElement | ReactElement[];
     drawerChildren?: ReactElement | ReactElement[];
     disabled?: () => boolean;
-    isSliderDisabled?: boolean;
 } & RouteComponentProps;
 
 // NavBar
@@ -281,7 +280,6 @@ class NavBar extends Component<Props, State> {
                     <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.faster)}>Faster</MenuItem>
                 </Menu>
                 <Drawer
-                    isSliderDisabled={this.props.isSliderDisabled}
                     isDisabled={this.isDisabled}
                     handleSpeeMenu={this.handleSpeeMenu}
                     handleAlgorithmMenu={this.handleAlgorithmMenu}

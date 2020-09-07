@@ -15,6 +15,7 @@ import Slider from '../../components/Slider';
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     userPreference: state.userPreferences,
+    algorithm:state.algorithm
 });
 
 const mapDispatchToProps = {
@@ -46,7 +47,6 @@ type Props = PropsFromRedux & {
     handleSpeeMenu: (event: React.SyntheticEvent<Element, Event>) => void;
     isDisabled: () => boolean;
     children?: ReactElement | ReactElement[];
-    isSliderDisabled?: boolean;
 };
 
 function Drawer(props: Props): ReactElement {
@@ -159,7 +159,7 @@ function Drawer(props: Props): ReactElement {
                             Point Size
                         </Typography>
                         <Slider
-                            disabled={props.isSliderDisabled}
+                            disabled={props.algorithm.render.length!==0}
                             value={props.userPreference.sizeOfPoint}
                             onChange={(e, value) => props.setPointSize(value)}
                             color="secondary"

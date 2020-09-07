@@ -18,23 +18,20 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
     userPreference: state.userPreferences,
+    algorithm:state.algorithm
 });
 
 const mapDispatchToProps = {
     addToRender: (data: ReactElement) => ({
-        type: KMEANSAlgorithmActionTypes.ADD_TO_RENDER,
+        type: AlgorithmActionTypes.ADD_TO_RENDER,
         payload: data,
     }),
-    popRender: () => ({ type: KMEANSAlgorithmActionTypes.POP_RENDER }),
+    popRender: () => ({ type: AlgorithmActionTypes.POP_RENDER }),
     setRender: (data: ReactElement[]) => ({
-        type: KMEANSAlgorithmActionTypes.SET_RENDER,
+        type: AlgorithmActionTypes.SET_RENDER,
         payload: data,
     }),
     resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
-    reduceData: (numberOfNodes: number) => ({
-        type: KMEANSAlgorithmActionTypes.REDUCE_DATA,
-        payload: numberOfNodes,
-    }),
     endVisualization: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
     setNumberOfClusters: (numberOfClusters: number) => ({
         type: KMEANSAlgorithmActionTypes.SET_NUMBER_OF_CLUSTERS,
@@ -44,7 +41,7 @@ const mapDispatchToProps = {
 
     setCurrentIteration: (iter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION, payload: iter }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
-    appendToRender: (list: ReactElement[]) => ({ type: KMEANSAlgorithmActionTypes.APPEND_TO_RENDER, payload: list }),
+    appendToRender: (list: ReactElement[]) => ({ type: AlgorithmActionTypes.APPEND_TO_RENDER, payload: list }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -219,7 +216,7 @@ class KMeans extends Component<Props, State> {
                 }
 
                 render.push(
-                    <g key={`b-${this.props.kmeans.render.length}-${this.props.global.coordinatesOfNodes[i].id}`}>
+                    <g key={`b-${this.props.algorithm.render.length}-${this.props.global.coordinatesOfNodes[i].id}`}>
                         <line
                             stroke={this.colors[pos]}
                             strokeWidth="1.5"
@@ -341,7 +338,7 @@ class KMeans extends Component<Props, State> {
             if (this.props.kmeans.mode === KMEANSMode.SingleIteration) {
                 this.props.setInfo(variance);
             } else {
-                render = [...render, [...this.props.kmeans.render]];
+                render = [...render, [...this.props.algorithm.render]];
                 variances = [...variances, { ...variance }];
 
                 if (variances[best].silhouetteScore < variance.silhouetteScore) {
@@ -389,8 +386,8 @@ class KMeans extends Component<Props, State> {
     render() {
         return (
             <g>
-                {this.props.kmeans.render}
-                {(this.props.kmeans.render.length || this.props.global.start) && this.renderCentroids}
+                {this.props.algorithm.render}
+                {(this.props.algorithm.render.length || this.props.global.start) && this.renderCentroids}
             </g>
         );
     }
