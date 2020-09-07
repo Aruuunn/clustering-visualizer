@@ -12,6 +12,8 @@ const KMEANSView = lazy(() => import('./views/KMEANS'));
 const Tutorial = lazy(() => import('./components/Tutorial'));
 const DBSCANView = lazy(() => import('./views/DBSCAN'));
 const MeanShift = lazy(() => import('./views/MeanShift'));
+const HierarchicalView = lazy(() => import('./views/Hierarchical'));
+
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -34,6 +36,7 @@ function App(props: Props): ReactElement {
                     <Route path="/kmeans" component={KMEANSView} />
                     <Route path="/dbscan" component={DBSCANView} />
                     <Route path="/mean-shift" component={MeanShift} />
+                    <Route path="/hierarchical" component={HierarchicalView}/>
                     <Route exact path="/" component={Home} />
                 </Switch>
                 {props.userPreferences.tutorialComplete === false ? (
