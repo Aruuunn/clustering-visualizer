@@ -265,6 +265,14 @@ class NavBar extends Component<Props, State> {
                     >
                         K MEANS
                     </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
+                            this.props.history.push('/hierarchical');
+                        }}
+                    >
+                        HIERARCHICAL
+                    </MenuItem>
                 </Menu>
                 <Menu
                     id="menu-speed"
