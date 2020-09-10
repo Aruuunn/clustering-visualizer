@@ -1,4 +1,4 @@
-import { HierarchicalActionTypes } from '../types/';
+import { HierarchicalActionTypes } from '../types';
 
 export interface HierarchicalState {
     numberOfClusters: number;

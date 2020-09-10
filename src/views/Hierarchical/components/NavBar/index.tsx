@@ -32,12 +32,12 @@ class NavBar extends Component<Props, State> {
     state = {};
 
     componentDidMount() {
-        if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING)
-            this.props.setAlgorithm(AlgorithmNames.HIERARCHICAL_CLUSTERING);
+        if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING_AGGLOMERATIVE)
+            this.props.setAlgorithm(AlgorithmNames.HIERARCHICAL_CLUSTERING_AGGLOMERATIVE);
     }
     componentDidUpdate() {
-        if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING)
-            this.props.setAlgorithm(AlgorithmNames.HIERARCHICAL_CLUSTERING);
+        if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING_AGGLOMERATIVE)
+            this.props.setAlgorithm(AlgorithmNames.HIERARCHICAL_CLUSTERING_AGGLOMERATIVE);
     }
 
     render() {

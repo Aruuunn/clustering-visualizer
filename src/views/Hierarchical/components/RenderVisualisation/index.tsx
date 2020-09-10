@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     userPreference: state.userPreferences,
     algorithm: state.algorithm,
-    hierarchical:state.hierarchical
+    hierarchical: state.hierarchical,
 });
 
 const mapDispatchToProps = {
@@ -70,53 +70,37 @@ class RenderVisualisation extends Component<Props, State> {
         let centroids: number[][] = [];
         let colors: string[] = [];
 
-        let clusters: number[][][] = [];
 
-        const set = new Set();
+        for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
+            centroids.push(this.props.global.coordinatesOfNodes[i].coordinates);
+            colors.push(getRandomColor(colors.length * 3));
+        }
 
-        while (centroids.length!==this.props.hierarchical.numberOfClusters || set.size < this.props.global.coordinatesOfNodes.length) {
+        let clusters: number[][][] = Array.from({length:centroids.length},(_,i) => [centroids[i]]);
+
+
+        let render = [];
+
+        for (let i = 0; i < centroids.length; i++) {
+            for (let j = 0; j < clusters[i].length; j++) {
+                render.push(
+                    <g key={render.length}>
+                        <circle
+                            r={this.props.userPreference.sizeOfPoint}
+                            cx={clusters[i][j][0]}
+                            cy={clusters[i][j][1]}
+                            fill={colors[i]}
+                            stroke="black"
+                            strokeWidth="0.25"
+                        />
+                    </g>,
+                );
+            }
+        }
+
+        while (centroids.length !== this.props.hierarchical.numberOfClusters) {
             let best = 1e9;
             const bestPair = [-1, -1];
-            let onyOneIsCentroid = false;
-            let bothAreCentroids = false;
-
-            for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
-                if (set.has(this.props.global.coordinatesOfNodes[i].id)) {
-                    continue;
-                }
-
-                for (let j = i + 1; j < this.props.global.coordinatesOfNodes.length; j++) {
-                    if (set.has(this.props.global.coordinatesOfNodes[j].id)) {
-                        continue;
-                    }
-                    const dist = Math.sqrt(
-                        calculateSquaredDistance(
-                            this.props.global.coordinatesOfNodes[i].coordinates,
-                            this.props.global.coordinatesOfNodes[j].coordinates,
-                        ),
-                    );
-
-                    if (best > dist) {
-                        best = dist;
-                        onyOneIsCentroid = false;
-                        bestPair[0] = i;
-                        bestPair[1] = j;
-                    }
-                }
-
-                for (let j = 0; j < centroids.length; j++) {
-                    const dist = Math.sqrt(
-                        calculateSquaredDistance(this.props.global.coordinatesOfNodes[i].coordinates, centroids[j]),
-                    );
-
-                    if (best > dist) {
-                        best = dist;
-                        onyOneIsCentroid = true;
-                        bestPair[0] = i;
-                        bestPair[1] = j;
-                    }
-                }
-            }
 
             for (let i = 0; i < centroids.length; i++) {
                 for (let j = i + 1; j < centroids.length; j++) {
@@ -124,28 +108,16 @@ class RenderVisualisation extends Component<Props, State> {
 
                     if (best > dist) {
                         best = dist;
-                        onyOneIsCentroid = false;
-                        bothAreCentroids = true;
+
                         bestPair[0] = i;
                         bestPair[1] = j;
                     }
                 }
             }
 
-            if (bothAreCentroids) {
-                colors = colors.filter((o, i) => i !== bestPair[1]);
-                clusters[bestPair[0]] = clusters[bestPair[0]].concat(clusters[bestPair[1]]);
-                clusters = clusters.filter((o, i) => i !== bestPair[1]);
-            } else if (onyOneIsCentroid) {
-                clusters[bestPair[1]].push(this.props.global.coordinatesOfNodes[bestPair[0]].coordinates);
-                set.add(this.props.global.coordinatesOfNodes[bestPair[0]].id);
-            } else {
-                colors.push(getRandomColor(colors.length));
-                clusters.push([
-                    this.props.global.coordinatesOfNodes[bestPair[0]].coordinates,
-                    this.props.global.coordinatesOfNodes[bestPair[1]].coordinates,
-                ]);
-            }
+            colors = colors.filter((o, i) => i !== bestPair[1]);
+            clusters[bestPair[0]] = clusters[bestPair[0]].concat(clusters[bestPair[1]]);
+            clusters = clusters.filter((o, i) => i !== bestPair[1]);
 
             const render: ReactElement[] = [];
 

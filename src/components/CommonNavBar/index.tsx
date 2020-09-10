@@ -271,7 +271,7 @@ class NavBar extends Component<Props, State> {
                             this.props.history.push('/hierarchical');
                         }}
                     >
-                        HIERARCHICAL
+                       AGGLOMERATIVE HIERARCHICAL
                     </MenuItem>
                 </Menu>
                 <Menu
