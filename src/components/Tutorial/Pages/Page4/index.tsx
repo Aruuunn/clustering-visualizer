@@ -18,7 +18,7 @@ export const Page2 = () => {
                 Get Started
             </Typography>
             <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
-                Start by clicking the blank space for creating data points!
+                Start by clicking the blank space to create data points!
             </Typography>
             <ProgressiveImage src={createDataPoints} placeholder={createDataPointsProgressive}>
                 {(src: string, loading: boolean) => (

@@ -13,7 +13,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-    setNeverShowAlgorithmInfo: () => ({ type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO }),
+    setNeverShowAlgorithmInfo: () => ({ type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,payload:HIERARCHICAL_CLUSTERING_AGGLOMERATIVE }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

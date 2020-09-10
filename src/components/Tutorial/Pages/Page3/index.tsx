@@ -22,10 +22,18 @@ export const Page3 = () => {
                     <li>
                         {' '}
                         <Typography variant="h6">Kmeans</Typography>
-                        <Typography variant="body1">
-                            Kmeans is simple clustering algorithm. It is a Centroid based clustering algorithm. It uses
-                            centroids to associate each point to a cluster.
-                        </Typography>
+                    </li>
+                    <li>
+                        {' '}
+                        <Typography variant="h6">DBSCAN</Typography>
+                    </li>
+                    <li>
+                        {' '}
+                        <Typography variant="h6">Mean Shift</Typography>
+                    </li>
+                    <li>
+                        {' '}
+                        <Typography variant="h6">Agglomerative Hierarchical Clustering</Typography>
                     </li>
                 </ul>
             </div>
