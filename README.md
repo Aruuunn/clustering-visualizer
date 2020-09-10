@@ -11,6 +11,7 @@ Clustering Visualizer is a React Web Application for visualizing of Machine Lear
 + [DBSCAN](https://clustering-visualizer.web.app/dbscan)
 + [Mean Shift](https://clustering-visualizer.web.app/mean-shift)
 + [K Means](https://clustering-visualizer.web.app/kmeans)
++ [Hierarchical](https://clustering-visualizer.web.app/hierarchical)
 
 
 ## Contributing
