@@ -7,7 +7,8 @@ import GlobalReducer, { GlobalState } from './global';
 import KMEANSAlgorithmReducer, { KMEANSState } from './kmeans.algorithm';
 import DBSCANAlgorithmReducer, { DBSCANState } from './dbscan.algorithm';
 import MeanShiftAlgorithmReducer, { MeanShiftState } from './mean-shift.algorithm';
-import AlgorithmReducer , {AlgorithmState} from './algorithm';
+import AlgorithmReducer, { AlgorithmState } from './algorithm';
+import HierarchicalAlgorithmReducer, { HierarchicalState } from './hierarchical.algorithm';
 
 export * from './dbscan.algorithm';
 export * from './kmeans.algorithm';
@@ -26,7 +27,8 @@ export const rootReducer = combineReducers({
     kmeans: KMEANSAlgorithmReducer,
     dbscan: DBSCANAlgorithmReducer,
     meanShift: MeanShiftAlgorithmReducer,
-    algorithm:AlgorithmReducer
+    algorithm: AlgorithmReducer,
+    hierarchical: HierarchicalAlgorithmReducer,
 });
 
 export interface RootState {
@@ -35,7 +37,8 @@ export interface RootState {
     kmeans: KMEANSState;
     dbscan: DBSCANState;
     meanShift: MeanShiftState;
-    algorithm:AlgorithmState
+    algorithm: AlgorithmState;
+    hierarchical: HierarchicalState;
 }
 
 export default rootReducer;

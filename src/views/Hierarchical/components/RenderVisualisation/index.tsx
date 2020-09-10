@@ -10,6 +10,7 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     userPreference: state.userPreferences,
     algorithm: state.algorithm,
+    hierarchical:state.hierarchical
 });
 
 const mapDispatchToProps = {
@@ -73,7 +74,7 @@ class RenderVisualisation extends Component<Props, State> {
 
         const set = new Set();
 
-        while (set.size < this.props.global.coordinatesOfNodes.length) {
+        while (centroids.length!==this.props.hierarchical.numberOfClusters || set.size < this.props.global.coordinatesOfNodes.length) {
             let best = 1e9;
             const bestPair = [-1, -1];
             let onyOneIsCentroid = false;
