@@ -16,4 +16,4 @@ const index = (props: Props) => {
     )
 }
 
-export default index
+export default index;
