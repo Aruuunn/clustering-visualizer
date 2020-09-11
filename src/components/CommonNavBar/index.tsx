@@ -54,6 +54,19 @@ class NavBar extends Component<Props, State> {
         isDrawerOpen: false,
     };
 
+    algorithmName = () => {
+        switch (this.props.global.algorithm) {
+            case AlgorithmNames.HIERARCHICAL_CLUSTERING:
+                return 'HIERARCHICAL CLUSTERING';
+
+            case AlgorithmNames.MEAN_SHIFT:
+                return 'MEAN SHIFT';
+
+            default:
+                return this.props.global.algorithm;
+        }
+    };
+
     handleSpeeMenu = (event: SyntheticEvent) => {
         this.setState({ anchor2: event.currentTarget });
     };
@@ -191,7 +204,7 @@ class NavBar extends Component<Props, State> {
                                 >
                                     {this.props.global.algorithm === null
                                         ? 'Select Algorithm'
-                                        : this.props.global.algorithm}
+                                        : this.algorithmName()}
                                 </FlatButton>
 
                                 <FlatButton
@@ -271,7 +284,7 @@ class NavBar extends Component<Props, State> {
                             this.props.history.push('/hierarchical');
                         }}
                     >
-                       AGGLOMERATIVE HIERARCHICAL
+                        HIERARCHICAL CLUSTERING
                     </MenuItem>
                 </Menu>
                 <Menu

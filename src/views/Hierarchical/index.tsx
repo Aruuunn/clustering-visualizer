@@ -6,14 +6,13 @@ import { Board } from '../../components';
 import { RootState, UserPreferencesActionTypes } from '../../reduxStore';
 import AlgorithmNames from '../../common/algorithms.enum';
 
-const { HIERARCHICAL_CLUSTERING_AGGLOMERATIVE } = AlgorithmNames;
 
 const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
 });
 
 const mapDispatchToProps = {
-    setNeverShowAlgorithmInfo: () => ({ type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,payload:HIERARCHICAL_CLUSTERING_AGGLOMERATIVE }),
+    setNeverShowAlgorithmInfo: () => ({ type: UserPreferencesActionTypes.SET_NEVER_SHOW_AGAIN_ALGO,payload:AlgorithmNames.HIERARCHICAL_CLUSTERING }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -25,7 +24,7 @@ const index = (props: Props) => {
         <div>
             <NavBar />
             <Board component={<RenderVisualisation />} />
-            {props.userPreference.showAlgorithmModal[HIERARCHICAL_CLUSTERING_AGGLOMERATIVE] ? (
+            {props.userPreference.showAlgorithmModal.HIERARCHICAL_CLUSTERING? (
                 <AlgorithmInfoModal setNeverShowAlgorithmModal={props.setNeverShowAlgorithmInfo} />
             ) : null}
         </div>

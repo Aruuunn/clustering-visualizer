@@ -13,6 +13,6 @@ const FlatButtonComponent = (props: ButtonProps): ReactElement => {
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
     const xl = useMediaQuery(theme.breakpoints.up('xl'));
 
-    return <FlatButton {...{ ...props, size: lg || xl ? 'medium' : 'small' }} />;
+    return <FlatButton {...{ ...props, size: lg || xl ? 'medium' : 'small',variant:"contained" }} />;
 };
 export default FlatButtonComponent;

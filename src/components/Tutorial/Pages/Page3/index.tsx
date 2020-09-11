@@ -21,19 +21,19 @@ export const Page3 = () => {
                 <ul>
                     <li>
                         {' '}
-                        <Typography variant="h6">Kmeans</Typography>
+                        <Typography component="span" variant="h6">Kmeans</Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography variant="h6">DBSCAN</Typography>
+                        <Typography component="span"  variant="h6">DBSCAN</Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography variant="h6">Mean Shift</Typography>
+                        <Typography component="span"  variant="h6">Mean Shift</Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography variant="h6">Agglomerative Hierarchical Clustering</Typography>
+                        <Typography component="span"  variant="h6">Agglomerative Hierarchical Clustering</Typography>
                     </li>
                 </ul>
             </div>

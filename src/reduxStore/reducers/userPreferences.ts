@@ -2,8 +2,6 @@ import UserPreferencesActionTypes from '../types/UserPreferences.types';
 import AlgorithmNames from '../../common/algorithms.enum';
 
 
-const {HIERARCHICAL_CLUSTERING_AGGLOMERATIVE,MEAN_SHIFT } = AlgorithmNames;
-
 
 export interface UserPreferencesState {
     sizeOfPoint: number;
@@ -20,8 +18,8 @@ const initialState: UserPreferencesState = {
     showAlgorithmModal: {
         KMEANS: true,
         DBSCAN: true,
-        [MEAN_SHIFT]: true,
-        [HIERARCHICAL_CLUSTERING_AGGLOMERATIVE]: true,
+        MEAN_SHIFT: true,
+        HIERARCHICAL_CLUSTERING: true,
     },
 };
 

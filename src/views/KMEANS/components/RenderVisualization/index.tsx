@@ -208,9 +208,9 @@ class KMeans extends Component<Props, State> {
                     }
                 }
 
-                if (clusters.length !== this.numberOfClusters) {
-                    clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
-                }
+                // if (clusters.length !== this.numberOfClusters) {
+                //     clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
+                // }
                 if (clusters[pos]) {
                     clusters[pos].push(currentNode);
                 }
@@ -237,7 +237,6 @@ class KMeans extends Component<Props, State> {
                     </g>,
                 );
 
-                //   await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
             }
 
             this.props.resetAlgoData();
