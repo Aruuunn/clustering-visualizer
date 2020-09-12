@@ -4,7 +4,7 @@ import ProgressiveImage from 'react-progressive-image';
 import { connect, ConnectedProps } from 'react-redux';
 
 import createClustersImage from '../../../../assets/create-cluster-mode.gif';
-import createClustersProgressive from '../../../../assets/create-clusters-mode-progressive.jpg';
+import createClustersProgressive from '../../../../assets/create-cluster-mode-progressive.jpg';
 import BlueButton from '../../../BlueButton';
 import { RootState, UserPreferencesActionTypes } from '../../../../reduxStore';
 

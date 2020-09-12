@@ -11,8 +11,7 @@ export const FlatButton = withStyles({
 const FlatButtonComponent = (props: ButtonProps): ReactElement => {
     const theme = useTheme();
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
-    const xl = useMediaQuery(theme.breakpoints.up('xl'));
 
-    return <FlatButton {...{ ...props, size: lg || xl ? 'medium' : 'small',variant:"contained" }} />;
+    return <FlatButton {...{ ...props, size: lg ? 'medium' : 'small', variant: 'contained' }} />;
 };
 export default FlatButtonComponent;

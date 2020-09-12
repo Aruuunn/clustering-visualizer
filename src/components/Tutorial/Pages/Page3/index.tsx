@@ -13,7 +13,7 @@ export const Page3 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Clustering Algorithms
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px' }}>
+            <Typography variant="body1" style={{ marginTop: '50px' }}>
                 There are a lot of clustering Algorithms. For Now <em>only</em> the algorithms given below are supported
                 in this application.
             </Typography>
@@ -21,19 +21,27 @@ export const Page3 = () => {
                 <ul>
                     <li>
                         {' '}
-                        <Typography component="span" variant="h6">Kmeans</Typography>
+                        <Typography component="span" variant="body1">
+                            Kmeans
+                        </Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography component="span"  variant="h6">DBSCAN</Typography>
+                        <Typography component="span" variant="body1">
+                            DBSCAN
+                        </Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography component="span"  variant="h6">Mean Shift</Typography>
+                        <Typography component="span" variant="body1">
+                            Mean Shift
+                        </Typography>
                     </li>
                     <li>
                         {' '}
-                        <Typography component="span"  variant="h6">Agglomerative Hierarchical Clustering</Typography>
+                        <Typography component="span" variant="body1">
+                            Hierarchical Clustering
+                        </Typography>
                     </li>
                 </ul>
             </div>

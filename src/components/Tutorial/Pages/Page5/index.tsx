@@ -2,8 +2,8 @@ import React from 'react';
 import { Typography, Grid, CircularProgress } from '@material-ui/core';
 import ProgressiveImage from 'react-progressive-image';
 
-import selectAlgorithm from '../../../../assets/select-algorithm-min.gif';
-import selectAlgorithmMin from '../../../../assets/change-algorithm.jpg';
+import selectAlgorithm from '../../../../assets/select-algo.gif';
+import selectAlgorithmMin from '../../../../assets/select-algo-progressive.jpg';
 
 export const Page2 = () => {
     return (
@@ -17,7 +17,7 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Algorithm Selection
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
+            <Typography variant="body1" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 Select the Algorithm you want to visualize!
             </Typography>
 
@@ -31,7 +31,8 @@ export const Page2 = () => {
                                 height: 'auto',
                                 marginTop: '20px',
                                 opacity: loading ? 0.5 : 1,
-                                transition: 'opacity 1.5s ease',
+                                transition: 'all 1.5s ease',
+                                filter: loading ? 'blur(8px)' : 'none',
                             }}
                             src={src}
                             alt="an image"

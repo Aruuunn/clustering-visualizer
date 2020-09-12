@@ -13,10 +13,10 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Parameters
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
-                Each Algorithm has it&apos;s own parameters and modes. You will find a guide about the parameters and
-                modes for the corresponding Algorithms after selecting the algorithm. After entering the respective
-                Parameters, you can press &quot;START&quot;!
+            <Typography variant="body1" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
+                Each Algorithm has it&apos;s own parameters and modes. You will find information about the parameters
+                and modes for the corresponding Algorithms after selecting the algorithm. After tweaking the parameters
+                as per your will, you can press &quot;START&quot;!
             </Typography>
         </Grid>
     );

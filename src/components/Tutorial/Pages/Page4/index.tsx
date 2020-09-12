@@ -2,8 +2,8 @@ import React from 'react';
 import { Typography, Grid, CircularProgress } from '@material-ui/core';
 import ProgressiveImage from 'react-progressive-image';
 
-import createDataPoints from '../../../../assets/create-data-points-min.gif';
-import createDataPointsProgressive from '../../../../assets/create-data-points-min.jpg';
+import createDataPoints from '../../../../assets/points.gif';
+import createDataPointsProgressive from '../../../../assets/points-progressive.jpg';
 
 export const Page2 = () => {
     return (
@@ -17,19 +17,20 @@ export const Page2 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Get Started
             </Typography>
-            <Typography variant="h6" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
+            <Typography variant="body1" style={{ marginTop: '50px', width: '100%', fontWeight: 'normal' }}>
                 Start by clicking the blank space to create data points!
             </Typography>
             <ProgressiveImage src={createDataPoints} placeholder={createDataPointsProgressive}>
                 {(src: string, loading: boolean) => (
-                    <div style={{ position: 'relative', width: '100%', height: 'auto' }}>
+                    <div style={{ position: 'relative', width: '100%', height: 'auto', marginTop: '10px' }}>
                         <img
                             style={{
                                 width: '100%',
                                 height: 'auto',
                                 marginTop: '20px',
                                 opacity: loading ? 0.5 : 1,
-                                transition: 'opacity 1.5s ease',
+                                transition: 'all 1.5s ease',
+                                filter: loading ? 'blur(8px)' : 'none',
                             }}
                             src={src}
                             alt="an image"

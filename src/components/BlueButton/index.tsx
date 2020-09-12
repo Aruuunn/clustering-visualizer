@@ -17,9 +17,8 @@ export const BlueButton = withStyles({
 export const BlueButtonComponent = (props: ButtonProps): ReactElement => {
     const theme = useTheme();
     const lg = useMediaQuery(theme.breakpoints.up('lg'));
-    const xl = useMediaQuery(theme.breakpoints.up('xl'));
 
-    return <BlueButton {...{ ...props, size: lg || xl ? 'medium' : 'small' }} />;
+    return <BlueButton {...{ ...props, size: lg ? 'medium' : 'small' }} />;
 };
 
 export default BlueButtonComponent;

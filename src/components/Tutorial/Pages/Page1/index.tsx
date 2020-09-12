@@ -15,7 +15,7 @@ export const Page1 = () => {
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
                 Welcome to Clustering Algorithm Visualizer!
             </Typography>
-            <Typography variant="h5" style={{ marginTop: '50px', fontWeight: 'normal' }}>
+            <Typography variant="body1" style={{ marginTop: '50px', fontWeight: 'normal' }}>
                 This short tutorial will walk you through all the core features of this application.
             </Typography>
             <img

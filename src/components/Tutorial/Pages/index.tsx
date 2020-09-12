@@ -7,31 +7,34 @@ import Page5 from './Page5';
 import Page6 from './Page6';
 import Page7 from './Page7';
 import Page8 from './Page8';
+import Page9 from './Page9';
 
 type Props = {
     page: number;
 };
 
 export default function Pages(props: Props): ReactElement | null {
-    const { page, ...rest } = props;
+    const { page } = props;
 
     switch (page) {
         case 1:
-            return <Page1 {...rest} />;
+            return <Page1 />;
         case 2:
-            return <Page2 {...rest} />;
+            return <Page2 />;
         case 3:
-            return <Page3 {...rest} />;
+            return <Page3 />;
         case 4:
-            return <Page4 {...rest} />;
+            return <Page4 />;
         case 5:
-            return <Page5 {...rest} />;
+            return <Page5 />;
         case 6:
-            return <Page6 {...rest} />;
+            return <Page6 />;
         case 7:
-            return <Page7 {...rest} />;
+            return <Page7 />;
         case 8:
-            return <Page8 {...rest} />;
+            return <Page8 />;
+        case 9:
+            return <Page9 />;
         default:
             return null;
     }

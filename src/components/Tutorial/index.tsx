@@ -30,7 +30,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                 }}
             >
                 <Grid container justify="flex-end" style={{ width: '100%' }}>
-                    {page}/8
+                    {page}/9
                 </Grid>
                 <div style={{ width: '100%', flexGrow: 1 }}>
                     <Pages page={page} />
@@ -51,7 +51,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                         paddingBottom: xs ? 0 : '5px',
                     }}
                 >
-                    {page !== 8 ? (
+                    {page !== 9 ? (
                         <FlatButton
                             variant="contained"
                             style={{ margin: '5px' }}
@@ -72,7 +72,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                                 Previous
                             </FlatButton>
                         ) : null}
-                        {page !== 8 ? (
+                        {page !== 9 ? (
                             <BlueButton
                                 style={{ margin: '5px' }}
                                 variant="contained"
@@ -81,7 +81,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                                 Next
                             </BlueButton>
                         ) : null}
-                        {page === 8 ? (
+                        {page === 9 ? (
                             <BlueButton
                                 style={{ margin: '5px' }}
                                 variant="contained"
