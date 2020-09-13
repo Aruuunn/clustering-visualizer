@@ -1,13 +1,11 @@
 import React from 'react';
-import { Typography, Grid, CircularProgress, useTheme, DialogTitle, DialogContent } from '@material-ui/core';
+import { Typography, Grid, CircularProgress, DialogTitle, DialogContent } from '@material-ui/core';
 import ProgressiveImage from 'react-progressive-image';
 
 import clustersImage from '../../../../assets/clusters.png';
 import ClusterProgressiveImage from '../../../../assets/clusters-min.jpg';
 
 export const Page2 = () => {
-    const theme = useTheme();
-
     return [
         <DialogTitle key={0}>
             {' '}

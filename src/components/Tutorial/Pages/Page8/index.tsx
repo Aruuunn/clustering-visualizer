@@ -37,6 +37,7 @@ export const Page8 = () => {
                                     transition: 'all 1.5s ease',
                                     filter: loading ? 'blur(8px)' : 'none',
                                 }}
+                                alt="create cluster mode"
                             />
                             {loading ? (
                                 <Grid

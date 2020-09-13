@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from 'react';
 import NavBar from '../../components/CommonNavBar';
 import Board from '../../components/Board';
-import { GlobalActionTypes, RootState, UserPreferencesActionTypes } from '../../reduxStore';
+import { GlobalActionTypes, RootState } from '../../reduxStore';
 import { connect, ConnectedProps } from 'react-redux';
 
 const mapStateToProps = (state: RootState) => ({

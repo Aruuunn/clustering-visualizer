@@ -1,14 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import {
-    Dialog,
-    DialogActions,
-    useTheme,
-    useMediaQuery,
-    DialogContent,
-    DialogTitle,
-    Typography,
-    DialogContentText,
-} from '@material-ui/core';
+import { Dialog, DialogActions, useTheme, useMediaQuery } from '@material-ui/core';
 
 import Pages from './Pages';
 

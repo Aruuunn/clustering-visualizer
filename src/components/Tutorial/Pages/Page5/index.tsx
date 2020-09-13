@@ -33,7 +33,7 @@ export const Page2 = () => {
                                     filter: loading ? 'blur(8px)' : 'none',
                                 }}
                                 src={src}
-                                alt="an image"
+                                alt="select algorithm"
                             />
                             {loading ? (
                                 <Grid

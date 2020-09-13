@@ -14,19 +14,17 @@ import {
 import { Swipeable } from 'react-swipeable';
 import Pagination from '@material-ui/lab/Pagination';
 
-import { RootState, UserPreferencesActionTypes ,AlgorithmActionTypes} from '../../../../reduxStore';
+import { RootState, UserPreferencesActionTypes, AlgorithmActionTypes } from '../../../../reduxStore';
 import { Variance } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import RenderChart from './components/RenderChart';
 
-import Result from '../Result';
-
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
     userPreference: state.userPreferences,
-    algorithm:state.algorithm
+    algorithm: state.algorithm,
 });
 
 export enum Mode {

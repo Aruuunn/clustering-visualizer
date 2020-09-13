@@ -40,6 +40,7 @@ export const Page7 = () => {
                                     opacity: loading ? 0.8 : 1,
                                     transition: 'all 1.5s ease',
                                 }}
+                                alt="floating action button"
                             />
                             {loading ? (
                                 <Grid

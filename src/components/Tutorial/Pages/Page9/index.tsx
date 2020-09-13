@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, Link, DialogTitle, DialogContent } from '@material-ui/core';
+import { Typography, Link, DialogTitle, DialogContent } from '@material-ui/core';
 
 export const Page9 = () => {
     return [
