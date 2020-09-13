@@ -15,7 +15,7 @@ import Slider from '../../components/Slider';
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     userPreference: state.userPreferences,
-    algorithm:state.algorithm
+    algorithm: state.algorithm,
 });
 
 const mapDispatchToProps = {
@@ -155,11 +155,11 @@ function Drawer(props: Props): ReactElement {
                         }}
                         alignItems="center"
                     >
-                        <Typography gutterBottom style={{ width: '100%' }}>
+                        <Typography variant="button" style={{ width: '100%' }}>
                             Point Size
                         </Typography>
                         <Slider
-                            disabled={props.algorithm.render.length!==0}
+                            disabled={props.algorithm.render.length !== 0}
                             value={props.userPreference.sizeOfPoint}
                             onChange={(e, value) => props.setPointSize(value)}
                             color="secondary"

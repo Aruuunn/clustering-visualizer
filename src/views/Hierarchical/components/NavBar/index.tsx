@@ -76,7 +76,7 @@ class NavBar extends Component<Props, State> {
                                     valueLabelDisplay="auto"
                                     color="secondary"
                                     min={2}
-                                    max={20}
+                                    max={30}
                                     value={this.props.hierarchical.numberOfClusters}
                                     onChange={(e, val) =>
                                         this.props.global.start ? null : this.props.setNumberOfClusters(val as number)
@@ -105,7 +105,7 @@ class NavBar extends Component<Props, State> {
                                 valueLabelDisplay="auto"
                                 color="secondary"
                                 min={2}
-                                max={20}
+                                max={30}
                                 value={this.props.hierarchical.numberOfClusters}
                                 onChange={(e, val) =>
                                     this.props.global.start ? null : this.props.setNumberOfClusters(val as number)

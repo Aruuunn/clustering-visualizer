@@ -38,32 +38,35 @@ export default function AlgorithmInfoDialog(props: Props): React.ReactElement {
                             broadly similar to each other. There are two types of Hierarchical Clustering
                             <ul>
                                 <li>Agglomerative</li>
-                                <li>Devisive</li>
+                                <li>Divisive</li>
                             </ul>
                         </Typography>
-                 
+
                         <Typography>
                             The Agglomerative Hierarchical Clustering is the most common type of hierarchical clustering
                             used to group objects in clusters based on their similarity. It’s also known as AGNES
-                            (Agglomerative Nesting). It's a “bottom-up” approach: each observation starts in its own
+                            (Agglomerative Nesting). It’s a “bottom-up” approach: each observation starts in its own
                             cluster, and pairs of clusters are merged as one moves up the hierarchy.
                         </Typography>
                         <br />
-                        <Typography variant="h6">The way Agglomerative Hierarchical Clustering works is as follows:</Typography>
+                        <Typography variant="h6">
+                            The way Agglomerative Hierarchical Clustering works is as follows:
+                        </Typography>
                         <ul>
-                            <li>
-                            Make each data point a single-point cluster → forms N clusters
-                            </li>{' '}
-                            <li>
-                            Take the two closest data points and make them one cluster → forms N-1 clusters
-                            </li>{' '}
-                            <li>
-                            Take the two closest clusters and make them one cluster → Forms N-2 clusters.
-                            </li>
-                            <li>
-                            Repeat step-3 until you are left with only the required number of clusters.
-                            </li>
-                        
+                            <li>Make each data point a single-point cluster → forms N clusters</li>{' '}
+                            <li>Take the two closest data points and make them one cluster → forms N-1 clusters</li>{' '}
+                            <li>Take the two closest clusters and make them one cluster → Forms N-2 clusters.</li>
+                            <li>Repeat step-3 until you are left with only the required number of clusters.</li>
+                        </ul>
+                        <br />
+                        <Typography variant="h6">
+                            The way Divisive Hierarchical Clustering works is as follows:
+                        </Typography>
+                        <ul>
+                            <li>Make all data point a single cluster → forms 1 clusters</li>{' '}
+                            <li>Split the cluster into the most dissimilar clusters → forms 2 clusters</li>{' '}
+                            <li>Split the cluster which gives the most dissimilar clusters into 2.</li>
+                            <li>Repeat step-3 until you are left with only the required number of clusters.</li>
                         </ul>
                         <Typography variant="body2">
                             Credits -{' '}
