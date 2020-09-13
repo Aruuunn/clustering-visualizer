@@ -6,7 +6,7 @@ import Board from '../../components/Board';
 import { BlueFab } from '../../components';
 import RenderVisualization from './components/RenderVisualization';
 import NavBar from './components/NavBar';
-import { KMEANSAlgorithmActionTypes, RootState, UserPreferencesActionTypes, AlgorithmActionTypes } from '../../reduxStore';
+import { RootState, UserPreferencesActionTypes, AlgorithmActionTypes } from '../../reduxStore';
 import InfoModal from './components/InfoModal';
 import Result from './components/Result';
 import { DetailedInfo } from '../../reduxStore/reducers/kmeans.algorithm';

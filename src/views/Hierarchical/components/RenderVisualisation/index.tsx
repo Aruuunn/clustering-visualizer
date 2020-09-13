@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { GlobalActionTypes, RootState, AlgorithmActionTypes, HierarchicalClusteringType } from '../../../../reduxStore';
 import { getRandomColor, calculateSquaredDistance, calculateVariance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
-import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -37,11 +36,10 @@ class RenderVisualisation extends Component<Props, State> {
     componentDidMount() {
         this.props.setSpeed(Speed.faster);
         this.props.resetAlgoData();
-        Logger.clear();
     }
 
     renderClusters = (centroids: number[][], colors: string[], clusters: number[][][]) => {
-        let render = [];
+        const render = [];
 
         for (let i = 0; i < centroids.length; i++) {
             for (let j = 0; j < clusters[i].length; j++) {
@@ -123,8 +121,6 @@ class RenderVisualisation extends Component<Props, State> {
             clusters[bestPair[0]] = clusters[bestPair[0]].concat(clusters[bestPair[1]]);
             clusters = clusters.filter((o, i) => i !== bestPair[1]);
 
-            const render: ReactElement[] = [];
-
             centroids = this.calculateCentroids(clusters);
 
             this.renderClusters(centroids, colors, clusters);
@@ -137,16 +133,15 @@ class RenderVisualisation extends Component<Props, State> {
     };
 
     splitCluster = (cluster: number[][]) => {
-
         if (cluster.length <= 1) {
-            return {clusters:[cluster],varianceDiff:0};
+            return { clusters: [cluster], varianceDiff: 0 };
         }
 
         let loss = 1e9;
         let clusters: number[][][] = [];
         let centroids: number[][] = [];
 
-        let idx1 = Math.floor(Math.random() * cluster.length);
+        const idx1 = Math.floor(Math.random() * cluster.length);
 
         let idx2 = Math.floor(Math.random() * cluster.length);
 
@@ -203,41 +198,39 @@ class RenderVisualisation extends Component<Props, State> {
 
         let centroids = this.calculateCentroids(clusters);
 
-        this.renderClusters(centroids,colors,clusters);
-
+        this.renderClusters(centroids, colors, clusters);
 
         while (centroids.length < this.props.hierarchical.numberOfClusters) {
-            
-            await new Promise(done => setTimeout(done,this.props.global.speed*4));
+            await new Promise((done) => setTimeout(done, this.props.global.speed * 4));
 
             let bestSplit = 0;
             let bestVarianceDiff = 1e-9;
-            let newClusters:number[][][] = []
+            let newClusters: number[][][] = [];
 
-            for(let i=0;i<clusters.length;i++){
-
+            for (let i = 0; i < clusters.length; i++) {
                 const result = this.splitCluster(clusters[i]);
 
-                if(result.varianceDiff > bestVarianceDiff){
+                if (result.varianceDiff > bestVarianceDiff) {
                     bestVarianceDiff = result.varianceDiff;
                     bestSplit = i;
                     newClusters = result.clusters;
                 }
-
             }
 
-            colors = colors.filter((_,i) => i!==bestSplit);
+            colors = colors.filter((_, i) => i !== bestSplit);
 
-            clusters = clusters.filter((_,i) => i!==bestSplit);
+            clusters = clusters.filter((_, i) => i !== bestSplit);
 
             clusters = clusters.concat(newClusters);
 
             centroids = this.calculateCentroids(clusters);
 
-            colors = centroids.map((_,i) =>colors[i]===undefined ?getRandomColor(Date.now()+i+iter):colors[i]);
+            colors = centroids.map((_, i) =>
+                colors[i] === undefined ? getRandomColor(Date.now() + i + iter) : colors[i],
+            );
 
-            this.renderClusters(centroids,colors,clusters);
-            iter+=1;
+            this.renderClusters(centroids, colors, clusters);
+            iter += 1;
         }
         this.props.endVisualization();
         this.setState({ start: false });
@@ -251,10 +244,6 @@ class RenderVisualisation extends Component<Props, State> {
                     : this.handleDivisiveStart(),
             );
         }
-    }
-
-    componentWillUnmount() {
-        Logger.clear();
     }
 
     render() {

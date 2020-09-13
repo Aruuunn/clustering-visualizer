@@ -3,17 +3,16 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import HashTable from '../../../../common/hashtable';
 import { ShowCircleSize } from '../../../../components';
-import { DBSCANAlgorithmActionTypes, GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
+import { GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
-import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     dbscan: state.dbscan,
     userPreference: state.userPreferences,
-    algorithm:state.algorithm
+    algorithm: state.algorithm,
 });
 const mapDispatchToProps = {
     endVisualization: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
@@ -42,7 +41,6 @@ class RenderVisualisation extends Component<Props, State> {
     componentDidMount() {
         this.props.setSpeed(Speed.faster);
         this.props.resetAlgoData();
-        Logger.clear();
     }
 
     handleClustering = async (startNode: Node) => {
@@ -162,10 +160,6 @@ class RenderVisualisation extends Component<Props, State> {
         if (this.props.global.start && !this.state.start) {
             this.setState({ start: true }, () => this.handleStart());
         }
-    }
-
-    componentWillUnmount() {
-        Logger.clear();
     }
 
     render() {

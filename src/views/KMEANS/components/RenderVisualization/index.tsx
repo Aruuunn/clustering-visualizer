@@ -12,7 +12,6 @@ import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
 import Speed from '../../../../common/speed.enum';
-import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -66,11 +65,9 @@ class KMeans extends Component<Props, State> {
     componentDidMount() {
         this.props.setSpeed(Speed.average);
         this.props.resetAlgoData();
-        Logger.clear();
     }
 
     randomlyInitializeCentroids(updateColor = false, callback: () => void): void {
-        Logger.add('Initialized Centroids Randomly');
         const centroids: number[][] = [];
         const { global } = this.props;
 
@@ -235,8 +232,6 @@ class KMeans extends Component<Props, State> {
             this.props.resetAlgoData();
             this.props.setRender(render);
 
-            Logger.add('Assign the points to the nearest centroid');
-
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 4));
             const result = this.calculateNewCentroids(clusters);
             const temp = this.state.centroids;
@@ -288,7 +283,6 @@ class KMeans extends Component<Props, State> {
                     </g>,
                 );
             }
-            Logger.add('Calculate new Centroids');
         }
         await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 2));
 
@@ -315,13 +309,7 @@ class KMeans extends Component<Props, State> {
         let variances: Variance[] = [];
         let best = 0;
 
-        Logger.clear();
-        Logger.add('Start');
-
         for (let it = 0; it < totalIterations; it++) {
-            if (this.props.kmeans.mode === KMEANSMode.MultipleIteration) {
-                Logger.add(`Running Kmeans for the ${it === 0 ? '1 st' : it === 1 ? '2 nd' : `${it + 1} th`} time.`);
-            }
             this.props.setCurrentIteration(it);
 
             const variance = await this.handleSingleIteration();
@@ -345,8 +333,6 @@ class KMeans extends Component<Props, State> {
             }
         }
 
-        Logger.add('End');
-
         this.props.endVisualization();
         this.setState({ started: false });
     };
@@ -365,10 +351,6 @@ class KMeans extends Component<Props, State> {
                 );
             }
         }
-    }
-
-    componentWillUnmount() {
-        Logger.clear();
     }
 
     render() {

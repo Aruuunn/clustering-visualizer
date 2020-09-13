@@ -8,7 +8,6 @@ import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
 import { UserPreferencesActionTypes } from '../../reduxStore';
-import Logs from '../Logs';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -175,7 +174,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div>
-                <Logs />
                 <FloatingActionButtons>
                     {[
                         ...(this.props.fabChildren ? (this.props.fabChildren as ReactElement[]) : []),

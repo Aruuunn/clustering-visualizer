@@ -1,17 +1,16 @@
 import * as React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { GlobalActionTypes, MeanShiftActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
+import { GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
 import { ShowCircleSize } from '../../../../components';
-import Logger from '../../../../common/logger';
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
     global: state.global,
     meanShift: state.meanShift,
-    algorithm:state.algorithm
+    algorithm: state.algorithm,
 });
 
 const mapDispatchToProps = {
@@ -43,7 +42,6 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
     componentDidMount() {
         this.props.setSpeed(Speed.average);
         this.props.resetAlgoData();
-        Logger.clear();
     }
 
     generateCentroids = (callback?: () => void) => {
