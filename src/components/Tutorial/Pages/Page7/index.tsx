@@ -27,13 +27,20 @@ export const Page7 = () => {
                                 width: '100%',
                                 marginTop: '20px',
                                 flexGrow: 1,
-                                opacity: loading ? 0.8 : 1,
-                                transition: 'all 2s ease',
+
                                 position: 'relative',
-                                filter: loading ? 'blur(8px)' : 'none',
                             }}
                         >
-                            <img src={src} style={{ width: '100%', height: 'auto' }} />
+                            <img
+                                src={src}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    filter: loading ? 'blur(8px)' : 'none',
+                                    opacity: loading ? 0.8 : 1,
+                                    transition: 'all 1.5s ease',
+                                }}
+                            />
                             {loading ? (
                                 <Grid
                                     container

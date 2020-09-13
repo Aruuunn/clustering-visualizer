@@ -34,7 +34,7 @@ export const Page8 = () => {
                                     width: '100%',
                                     height: 'auto',
                                     opacity: loading ? 0.8 : 1,
-                                    transition: 'all 2s ease',
+                                    transition: 'all 1.5s ease',
                                     filter: loading ? 'blur(8px)' : 'none',
                                 }}
                             />
