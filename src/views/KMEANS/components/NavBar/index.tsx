@@ -16,7 +16,11 @@ interface State {
     isIterationModeDialogOpen: boolean;
 }
 
-const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: state.kmeans ,algorithm:state.algorithm});
+const mapStateToProps = (state: RootState) => ({
+    global: state.global,
+    kmeans: state.kmeans,
+    algorithm: state.algorithm,
+});
 
 const mapDispatchToProps = {
     changeNumberOfClusters: (numberOfClusters: number) => ({
@@ -74,7 +78,9 @@ class NavBar extends Component<Props, State> {
                                     maxWidth: '500px',
                                 }}
                             >
-                                <Typography variant="button">Number of Clusters: {this.props.kmeans.numberOfClusters}</Typography>
+                                <Typography variant="button">
+                                    Number of Clusters: {this.props.kmeans.numberOfClusters}
+                                </Typography>
                                 <Slider
                                     valueLabelDisplay="auto"
                                     color="secondary"
@@ -110,10 +116,10 @@ class NavBar extends Component<Props, State> {
                                 }
                             >
                                 {this.props.kmeans.mode === KMEANSMode.SingleIteration
-                                    ? 'Single Iteration Mode'
+                                    ? 'Run KMEANS Once'
                                     : this.props.kmeans.mode === KMEANSMode.MultipleIteration
-                                    ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
-                                    : `Find best value of K - ${this.props.kmeans.maxIterations}`}
+                                    ? `Run KMEANS- ${this.props.kmeans.maxIterations} times`
+                                    : null}
                             </FlatButton>
                         </Grid>,
                     ]}
@@ -126,7 +132,11 @@ class NavBar extends Component<Props, State> {
                             alignItems="flex-end"
                             style={{ maxWidth: '200px', marginRight: '30px' }}
                         >
-                            <Typography variant="button" style={{ width: '100%', position: 'relative', left: '-2px' }} align="left">
+                            <Typography
+                                variant="button"
+                                style={{ width: '100%', position: 'relative', left: '-2px' }}
+                                align="left"
+                            >
                                 Number of Clusters: {this.props.kmeans.numberOfClusters}
                             </Typography>
                             <Slider
@@ -156,10 +166,10 @@ class NavBar extends Component<Props, State> {
                             }
                         >
                             {this.props.kmeans.mode === KMEANSMode.SingleIteration
-                                ? 'Single Iteration Mode'
+                                ? 'Run KMEANS Once'
                                 : this.props.kmeans.mode === KMEANSMode.MultipleIteration
-                                ? `Multiple Iterations - ${this.props.kmeans.maxIterations}`
-                                : `Find best value of K - ${this.props.kmeans.maxIterations}`}
+                                ? `Run KMEANS- ${this.props.kmeans.maxIterations} times`
+                                : null}
                         </FlatButton>,
                     ]}
                 </CommonNavBar>

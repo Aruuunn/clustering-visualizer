@@ -40,11 +40,11 @@ function IterationModeDialog(props: Props): ReactElement {
                                 props.onClose();
                             }}
                         >
-                            <ListItemText primary="Single Iteration" secondary={'Runs the K-Means algorithm once.'} />
+                            <ListItemText primary="Run KMEANS Once" secondary={'Runs the K-Means algorithm once.'} />
                         </ListItem>
                         <ListItem button onClick={() => setState(1)}>
                             <ListItemText
-                                primary="Multiple Iterations"
+                                primary="Run KMEANS Many times"
                                 secondary="Runs the k-means algorithm multiple times and calculates variance for each result and gives the best result"
                             />
                         </ListItem>{' '}
