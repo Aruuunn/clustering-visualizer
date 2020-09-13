@@ -7,6 +7,7 @@ export enum GlobalActionTypes {
     SET_SPEED = 'SET_SPEED',
     UPDATE_COORDINATES = 'UPDATE_COORDINATES',
     SET_OPEN_FAB = 'SET_OPEN_FAB',
+    SET_FREEZE_STATUS = 'SET_FREEZE_STATUS',
 }
 
 export default GlobalActionTypes;

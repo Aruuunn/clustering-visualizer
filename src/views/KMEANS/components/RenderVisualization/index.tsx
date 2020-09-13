@@ -12,6 +12,7 @@ import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
 import Speed from '../../../../common/speed.enum';
+import freeze from '../../../../common/freeze';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -182,6 +183,7 @@ class KMeans extends Component<Props, State> {
         this.props.resetAlgoData();
 
         while (Math.floor(loss) > 0) {
+            await new Promise(freeze);
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 3));
 
             clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
@@ -228,6 +230,8 @@ class KMeans extends Component<Props, State> {
                     </g>,
                 );
             }
+
+            await new Promise(freeze);
 
             this.props.resetAlgoData();
             this.props.setRender(render);
@@ -284,6 +288,9 @@ class KMeans extends Component<Props, State> {
                 );
             }
         }
+
+        await new Promise(freeze);
+
         await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 2));
 
         this.props.appendToRender(this.renderCentroids);

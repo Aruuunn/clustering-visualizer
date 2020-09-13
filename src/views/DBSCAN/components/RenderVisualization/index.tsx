@@ -7,6 +7,7 @@ import { GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../
 import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
+import freeze from '../../../../common/freeze';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -49,6 +50,8 @@ class RenderVisualisation extends Component<Props, State> {
         let colorAssigned = false;
 
         while (stack.length !== 0) {
+            await new Promise(freeze);
+
             const node = stack[0];
 
             stack.shift();

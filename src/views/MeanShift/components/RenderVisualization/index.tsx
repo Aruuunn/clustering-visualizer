@@ -5,6 +5,7 @@ import { GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../
 import { calculateSquaredDistance, getRandomColor } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
 import { ShowCircleSize } from '../../../../components';
+import freeze from '../../../../common/freeze';
 
 const mapStateToProps = (state: RootState) => ({
     userPreferences: state.userPreferences,
@@ -177,6 +178,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
         this.renderCentroids(this.state.centroids);
 
         while (Math.floor(loss) > 0) {
+            await new Promise(freeze);
             await new Promise((done) => setTimeout(done, this.props.global.speed * 3));
             const newCentroids = this.calculateCentroids(centroids);
             loss = this.calculateLoss(centroids, newCentroids);
@@ -200,6 +202,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             }
 
             this.setState({ centroids: newCentroids });
+            await new Promise(freeze);
             await new Promise((done) => setTimeout(done, this.props.global.speed));
             this.renderPath = [];
             this.renderCentroids(newCentroids);

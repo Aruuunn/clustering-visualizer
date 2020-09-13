@@ -13,6 +13,7 @@ export interface GlobalState {
     speed: Speed;
     coordinatesOfNodes: Node[];
     fabOpen: boolean;
+    froze: boolean;
 }
 
 interface Action {
@@ -26,6 +27,7 @@ const initialState: GlobalState = {
     speed: Speed.faster,
     coordinatesOfNodes: [],
     fabOpen: true,
+    froze: false,
 };
 
 export default (state: GlobalState = initialState, action: Action): GlobalState => {
@@ -43,9 +45,9 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
             if (state.coordinatesOfNodes.length === 0 || state.start) {
                 return state;
             }
-            return { ...state, start: true };
+            return { ...state, start: true, froze: false };
         case GlobalActionTypes.END_VISUALIZATION:
-            return { ...state, start: false };
+            return { ...state, start: false, froze: false };
 
         case GlobalActionTypes.SET_SPEED:
             return { ...state, speed: action.payload };
@@ -62,6 +64,8 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
             };
         case GlobalActionTypes.SET_OPEN_FAB:
             return { ...state, fabOpen: action.payload as boolean };
+        case GlobalActionTypes.SET_FREEZE_STATUS:
+            return { ...state, froze: action.payload as boolean };
 
         default:
             return state;

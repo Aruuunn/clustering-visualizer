@@ -35,6 +35,8 @@ const mapDispatchToProps = {
         payload: size,
     }),
     clearPoints: () => ({ type: GlobalActionTypes.RESET }),
+    resume: () => ({ type: GlobalActionTypes.SET_FREEZE_STATUS, payload: false }),
+    pause: () => ({ type: GlobalActionTypes.SET_FREEZE_STATUS, payload: true }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -52,6 +54,19 @@ type Props = PropsFromRedux & {
 function Drawer(props: Props): ReactElement {
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const algorithmName = () => {
+        switch (props.global.algorithm) {
+            case AlgorithmNames.HIERARCHICAL_CLUSTERING:
+                return 'HIERARCHICAL CLUSTERING';
+
+            case AlgorithmNames.MEAN_SHIFT:
+                return 'MEAN SHIFT';
+
+            default:
+                return props.global.algorithm;
+        }
+    };
 
     return (
         <div>
@@ -80,7 +95,7 @@ function Drawer(props: Props): ReactElement {
                                 }
                             >
                                 {' '}
-                                {props.global.algorithm === null ? 'Select Algorithm' : props.global.algorithm}
+                                {props.global.algorithm === null ? 'Select Algorithm' : algorithmName()}
                             </FlatButton>
                         </Grid>
                         <Grid container justify="center" alignItems="center">
@@ -114,24 +129,86 @@ function Drawer(props: Props): ReactElement {
                             </FlatButton>
                         </Grid>
                         <Grid container justify="center" alignItems="center">
-                            <BlueButton
-                                style={{
-                                    width: '100%',
-                                    maxWidth: '500px',
-                                    marginLeft: 0,
-                                    marginRight: 0,
-                                    marginTop: '10px',
-                                }}
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {
-                                    props.startVisualization();
-                                    props.onClose();
-                                }}
-                                disabled={props.isDisabled()}
-                            >
-                                Start
-                            </BlueButton>
+                            {!props.global.start ? (
+                                <BlueButton
+                                    variant="contained"
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '500px',
+                                        marginLeft: 0,
+                                        marginRight: 0,
+                                        marginTop: '10px',
+                                    }}
+                                    onClick={() => {
+                                        props.startVisualization();
+                                        props.onClose();
+                                    }}
+                                    disabled={props.isDisabled()}
+                                    autoFocus
+                                >
+                                    Start
+                                </BlueButton>
+                            ) : props.global.froze ? (
+                                <BlueButton
+                                    variant="contained"
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '500px',
+                                        marginLeft: 0,
+                                        marginRight: 0,
+                                        marginTop: '10px',
+                                    }}
+                                    onClick={() => {
+                                        props.resume();
+                                    }}
+                                    startIcon={
+                                        <SvgIcon>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                            >
+                                                <path d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M8 5v14l11-7z" />
+                                            </svg>
+                                        </SvgIcon>
+                                    }
+                                    autoFocus
+                                >
+                                    Resume
+                                </BlueButton>
+                            ) : (
+                                <BlueButton
+                                    autoFocus
+                                    variant="contained"
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '500px',
+                                        marginLeft: 0,
+                                        marginRight: 0,
+                                        marginTop: '10px',
+                                    }}
+                                    onClick={() => {
+                                        props.pause();
+                                    }}
+                                    startIcon={
+                                        <SvgIcon>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                            >
+                                                <path d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                            </svg>
+                                        </SvgIcon>
+                                    }
+                                >
+                                    Pause
+                                </BlueButton>
+                            )}
                         </Grid>{' '}
                     </Grid>
                 ) : null}
