@@ -35,6 +35,8 @@ const mapDispatchToProps = {
         type: GlobalActionTypes.SET_SPEED,
         payload: speed,
     }),
+    resume: () => ({ type: GlobalActionTypes.SET_FREEZE_STATUS, payload: false }),
+    pause: () => ({ type: GlobalActionTypes.SET_FREEZE_STATUS, payload: true }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -202,9 +204,7 @@ class NavBar extends Component<Props, State> {
                                     variant="contained"
                                     style={{ marginRight: '20px', borderRadius: 'none' }}
                                 >
-                                    {this.props.global.algorithm === null
-                                        ? 'Select Algorithm'
-                                        : this.algorithmName()}
+                                    {this.props.global.algorithm === null ? 'Select Algorithm' : this.algorithmName()}
                                 </FlatButton>
 
                                 <FlatButton
@@ -231,16 +231,67 @@ class NavBar extends Component<Props, State> {
                                         : 'Faster'}
                                 </FlatButton>
 
-                                <BlueButton
-                                    variant="contained"
-                                    size="small"
-                                    onClick={() => {
-                                        this.props.startVisualization();
-                                    }}
-                                    disabled={this.isDisabled()}
-                                >
-                                    Start
-                                </BlueButton>
+                                {!this.props.global.start ? (
+                                    <BlueButton
+                                        variant="contained"
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.startVisualization();
+                                        }}
+                                        disabled={this.isDisabled()}
+                                        autoFocus
+                                    >
+                                        Start
+                                    </BlueButton>
+                                ) : this.props.global.froze ? (
+                                    <BlueButton
+                                        variant="contained"
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.resume();
+                                        }}
+                                        startIcon={
+                                            <SvgIcon>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                >
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                            </SvgIcon>
+                                        }
+                                        autoFocus
+                                    >
+                                        Resume
+                                    </BlueButton>
+                                ) : (
+                                    <BlueButton
+                                        autoFocus
+                                        variant="contained"
+                                        size="small"
+                                        onClick={() => {
+                                            this.props.pause();
+                                        }}
+                                        startIcon={
+                                            <SvgIcon>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                >
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                                                </svg>
+                                            </SvgIcon>
+                                        }
+                                    >
+                                        Pause
+                                    </BlueButton>
+                                )}
                             </Grid>
                         </Hidden>
                     </Grid>

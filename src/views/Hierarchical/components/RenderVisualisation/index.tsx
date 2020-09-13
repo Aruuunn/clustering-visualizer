@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { GlobalActionTypes, RootState, AlgorithmActionTypes, HierarchicalClusteringType } from '../../../../reduxStore';
 import { getRandomColor, calculateSquaredDistance, calculateVariance } from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
+import freeze from '../../../../common/freeze';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -101,6 +102,7 @@ class RenderVisualisation extends Component<Props, State> {
         this.renderClusters(centroids, colors, clusters);
 
         while (centroids.length !== this.props.hierarchical.numberOfClusters) {
+            await new Promise(freeze);
             let best = 1e9;
             const bestPair = [-1, -1];
 
