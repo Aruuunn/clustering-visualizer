@@ -13,28 +13,28 @@ type Props = {
     page: number;
 };
 
-export default function Pages(props: Props): ReactElement | null {
+export default function Pages(props: Props): null | ReactElement[] {
     const { page } = props;
 
     switch (page) {
         case 1:
-            return <Page1 />;
+            return Page1();
         case 2:
-            return <Page2 />;
+            return Page2();
         case 3:
-            return <Page3 />;
+            return Page3();
         case 4:
-            return <Page4 />;
+            return Page4();
         case 5:
-            return <Page5 />;
+            return Page5();
         case 6:
-            return <Page6 />;
+            return Page6();
         case 7:
-            return <Page7 />;
+            return Page7();
         case 8:
-            return <Page8 />;
+            return Page8();
         case 9:
-            return <Page9 />;
+            return Page9();
         default:
             return null;
     }

@@ -8,8 +8,7 @@ import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
 import { UserPreferencesActionTypes } from '../../reduxStore';
-import Logs from '../Logs'
-import { CreateClusterModeInfo } from './components';
+import Logs from '../Logs';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -176,18 +175,16 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div>
-                <Logs/>
-                {this.state.createClusterMode ? <CreateClusterModeInfo /> : null}
+                <Logs />
                 <FloatingActionButtons>
                     {[
                         ...(this.props.fabChildren ? (this.props.fabChildren as ReactElement[]) : []),
                         <Zoom in={true} key={'create clusters'}>
-                            <Fab 
+                            <Fab
                                 onClick={() => {
                                     this.setState((s) => ({ createClusterMode: !s.createClusterMode }));
                                 }}
                             >
-                            
                                 <SvgIcon>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 444.892 444.892">
                                         <path

@@ -1,30 +1,38 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, DialogTitle, DialogContent } from '@material-ui/core';
 
 import Logo from '../../../../assets/logo.svg';
 
 export const Page1 = () => {
-    return (
-        <Grid
-            container
-            direction="column"
-            justify="flex-start"
-            alignItems="center"
-            style={{ width: '100%', height: '100%', padding: '10px' }}
-        >
-            <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
+    return [
+        <DialogTitle key={0}>
+            <Typography variant="h4" style={{ fontWeight: 'bold' }}>
                 Welcome to Clustering Algorithm Visualizer!
             </Typography>
-            <Typography variant="body1" style={{ marginTop: '50px', fontWeight: 'normal' }}>
-                This short tutorial will walk you through all the core features of this application.
-            </Typography>
-            <img
-                src={Logo}
-                alt="logo"
-                style={{ maxWidth: '250px', width: '100%', height: 'auto', display: 'inline-block', margin: 'auto' }}
-            />
-        </Grid>
-    );
+        </DialogTitle>,
+        <DialogContent key={1}>
+            <div style={{ minHeight: '500px' }}>
+                <Typography variant="body1">
+                    This short tutorial will walk you through all the core features of this application.
+                </Typography>
+
+                <Grid container justify="center" alignItems="center">
+                    <img
+                        src={Logo}
+                        alt="logo"
+                        style={{
+                            maxWidth: '250px',
+                            width: '100%',
+                            height: 'auto',
+                            display: 'inline-block',
+                            margin: 'auto',
+                            transform: 'translate(0,50%)',
+                        }}
+                    />
+                </Grid>
+            </div>
+        </DialogContent>,
+    ];
 };
 
 export default Page1;
