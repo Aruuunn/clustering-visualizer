@@ -18,7 +18,7 @@ const mapStateToProps = (state: RootState) => ({
     global: state.global,
     kmeans: state.kmeans,
     userPreference: state.userPreferences,
-    algorithm:state.algorithm
+    algorithm: state.algorithm,
 });
 
 const mapDispatchToProps = {
@@ -185,8 +185,6 @@ class KMeans extends Component<Props, State> {
         this.props.resetAlgoData();
 
         while (Math.floor(loss) > 0) {
-            //  this.props.resetAlgoData();
-
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 3));
 
             clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
@@ -206,10 +204,6 @@ class KMeans extends Component<Props, State> {
                         min = dist;
                         pos = j;
                     }
-                }
-
-                if (clusters.length !== this.numberOfClusters) {
-                    clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
                 }
                 if (clusters[pos]) {
                     clusters[pos].push(currentNode);
@@ -236,8 +230,6 @@ class KMeans extends Component<Props, State> {
                         />
                     </g>,
                 );
-
-                //   await new Promise((done) => setTimeout(() => done(), this.props.global.speed));
             }
 
             this.props.resetAlgoData();
@@ -328,7 +320,7 @@ class KMeans extends Component<Props, State> {
 
         for (let it = 0; it < totalIterations; it++) {
             if (this.props.kmeans.mode === KMEANSMode.MultipleIteration) {
-                Logger.add(`Running Kmeans for the ${it===0?'1 st':it===1?'2 nd':`${it+1} th`} time.`);
+                Logger.add(`Running Kmeans for the ${it === 0 ? '1 st' : it === 1 ? '2 nd' : `${it + 1} th`} time.`);
             }
             this.props.setCurrentIteration(it);
 
@@ -345,14 +337,12 @@ class KMeans extends Component<Props, State> {
                     best = it;
                 }
 
-                console.log({ render, best, variances });
                 this.props.setInfo({ render, best, variances });
             }
 
             if (it + 1 < totalIterations) {
                 await new Promise((done) => this.randomlyInitializeCentroids(false, () => done()));
             }
-
         }
 
         Logger.add('End');
@@ -377,10 +367,8 @@ class KMeans extends Component<Props, State> {
         }
     }
 
-
-    componentWillUnmount(){
+    componentWillUnmount() {
         Logger.clear();
-
     }
 
     render() {
