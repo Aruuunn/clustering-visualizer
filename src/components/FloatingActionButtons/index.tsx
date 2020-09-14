@@ -40,7 +40,7 @@ const FloatingActionButtons = (props: Props) => {
 
         const move = (e: any) => {
             const X: number = e.clientX - 34;
-            let y: number = e.clientY - 250;
+            let y: number = e.clientY - 310;
 
             y = y < 30 ? 30 : y;
 
@@ -75,7 +75,7 @@ const FloatingActionButtons = (props: Props) => {
                                     position: 'fixed',
                                     width: 'auto',
                                     ...coordiantesOfFab,
-                                    height: '350px',
+                                    height: '400px',
                                 }}
                             >
                                 {props.children}
@@ -83,7 +83,7 @@ const FloatingActionButtons = (props: Props) => {
                                 <Zoom in={fabOpen}>
                                     <Fab
                                         onPointerDown={handleMove}
-                                        style={{ backgroundColor: 'white', margin: '10px',cursor:'grab' }}
+                                        style={{ backgroundColor: 'white', margin: '10px', cursor: 'grab' }}
                                     >
                                         <SvgIcon>
                                             <svg

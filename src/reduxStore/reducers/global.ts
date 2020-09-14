@@ -67,6 +67,12 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
         case GlobalActionTypes.SET_FREEZE_STATUS:
             return { ...state, froze: action.payload as boolean };
 
+        case GlobalActionTypes.DELETE_NODE:
+            return {
+                ...state,
+                coordinatesOfNodes: state.coordinatesOfNodes.filter((o) => o.id !== (action.payload as number)),
+            };
+
         default:
             return state;
     }

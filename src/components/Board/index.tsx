@@ -4,10 +4,10 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import { Node } from '../../reduxStore/reducers/global';
-import Gradients from '../../common/Gradients';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
 import { UserPreferencesActionTypes } from '../../reduxStore';
+import { calculateSquaredDistance } from '../../utils';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -24,6 +24,7 @@ const mapDispatchToProps = {
         payload: node,
     }),
     resetFabCoordinates: () => ({ type: UserPreferencesActionTypes.RESET_FAB_COORDINATES }),
+    deleteNode: (id: number) => ({ type: GlobalActionTypes.DELETE_NODE, payload: id }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -36,6 +37,7 @@ type IBoardProps = PropsFromRedux & {
 type BoardState = {
     bg: React.RefObject<SVGSVGElement>;
     createClusterMode: boolean;
+    deleteMode: boolean;
 };
 
 class Board extends React.Component<IBoardProps, BoardState> {
@@ -44,11 +46,12 @@ class Board extends React.Component<IBoardProps, BoardState> {
         this.state = {
             bg: React.createRef(),
             createClusterMode: false,
+            deleteMode: false,
         };
     }
 
     componentDidMount() {
-        window.addEventListener('resize', () => this.props.resetFabCoordinates());
+        window.addEventListener('resize', this.props.resetFabCoordinates);
     }
 
     componentDidUpdate() {
@@ -62,6 +65,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
             return;
         }
         event.persist();
+
         const currentNode = event.target as SVGSVGElement;
         let X = 0,
             Y = 0;
@@ -82,7 +86,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
             if (this.state.bg.current === null) {
                 return;
             }
-
             this.state.bg.current.removeEventListener('pointermove', handleNodeMove);
             this.state.bg.current.removeEventListener('pointerup', removeListeners);
         };
@@ -94,10 +97,11 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
-        if (this.props.global.start === true || this.state.createClusterMode) {
+        if (this.props.global.start === true || this.state.createClusterMode || this.state.deleteMode) {
             return;
         }
         event.persist();
+
         const target = event.target as SVGSVGElement;
         const X = event.clientX - target.getBoundingClientRect().left;
         const Y = event.clientY - target.getBoundingClientRect().top;
@@ -112,8 +116,57 @@ class Board extends React.Component<IBoardProps, BoardState> {
         ]);
     };
 
+    handleDelete = (x: number, y: number) => {
+        if (!this.state.deleteMode) {
+            return;
+        }
+
+        this.props.setCoordinates(
+            this.props.global.coordinatesOfNodes.filter(
+                (o) => Math.sqrt(calculateSquaredDistance(o.coordinates, [x, y])) > 20,
+            ),
+        );
+    };
+
+    handleErase = (e: any) => {
+        if (
+            this.props.global.start === true ||
+            !this.state.deleteMode ||
+            !this.state.bg.current ||
+            this.state.createClusterMode
+        ) {
+            return;
+        }
+
+        const left = this.state.bg.current.getBoundingClientRect().left;
+        const top = this.state.bg.current.getBoundingClientRect().top;
+
+        const X = e.clientX - left;
+        const y = e.clientY - top;
+
+        this.handleDelete(X, y);
+
+        const deleteCluster = (e: PointerEvent) => {
+            const X = e.clientX - left;
+            const y = e.clientY - top;
+            this.handleDelete(X, y);
+        };
+
+        const removeEventListeners = () => {
+            this.state.bg.current?.removeEventListener('pointermove', deleteCluster);
+            window.removeEventListener('pointerup', removeEventListeners);
+        };
+        this.state.bg.current?.addEventListener('pointermove', deleteCluster);
+        window.addEventListener('pointerup', removeEventListeners);
+    };
+
     handleCreate = () => {
-        if (this.props.global.start === true || !this.state.createClusterMode || !this.state.bg.current) {
+        if (
+            this.props.global.start === true ||
+            !this.state.createClusterMode ||
+            !this.state.bg.current ||
+            this.state.deleteMode
+        ) {
             return;
         }
         const left = this.state.bg.current.getBoundingClientRect().left;
@@ -162,13 +215,13 @@ class Board extends React.Component<IBoardProps, BoardState> {
 
         const removeEventListeners = () => {
             this.state.bg.current?.removeEventListener('pointermove', createCluster);
-            this.state.bg.current?.removeEventListener('pointerup', () => removeEventListeners());
+            window.removeEventListener('pointerup', removeEventListeners);
         };
         this.state.bg.current?.addEventListener('pointermove', createCluster);
-        this.state.bg.current?.addEventListener('pointerup', () => removeEventListeners());
+        window.addEventListener('pointerup', removeEventListeners);
     };
     componentWillUnmount() {
-        window.removeEventListener('resize', () => this.props.resetFabCoordinates());
+        window.removeEventListener('resize', this.props.resetFabCoordinates);
     }
 
     public render() {
@@ -177,10 +230,34 @@ class Board extends React.Component<IBoardProps, BoardState> {
                 <FloatingActionButtons>
                     {[
                         ...(this.props.fabChildren ? (this.props.fabChildren as ReactElement[]) : []),
+                        <Zoom in={true} key={'delete mode'}>
+                            <Fab
+                                onClick={() =>
+                                    this.setState((s) => ({
+                                        ...s,
+                                        deleteMode: !s.deleteMode,
+                                        createClusterMode: false,
+                                    }))
+                                }
+                                style={{ marginBottom: '10px' }}
+                            >
+                                <SvgIcon>
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            fill={this.state.deleteMode ? 'red' : 'grey'}
+                                            d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18"
+                                        />
+                                    </svg>
+                                </SvgIcon>
+                            </Fab>
+                        </Zoom>,
                         <Zoom in={true} key={'create clusters'}>
                             <Fab
                                 onClick={() => {
-                                    this.setState((s) => ({ createClusterMode: !s.createClusterMode }));
+                                    this.setState((s) => ({
+                                        createClusterMode: !s.createClusterMode,
+                                        deleteMode: false,
+                                    }));
                                 }}
                             >
                                 <SvgIcon>
@@ -200,12 +277,16 @@ class Board extends React.Component<IBoardProps, BoardState> {
                     height="99vh"
                     ref={this.state.bg}
                     onClick={this.handleClick}
-                    onPointerDown={this.handleCreate}
+                    onPointerDown={this.state.deleteMode ? this.handleErase : this.handleCreate}
                 >
                     <defs>
                         <marker id="markerArrow" markerWidth="20" markerHeight="20" refX="24" refY="6" orient="auto">
                             <path d="M2,2 L2,11 L10,6 L2,2" fill="yellow" />
                         </marker>
+                        <linearGradient id="Deep-Space" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style={{ stopColor: '#434343', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: 'rgb(0,0,0)', stopOpacity: 1 }} />
+                        </linearGradient>
                         <marker
                             id="arrow"
                             markerWidth="20"
@@ -218,7 +299,6 @@ class Board extends React.Component<IBoardProps, BoardState> {
                             <path d="M0,0 L0,6 L9,3 z" fill="yellow" />
                         </marker>
                     </defs>
-                    <Gradients />
 
                     <rect width="100%" height="100%" style={{ fill: 'url(#Deep-Space)' }} />
 
