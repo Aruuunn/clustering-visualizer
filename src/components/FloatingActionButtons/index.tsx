@@ -125,7 +125,7 @@ const FloatingActionButtons = (props: Props) => {
                                 position: 'fixed',
                                 width: 'auto',
                                 ...coordiantesOfFab,
-                                height: '350px',
+                                height: '400px',
                             }}
                         >
                             <Fab color="secondary" onClick={() => setOpen(true)}>

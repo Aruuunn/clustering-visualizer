@@ -61,7 +61,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     }
 
     handleMove = (event: React.PointerEvent<SVGSVGElement>, id: number) => {
-        if (this.props.global.start === true || this.state.createClusterMode) {
+        if (this.props.global.start === true || this.state.createClusterMode || this.state.deleteMode) {
             return;
         }
         event.persist();
