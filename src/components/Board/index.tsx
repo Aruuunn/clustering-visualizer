@@ -25,6 +25,7 @@ const mapDispatchToProps = {
     }),
     resetFabCoordinates: () => ({ type: UserPreferencesActionTypes.RESET_FAB_COORDINATES }),
     deleteNode: (id: number) => ({ type: GlobalActionTypes.DELETE_NODE, payload: id }),
+    increaseMaxIdBy: (num: number) => ({ type: GlobalActionTypes.INCREASE_MAX_ID, payload: num }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -112,8 +113,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
 
         this.props.setCoordinates([
             ...this.props.global.coordinatesOfNodes,
-            { coordinates: [X, Y], id: this.props.global.coordinatesOfNodes.length },
+            { coordinates: [X, Y], id: this.props.global.maxId },
         ]);
+
+        this.props.increaseMaxIdBy(1);
     };
 
     handleDelete = (x: number, y: number) => {
@@ -185,28 +188,31 @@ class Board extends React.Component<IBoardProps, BoardState> {
             }
             this.props.setCoordinates([
                 ...this.props.global.coordinatesOfNodes,
-                { coordinates: [X, y], id: this.props.global.coordinatesOfNodes.length },
-                { coordinates: [X + space * Math.random(), y], id: this.props.global.coordinatesOfNodes.length + 1 },
-                { coordinates: [X - space * Math.random(), y], id: this.props.global.coordinatesOfNodes.length + 2 },
-                { coordinates: [X, y + space * Math.random()], id: this.props.global.coordinatesOfNodes.length + 3 },
-                { coordinates: [X, y - space], id: this.props.global.coordinatesOfNodes.length + 4 },
+                { coordinates: [X, y], id: this.props.global.maxId },
+                { coordinates: [X + space * Math.random(), y], id: this.props.global.maxId + 1 },
+                { coordinates: [X - space * Math.random(), y], id: this.props.global.maxId + 2 },
+                { coordinates: [X, y + space * Math.random()], id: this.props.global.maxId + 3 },
+                { coordinates: [X, y - space], id: this.props.global.maxId + 4 },
                 {
                     coordinates: [X + space * Math.random(), y + space * Math.random()],
-                    id: this.props.global.coordinatesOfNodes.length + 5,
+                    id: this.props.global.maxId + 5,
                 },
                 {
                     coordinates: [X - space * Math.random(), y - space * Math.random()],
-                    id: this.props.global.coordinatesOfNodes.length + 6,
+                    id: this.props.global.maxId + 6,
                 },
                 {
                     coordinates: [X + space * Math.random(), y - space],
-                    id: this.props.global.coordinatesOfNodes.length + 7,
+                    id: this.props.global.maxId + 7,
                 },
                 {
                     coordinates: [X - space * Math.random(), y + space * Math.random()],
-                    id: this.props.global.coordinatesOfNodes.length + 8,
+                    id: this.props.global.maxId + 8,
                 },
             ]);
+
+            this.props.increaseMaxIdBy(9);
+
             cluster = false;
             setTimeout(() => {
                 cluster = true;

@@ -1,18 +1,19 @@
 import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import distance from '../../../../utils/distance';
+import freeze from '../../../../common/freeze';
+import Speed from '../../../../common/speed.enum';
+import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import calculateVariance from '../../../../utils/variance';
-import { KMEANSAlgorithmActionTypes } from '../../../../reduxStore/types/KMEANS.algorithm.types';
-import AlgorithmActionTypes from '../../../../reduxStore/types/algorithm.types';
 import GlobalActionTypes from '../../../../reduxStore/types/Global.types';
+import AlgorithmActionTypes from '../../../../reduxStore/types/algorithm.types';
+import calculateSquaredDistance from '../../../../utils/distance';
+
 import { getColor } from '../../../../utils/getRandomColor';
 import { RootState } from '../../../../reduxStore/reducers';
-import KMEANSMode from '../../../../common/kmeans.mode.enum';
 import { Variance, DetailedInfo } from '../../../../reduxStore/reducers/kmeans.algorithm';
 import { calculateSilhouetteScore } from '../../../../utils/silhouetteScore';
-import Speed from '../../../../common/speed.enum';
-import freeze from '../../../../common/freeze';
+import { KMEANSAlgorithmActionTypes } from '../../../../reduxStore/types/KMEANS.algorithm.types';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -38,7 +39,6 @@ const mapDispatchToProps = {
         payload: numberOfClusters,
     }),
     setInfo: (info: Variance | DetailedInfo | null) => ({ type: KMEANSAlgorithmActionTypes.SET_INFO, payload: info }),
-
     setCurrentIteration: (iter: number) => ({ type: KMEANSAlgorithmActionTypes.SET_CURRENT_ITERATION, payload: iter }),
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
     appendToRender: (list: ReactElement[]) => ({ type: AlgorithmActionTypes.APPEND_TO_RENDER, payload: list }),
@@ -61,7 +61,6 @@ class KMeans extends Component<Props, State> {
 
     renderCentroids: ReactElement[] = [];
     colors: string[] = [];
-    numberOfClusters = 0;
 
     componentDidMount() {
         this.props.setSpeed(Speed.average);
@@ -74,7 +73,7 @@ class KMeans extends Component<Props, State> {
 
         const set = new Set();
 
-        for (let i = 0; i < this.numberOfClusters; i++) {
+        for (let i = 0; i < this.props.kmeans.numberOfClusters; i++) {
             let idx = Math.floor(Math.random() * global.coordinatesOfNodes.length - 1);
 
             while (set.has(idx) || !global.coordinatesOfNodes[idx]) {
@@ -82,19 +81,16 @@ class KMeans extends Component<Props, State> {
             }
 
             set.add(idx);
-
             centroids.push(global.coordinatesOfNodes[idx].coordinates);
         }
 
         if (updateColor) {
             this.colors = [];
 
-            for (let iter = 0; iter < this.numberOfClusters; iter++) {
+            for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
                 this.colors.push(getColor(iter));
             }
         }
-
-        this.renderCentroids = [];
 
         for (let iter = 0; iter < centroids.length; iter++) {
             this.renderCentroids.push(
@@ -124,9 +120,11 @@ class KMeans extends Component<Props, State> {
     }
 
     calculateNewCentroids = (clusters: number[][][]) => {
-        const centroids: number[][] = Array.from({ length: this.numberOfClusters }, () => new Array(2).fill(0));
+        const centroids: number[][] = Array.from({ length: this.props.kmeans.numberOfClusters }, () =>
+            new Array(2).fill(0),
+        );
 
-        for (let iter = 0; iter < this.numberOfClusters; iter++) {
+        for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
             const cluster = clusters[iter];
             if (!cluster.length) {
                 continue;
@@ -148,7 +146,7 @@ class KMeans extends Component<Props, State> {
         }
 
         let loss = 0;
-        for (let iter = 0; iter < this.numberOfClusters; iter++) {
+        for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
             loss +=
                 Math.abs(this.state.centroids[iter][0] - centroids[iter][0]) +
                 Math.abs(this.state.centroids[iter][1] - centroids[iter][1]);
@@ -160,7 +158,7 @@ class KMeans extends Component<Props, State> {
     calculateVarianceOfClusters = (clusters: number[][][]) => {
         const variance: Variance = { total: 0, colors: [], labels: [], variances: [], silhouetteScore: -1 };
 
-        for (let iter = 0; iter < this.numberOfClusters; iter++) {
+        for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
             const cluster = clusters[iter];
 
             const temp = calculateVariance(cluster);
@@ -170,7 +168,7 @@ class KMeans extends Component<Props, State> {
             variance.variances.push(temp);
             variance.labels.push(`C${iter + 1}`);
         }
-        variance.total /= this.numberOfClusters;
+        variance.total /= this.props.kmeans.numberOfClusters;
         variance.silhouetteScore = calculateSilhouetteScore(clusters, this.state.centroids);
 
         return variance;
@@ -186,19 +184,19 @@ class KMeans extends Component<Props, State> {
             await new Promise(freeze);
             await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 3));
 
-            clusters = Array.from({ length: this.numberOfClusters }, () => new Array(0));
+            clusters = Array.from({ length: this.props.kmeans.numberOfClusters }, () => new Array(0));
 
             const render: ReactElement[] = [];
 
             for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
                 const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
 
-                let min = distance(currentNode, this.state.centroids[0]);
+                let min = calculateSquaredDistance(currentNode, this.state.centroids[0]);
 
                 let pos = 0;
 
-                for (let j = 0; j < this.numberOfClusters; j++) {
-                    const dist = distance(currentNode, this.state.centroids[j]);
+                for (let j = 0; j < this.props.kmeans.numberOfClusters; j++) {
+                    const dist = calculateSquaredDistance(currentNode, this.state.centroids[j]);
                     if (dist < min) {
                         min = dist;
                         pos = j;
@@ -311,7 +309,6 @@ class KMeans extends Component<Props, State> {
         const totalIterations =
             this.props.kmeans.mode === KMEANSMode.SingleIteration ? 1 : this.props.kmeans.maxIterations;
 
-        //will be used it the mode is multiple iterations
         let render: ReactElement[][] = [];
         let variances: Variance[] = [];
         let best = 0;
@@ -347,7 +344,7 @@ class KMeans extends Component<Props, State> {
     componentDidUpdate() {
         if (this.props.global.start) {
             if (!this.state.started) {
-                this.numberOfClusters = this.props.kmeans.numberOfClusters;
+                this.props.kmeans.numberOfClusters = this.props.kmeans.numberOfClusters;
                 this.props.resetAlgoData();
                 this.setState(
                     () => ({

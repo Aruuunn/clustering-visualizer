@@ -1,13 +1,14 @@
 import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
+import freeze from '../../../../common/freeze';
+import Speed from '../../../../common/speed.enum';
 import HashTable from '../../../../common/hashtable';
+
+import { Node } from '../../../../reduxStore/reducers/global';
 import { ShowCircleSize } from '../../../../components';
 import { GlobalActionTypes, RootState, AlgorithmActionTypes } from '../../../../reduxStore';
-import { Node } from '../../../../reduxStore/reducers/global';
 import { getRandomColor, calculateSquaredDistance } from '../../../../utils';
-import Speed from '../../../../common/speed.enum';
-import freeze from '../../../../common/freeze';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -15,6 +16,7 @@ const mapStateToProps = (state: RootState) => ({
     userPreference: state.userPreferences,
     algorithm: state.algorithm,
 });
+
 const mapDispatchToProps = {
     endVisualization: () => ({ type: GlobalActionTypes.END_VISUALIZATION }),
     addToRender: (ele: ReactElement) => ({ type: AlgorithmActionTypes.ADD_TO_RENDER, payload: ele }),
@@ -147,6 +149,9 @@ class RenderVisualisation extends Component<Props, State> {
         if (!this.state.start) {
             return;
         }
+
+        this.data = {};
+
         this.props.resetAlgoData();
         for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
             if (!this.data.hasOwnProperty(`${this.props.global.coordinatesOfNodes[i].id}`)) {
