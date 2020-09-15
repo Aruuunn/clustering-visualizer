@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { connect, ConnectedProps } from 'react-redux';
 import { Zoom, Fab, SvgIcon } from '@material-ui/core';
 
@@ -38,6 +39,9 @@ function KMEANS(props: Props): ReactElement {
 
     return (
         <div>
+            <Helmet>
+                <title>KMEANS | Clustering Visualizer</title>
+            </Helmet>
             {props.userPreference.showAlgorithmModal.KMEANS ? (
                 <AlgorithmInfo setNeverShowAlgorithmModal={props.setNeverShowAlgorithmModal} />
             ) : null}

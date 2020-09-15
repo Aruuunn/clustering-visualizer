@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { NavBar, RenderVisualization, AlgorithmInfoModal } from './components';
@@ -24,6 +25,10 @@ type Props = ConnectedProps<typeof connector>;
 const MeanShift = (props: Props) => {
     return (
         <div>
+            <Helmet>
+                <title>Mean Shift | clustering Visualizer</title>
+            </Helmet>
+
             <NavBar />
             <Board component={<RenderVisualization />} />
             {props.userPreferences.showAlgorithmModal.MEAN_SHIFT ? (

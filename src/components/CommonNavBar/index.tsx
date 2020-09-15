@@ -1,5 +1,5 @@
 import React, { Component, SyntheticEvent, ReactElement } from 'react';
-import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon, Divider } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import BlueButton from '../../components/BlueButton';
 import { RootState } from '../../reduxStore';
 import Drawer from '../Drawer';
 import FlatButton from '../../components/FlatButton';
+import RedButton from '../../components/RedButton';
 
 // define types of Props and State
 interface State {
@@ -236,7 +237,7 @@ class NavBar extends Component<Props, State> {
                                 </Hidden>
 
                                 <Hidden only={['sm', 'md']}>
-                                    <FlatButton
+                                    <RedButton
                                         onClick={() => {
                                             this.props.resetAlgorithmData();
                                             this.props.reset();
@@ -260,7 +261,7 @@ class NavBar extends Component<Props, State> {
                                         }
                                     >
                                         CLEAR ALL
-                                    </FlatButton>
+                                    </RedButton>
                                 </Hidden>
 
                                 {!this.props.global.start ? (
@@ -337,6 +338,10 @@ class NavBar extends Component<Props, State> {
                     onClose={() => this.handleAlgorithmClose(null)}
                 >
                     {' '}
+                    <Typography variant="h6" style={{ padding: '10px' }} align="center">
+                        Select Algorithm
+                    </Typography>
+                    <Divider />
                     <MenuItem
                         onClick={() => {
                             this.handleAlgorithmClose(AlgorithmNames.DBSCAN);
@@ -378,6 +383,23 @@ class NavBar extends Component<Props, State> {
                     open={this.state.anchor2 !== null}
                     onClose={() => this.handleSpeeMenuClose(null)}
                 >
+                    <Grid
+                        container
+                        justify="center"
+                        alignItems="center"
+                        style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '10px', paddingBottom: '10px' }}
+                    >
+                        <SvgIcon>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M20.38 8.57l-1.23 1.85a8 8 0 0 1-.22 7.58H5.07A8 8 0 0 1 15.58 6.85l1.85-1.23A10 10 0 0 0 3.35 19a2 2 0 0 0 1.72 1h13.85a2 2 0 0 0 1.74-1 10 10 0 0 0-.27-10.44zm-9.79 6.84a2 2 0 0 0 2.83 0l5.66-8.49-8.49 5.66a2 2 0 0 0 0 2.83z" />
+                            </svg>
+                        </SvgIcon>{' '}
+                        <Typography variant="h6" align="center" style={{ marginLeft: '10px' }}>
+                            Change Speed
+                        </Typography>
+                    </Grid>
+                    <Divider />
                     <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.slow)}>Slow</MenuItem>
                     <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.average)}>Average</MenuItem>
                     <MenuItem onClick={() => this.handleSpeeMenuClose(Speed.fast)}>Fast</MenuItem>
