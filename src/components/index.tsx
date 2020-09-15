@@ -10,3 +10,4 @@ export { default as Slider } from './Slider';
 export { default as Tutorial } from './Tutorial';
 export { default as FloatingActionButtons } from './FloatingActionButtons';
 export { default as ShowCircleSize } from './ShowCircleSize';
+export { default as RedButton } from './RedButton';

@@ -256,12 +256,15 @@ class Board extends React.Component<IBoardProps, BoardState> {
                                         createClusterMode: false,
                                     }))
                                 }
-                                style={{ marginBottom: '10px' }}
+                                style={{
+                                    backgroundColor: this.state.deleteMode ? 'red' : undefined,
+                                    marginBottom: '10px',
+                                }}
                             >
                                 <SvgIcon>
                                     <svg viewBox="0 0 24 24">
                                         <path
-                                            fill={this.state.deleteMode ? 'red' : 'grey'}
+                                            fill={this.state.deleteMode ? 'white' : 'grey'}
                                             d="M15.14,3C14.63,3 14.12,3.2 13.73,3.59L2.59,14.73C1.81,15.5 1.81,16.77 2.59,17.56L5.03,20H12.69L21.41,11.27C22.2,10.5 22.2,9.23 21.41,8.44L16.56,3.59C16.17,3.2 15.65,3 15.14,3M17,18L15,20H22V18"
                                         />
                                     </svg>
@@ -276,12 +279,15 @@ class Board extends React.Component<IBoardProps, BoardState> {
                                         deleteMode: false,
                                     }));
                                 }}
+                                style={{
+                                    backgroundColor: this.state.createClusterMode ? '#2196f3' : undefined,
+                                }}
                             >
                                 <SvgIcon>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 444.892 444.892">
                                         <path
                                             d="M440.498 173.103c5.858-5.857 5.858-15.355 0-21.213l-22.511-22.511a15.003 15.003 0 00-19.038-1.8l-47.332 32.17 31.975-47.652a14.999 14.999 0 00-1.85-18.964l-48.83-48.83a14.996 14.996 0 00-17.114-2.908l-8.443 4.065 4.043-8.97a15 15 0 00-3.068-16.771L293.002 4.393c-5.857-5.857-15.355-5.857-21.213 0l-119.06 119.059 168.71 168.71 119.059-119.059zM130.56 145.622l-34.466 34.466a15 15 0 000 21.212l32.694 32.694c6.299 6.299 9.354 14.992 8.382 23.849-.971 8.851-5.843 16.677-13.366 21.473-96.068 61.238-105.023 70.194-107.965 73.137-21.119 21.118-21.119 55.48 0 76.6 21.14 21.14 55.504 21.098 76.6 0 2.944-2.943 11.902-11.902 73.136-107.965 4.784-7.505 12.607-12.366 21.462-13.339 8.883-.969 17.575 2.071 23.859 8.354l32.694 32.694c5.857 5.857 15.356 5.857 21.213 0l34.467-34.467-168.71-168.708zM70.05 404.825c-8.28 8.28-21.704 8.28-29.983 0-8.28-8.28-8.28-21.704 0-29.983 8.28-8.28 21.704-8.28 29.983 0 8.28 8.279 8.28 21.703 0 29.983z"
-                                            fill={this.state.createClusterMode ? '#1976d2' : 'grey'}
+                                            fill={this.state.createClusterMode ? 'white' : 'grey'}
                                         />
                                     </svg>
                                 </SvgIcon>
