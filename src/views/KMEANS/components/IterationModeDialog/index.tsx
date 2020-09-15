@@ -37,6 +37,7 @@ function IterationModeDialog(props: Props): ReactElement {
                             button
                             onClick={() => {
                                 props.setMode(KMEANSMode.SingleIteration);
+                                props.setInfoNull();
                                 props.onClose();
                             }}
                         >
