@@ -338,9 +338,17 @@ class NavBar extends Component<Props, State> {
                     onClose={() => this.handleAlgorithmClose(null)}
                 >
                     {' '}
-                    <Typography variant="h6" style={{ padding: '10px' }} align="center">
-                        Select Algorithm
-                    </Typography>
+                    <Grid
+                        container
+                        justify="center"
+                        alignItems="center"
+                        style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '10px', paddingBottom: '10px' }}
+                    >
+                        <img src={logo} alt="logo" style={{ height: '30px', width: 'auto' }} />{' '}
+                        <Typography variant="h6" align="center" style={{ marginLeft: '10px' }}>
+                            Select Algorithm
+                        </Typography>
+                    </Grid>
                     <Divider />
                     <MenuItem
                         onClick={() => {
