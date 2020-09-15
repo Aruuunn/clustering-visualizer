@@ -1,5 +1,5 @@
 import React, { Component, SyntheticEvent, ReactElement } from 'react';
-import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -120,15 +120,7 @@ class NavBar extends Component<Props, State> {
             <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white', minHeight: '80px' }}>
                 <Toolbar>
                     <Grid container alignItems="center" style={{ height: '100%', position: 'relative', top: '8px' }}>
-                        <Grid
-                            container
-                            alignItems="center"
-                            // style={{ position: 'relative', top: '12px' }}
-                            item
-                            xs={9}
-                            md={2}
-                            lg={4}
-                        >
+                        <Grid container alignItems="center" item xs={9} md={2} lg={4}>
                             <Hidden smDown>
                                 <Grid
                                     container
@@ -177,16 +169,7 @@ class NavBar extends Component<Props, State> {
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
-                            <Grid
-                                container
-                                alignItems="center"
-                                // style={{ marginTop: '30px' }}
-                                justify="flex-end"
-                                item
-                                xs={12}
-                                md={10}
-                                lg={8}
-                            >
+                            <Grid container alignItems="center" justify="flex-end" item xs={12} md={10} lg={8}>
                                 {this.props.children}
 
                                 <FlatButton
@@ -230,6 +213,7 @@ class NavBar extends Component<Props, State> {
                                         ? 'Fast'
                                         : 'Faster'}
                                 </FlatButton>
+
                                 <FlatButton
                                     style={{ marginRight: '20px' }}
                                     onClick={() => this.props.resetAlgorithmData()}
@@ -250,6 +234,7 @@ class NavBar extends Component<Props, State> {
                                 >
                                     CLEAR
                                 </FlatButton>
+
                                 <FlatButton
                                     onClick={() => {
                                         this.props.resetAlgorithmData();

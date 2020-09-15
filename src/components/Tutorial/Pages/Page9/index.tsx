@@ -1,33 +1,60 @@
 import React from 'react';
-import { Typography, Link, DialogTitle, DialogContent } from '@material-ui/core';
+import { Typography, Grid, CircularProgress, DialogTitle, DialogContent } from '@material-ui/core';
+import ProgressiveImage from 'react-progressive-image';
 
-export const Page9 = () => {
+import Image from '../../../../assets/del.gif';
+import ImageMin from '../../../../assets/del-progressive.jpg';
+
+export const Page8 = () => {
     return [
         <DialogTitle key={0}>
-            {' '}
             <Typography variant="h4" style={{ fontWeight: 'bold', width: '100%' }}>
-                Finish
+                Delete Mode
             </Typography>
         </DialogTitle>,
+
         <DialogContent key={1}>
             <div style={{ minHeight: '500px' }}>
                 <Typography variant="body1" style={{ width: '100%', fontWeight: 'normal' }}>
-                    You have been introduced to the core features of the application. Hope you enjoy using it!
+                    Delete Clusters with ease using <strong>Delete Cluster Mode</strong>.
                 </Typography>
-                <Typography variant="body1" style={{ marginTop: '30px', width: '100%' }}>
-                    You can find the source code of this application{' '}
-                    <Link
-                        target="_blank"
-                        rel="no-referrer"
-                        color="secondary"
-                        href="https://github.com/ArunMurugan78/clustering-visualizer"
-                    >
-                        Here
-                    </Link>
-                </Typography>
+                {/* */}
+                <ProgressiveImage src={Image} placeholder={ImageMin}>
+                    {(src: string, loading: boolean) => (
+                        <div
+                            style={{
+                                width: '100%',
+                                marginTop: '20px',
+                                position: 'relative',
+                            }}
+                        >
+                            <img
+                                src={src}
+                                style={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    opacity: loading ? 0.8 : 1,
+                                    transition: 'all 1.5s ease',
+                                    filter: loading ? 'blur(8px)' : 'none',
+                                }}
+                                alt="create cluster mode"
+                            />
+                            {loading ? (
+                                <Grid
+                                    container
+                                    justify="center"
+                                    alignItems="center"
+                                    style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: '100%' }}
+                                >
+                                    <CircularProgress style={{ color: 'white' }} />
+                                </Grid>
+                            ) : null}
+                        </div>
+                    )}
+                </ProgressiveImage>
             </div>
         </DialogContent>,
     ];
 };
 
-export default Page9;
+export default Page8;

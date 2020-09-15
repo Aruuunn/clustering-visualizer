@@ -8,6 +8,7 @@ import Page6 from './Page6';
 import Page7 from './Page7';
 import Page8 from './Page8';
 import Page9 from './Page9';
+import Page10 from './Page10';
 
 type Props = {
     page: number;
@@ -35,6 +36,8 @@ export default function Pages(props: Props): null | ReactElement[] {
             return Page8();
         case 9:
             return Page9();
+        case 10:
+            return Page10();
         default:
             return null;
     }

@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import { Dialog, DialogActions, useTheme, useMediaQuery } from '@material-ui/core';
+import { Dialog, DialogActions, Grid } from '@material-ui/core';
 
 import Pages from './Pages';
 
@@ -7,8 +7,8 @@ import { BlueButton, FlatButton } from '../../components';
 
 const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
     const [page, setPage] = useState(1);
-    const theme = useTheme();
-    const xs = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const MAX_PAGES = 10;
 
     return (
         <Dialog
@@ -17,10 +17,13 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
             scroll={'paper'}
             onClose={() => null}
         >
+            <Grid container justify="flex-end" style={{ padding: '10px' }}>
+                {page}/{MAX_PAGES}
+            </Grid>
             {Pages({ page })}
 
             <DialogActions>
-                {page !== 9 ? (
+                {page !== MAX_PAGES ? (
                     <FlatButton
                         variant="contained"
                         style={{ margin: '5px' }}
@@ -41,7 +44,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                             Previous
                         </FlatButton>
                     ) : null}
-                    {page !== 9 ? (
+                    {page !== MAX_PAGES ? (
                         <BlueButton
                             style={{ margin: '5px' }}
                             autoFocus
@@ -51,7 +54,7 @@ const Tutorial = (props: { setTutorialComplete: () => void }): ReactElement => {
                             Next
                         </BlueButton>
                     ) : null}
-                    {page === 9 ? (
+                    {page === MAX_PAGES ? (
                         <BlueButton
                             autoFocus
                             style={{ margin: '5px' }}
