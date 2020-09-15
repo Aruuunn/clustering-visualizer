@@ -6,12 +6,13 @@ import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import { Node } from '../../reduxStore/reducers/global';
 import { RootState } from '../../reduxStore/reducers';
 import FloatingActionButtons from '../FloatingActionButtons';
-import { UserPreferencesActionTypes } from '../../reduxStore';
+import { UserPreferencesActionTypes, AlgorithmActionTypes } from '../../reduxStore';
 import { calculateSquaredDistance } from '../../utils';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
     userPreference: state.userPreferences,
+    algorithm: state.algorithm,
 });
 
 const mapDispatchToProps = {
@@ -26,6 +27,7 @@ const mapDispatchToProps = {
     resetFabCoordinates: () => ({ type: UserPreferencesActionTypes.RESET_FAB_COORDINATES }),
     deleteNode: (id: number) => ({ type: GlobalActionTypes.DELETE_NODE, payload: id }),
     increaseMaxIdBy: (num: number) => ({ type: GlobalActionTypes.INCREASE_MAX_ID, payload: num }),
+    resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -141,6 +143,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
             return;
         }
 
+        if (this.props.algorithm.render.length !== 0) {
+            this.props.resetAlgoData();
+        }
+
         const left = this.state.bg.current.getBoundingClientRect().left;
         const top = this.state.bg.current.getBoundingClientRect().top;
 
@@ -172,6 +178,11 @@ class Board extends React.Component<IBoardProps, BoardState> {
         ) {
             return;
         }
+
+        if (this.props.algorithm.render.length !== 0) {
+            this.props.resetAlgoData();
+        }
+
         const left = this.state.bg.current.getBoundingClientRect().left;
         const top = this.state.bg.current.getBoundingClientRect().top;
         let cluster = true;

@@ -1,5 +1,5 @@
 import React, { Component, SyntheticEvent, ReactElement } from 'react';
-import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Menu, MenuItem, Grid, Hidden, SvgIcon, IconButton } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ interface State {
 }
 
 // define mapStateToProps and mapDispatchToProps
-const mapStateToProps = (state: RootState) => ({ global: state.global, kmeans: state.kmeans });
+const mapStateToProps = (state: RootState) => ({ global: state.global, algorithm: state.algorithm });
 
 const mapDispatchToProps = {
     changeAlgorithm: (algo: AlgorithmNames) => ({
@@ -230,7 +230,51 @@ class NavBar extends Component<Props, State> {
                                         ? 'Fast'
                                         : 'Faster'}
                                 </FlatButton>
-
+                                <FlatButton
+                                    style={{ marginRight: '20px' }}
+                                    onClick={() => this.props.resetAlgorithmData()}
+                                    disabled={this.props.algorithm.render.length === 0 || this.props.global.start}
+                                    startIcon={
+                                        <SvgIcon>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                            >
+                                                <path d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                            </svg>
+                                        </SvgIcon>
+                                    }
+                                >
+                                    CLEAR
+                                </FlatButton>
+                                <FlatButton
+                                    onClick={() => {
+                                        this.props.resetAlgorithmData();
+                                        this.props.reset();
+                                    }}
+                                    style={{ marginRight: '20px' }}
+                                    disabled={
+                                        this.props.global.start || this.props.global.coordinatesOfNodes.length === 0
+                                    }
+                                    startIcon={
+                                        <SvgIcon>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                width="24"
+                                            >
+                                                <path d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                            </svg>
+                                        </SvgIcon>
+                                    }
+                                >
+                                    CLEAR ALL
+                                </FlatButton>
                                 {!this.props.global.start ? (
                                     <BlueButton
                                         variant="contained"
