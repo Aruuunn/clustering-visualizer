@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import { NavBar, RenderVisualization } from './components';
 import { Board } from '../../components';
@@ -25,6 +26,9 @@ type Props = ConnectedProps<typeof connector>;
 const DBSCAN = (props: Props) => {
     return (
         <div>
+            <Helmet>
+                <title>DBSCAN | Clustering Visualizer</title>
+            </Helmet>
             {props.userPreferences.showAlgorithmModal.DBSCAN ? (
                 <AlgorithmInfo setNeverShowAlgorithmModal={props.setNeverShowAlgorithmModal} />
             ) : null}

@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { SwipeableDrawer, useMediaQuery, useTheme, Grid, Divider, Typography, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
 
+import RedButton from '../RedButton';
 import { AlgorithmNames } from '../../common/algorithms.enum';
 import GlobalActionTypes from '../../reduxStore/types/Global.types';
 import UserDataActionTypes from '../../reduxStore/types/UserPreferences.types';
@@ -272,7 +273,7 @@ function Drawer(props: Props): ReactElement {
                         </FlatButton>
                     </Grid>
                     <Grid container justify="center" alignItems="center">
-                        <FlatButton
+                        <RedButton
                             onClick={() => {
                                 props.resetAlgorithmVisualization();
                                 props.clearPoints();
@@ -297,7 +298,7 @@ function Drawer(props: Props): ReactElement {
                         >
                             {' '}
                             Clear Data Points
-                        </FlatButton>
+                        </RedButton>
                     </Grid>
                 </Grid>
             </SwipeableDrawer>
