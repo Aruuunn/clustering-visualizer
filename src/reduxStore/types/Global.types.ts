@@ -8,6 +8,9 @@ export enum GlobalActionTypes {
     UPDATE_COORDINATES = 'UPDATE_COORDINATES',
     SET_OPEN_FAB = 'SET_OPEN_FAB',
     SET_FREEZE_STATUS = 'SET_FREEZE_STATUS',
+    DELETE_NODE = 'DELETE_NODE',
+    INCREMENT_MAX_ID = 'INCREMENT__MAX_ID',
+    INCREASE_MAX_ID = 'INCREASE_MAX_ID',
 }
 
 export default GlobalActionTypes;

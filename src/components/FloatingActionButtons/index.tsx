@@ -29,7 +29,7 @@ const FloatingActionButtons = (props: Props) => {
         setOpen,
     } = props;
 
-    const defaultFabCoordiantes = { bottom: sm ? '40vh' : 20, right: 20 };
+    const defaultFabCoordiantes = { bottom: sm ? '30vh' : 20, right: 20 };
     const coordiantesOfFab = props.userPreference.coordinatesOfFab
         ? { top: props.userPreference.coordinatesOfFab[1], left: props.userPreference.coordinatesOfFab[0] }
         : defaultFabCoordiantes;
@@ -40,7 +40,7 @@ const FloatingActionButtons = (props: Props) => {
 
         const move = (e: any) => {
             const X: number = e.clientX - 34;
-            let y: number = e.clientY - 250;
+            let y: number = e.clientY - 310;
 
             y = y < 30 ? 30 : y;
 
@@ -75,7 +75,7 @@ const FloatingActionButtons = (props: Props) => {
                                     position: 'fixed',
                                     width: 'auto',
                                     ...coordiantesOfFab,
-                                    height: '350px',
+                                    height: '400px',
                                 }}
                             >
                                 {props.children}
@@ -83,7 +83,7 @@ const FloatingActionButtons = (props: Props) => {
                                 <Zoom in={fabOpen}>
                                     <Fab
                                         onPointerDown={handleMove}
-                                        style={{ backgroundColor: 'white', margin: '10px',cursor:'grab' }}
+                                        style={{ backgroundColor: 'white', margin: '10px', cursor: 'grab' }}
                                     >
                                         <SvgIcon>
                                             <svg
@@ -125,7 +125,7 @@ const FloatingActionButtons = (props: Props) => {
                                 position: 'fixed',
                                 width: 'auto',
                                 ...coordiantesOfFab,
-                                height: '350px',
+                                height: '400px',
                             }}
                         >
                             <Fab color="secondary" onClick={() => setOpen(true)}>

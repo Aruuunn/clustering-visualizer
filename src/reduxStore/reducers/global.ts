@@ -14,6 +14,7 @@ export interface GlobalState {
     coordinatesOfNodes: Node[];
     fabOpen: boolean;
     froze: boolean;
+    maxId: number;
 }
 
 interface Action {
@@ -28,6 +29,7 @@ const initialState: GlobalState = {
     coordinatesOfNodes: [],
     fabOpen: true,
     froze: false,
+    maxId: 0,
 };
 
 export default (state: GlobalState = initialState, action: Action): GlobalState => {
@@ -66,6 +68,18 @@ export default (state: GlobalState = initialState, action: Action): GlobalState 
             return { ...state, fabOpen: action.payload as boolean };
         case GlobalActionTypes.SET_FREEZE_STATUS:
             return { ...state, froze: action.payload as boolean };
+
+        case GlobalActionTypes.DELETE_NODE:
+            return {
+                ...state,
+                coordinatesOfNodes: state.coordinatesOfNodes.filter((o) => o.id !== (action.payload as number)),
+            };
+        case GlobalActionTypes.INCREMENT_MAX_ID: {
+            return { ...state, maxId: state.maxId + 1 };
+        }
+
+        case GlobalActionTypes.INCREASE_MAX_ID:
+            return { ...state, maxId: state.maxId + (action.payload as number) || 0 };
 
         default:
             return state;
