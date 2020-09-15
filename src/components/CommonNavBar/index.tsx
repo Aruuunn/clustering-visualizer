@@ -59,7 +59,7 @@ class NavBar extends Component<Props, State> {
     algorithmName = () => {
         switch (this.props.global.algorithm) {
             case AlgorithmNames.HIERARCHICAL_CLUSTERING:
-                return 'HIERARCHICAL CLUSTERING';
+                return 'HIERARCHICAL';
 
             case AlgorithmNames.MEAN_SHIFT:
                 return 'MEAN SHIFT';
@@ -120,7 +120,7 @@ class NavBar extends Component<Props, State> {
             <AppBar elevation={0} className="appbar" color="transparent" style={{ color: 'white', minHeight: '80px' }}>
                 <Toolbar>
                     <Grid container alignItems="center" style={{ height: '100%', position: 'relative', top: '8px' }}>
-                        <Grid container alignItems="center" item xs={9} md={2} lg={4}>
+                        <Grid container alignItems="center" item xs={9} md={2} xl={3}>
                             <Hidden smDown>
                                 <Grid
                                     container
@@ -144,10 +144,8 @@ class NavBar extends Component<Props, State> {
                             <Hidden only={['sm', 'xs']}>
                                 <img src={logo} alt="logo" style={{ height: '48px', width: 'auto' }} />
                             </Hidden>
-                            <Hidden only={['md']}>
-                                <Typography variant="h5" style={{ flexGrow: 1 }}>
-                                    Clustering Visualizer
-                                </Typography>
+                            <Hidden only={['md', 'lg']}>
+                                <Typography variant="h5">Clustering Visualizer</Typography>
                             </Hidden>
                         </Grid>
                         <Hidden only={['md', 'lg', 'xl']}>
@@ -169,7 +167,7 @@ class NavBar extends Component<Props, State> {
                             </Grid>
                         </Hidden>
                         <Hidden smDown>
-                            <Grid container alignItems="center" justify="flex-end" item xs={12} md={10} lg={8}>
+                            <Grid container alignItems="center" justify="flex-end" item xs={12} md={10} xl={9}>
                                 {this.props.children}
 
                                 <FlatButton
@@ -214,52 +212,57 @@ class NavBar extends Component<Props, State> {
                                         : 'Faster'}
                                 </FlatButton>
 
-                                <FlatButton
-                                    style={{ marginRight: '20px' }}
-                                    onClick={() => this.props.resetAlgorithmData()}
-                                    disabled={this.props.algorithm.render.length === 0 || this.props.global.start}
-                                    startIcon={
-                                        <SvgIcon>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                            >
-                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                                            </svg>
-                                        </SvgIcon>
-                                    }
-                                >
-                                    CLEAR
-                                </FlatButton>
+                                <Hidden only={['sm', 'md']}>
+                                    <FlatButton
+                                        style={{ marginRight: '20px' }}
+                                        onClick={() => this.props.resetAlgorithmData()}
+                                        disabled={this.props.algorithm.render.length === 0 || this.props.global.start}
+                                        startIcon={
+                                            <SvgIcon>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                >
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                                </svg>
+                                            </SvgIcon>
+                                        }
+                                    >
+                                        CLEAR
+                                    </FlatButton>
+                                </Hidden>
 
-                                <FlatButton
-                                    onClick={() => {
-                                        this.props.resetAlgorithmData();
-                                        this.props.reset();
-                                    }}
-                                    style={{ marginRight: '20px' }}
-                                    disabled={
-                                        this.props.global.start || this.props.global.coordinatesOfNodes.length === 0
-                                    }
-                                    startIcon={
-                                        <SvgIcon>
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                width="24"
-                                            >
-                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                            </svg>
-                                        </SvgIcon>
-                                    }
-                                >
-                                    CLEAR ALL
-                                </FlatButton>
+                                <Hidden only={['sm', 'md']}>
+                                    <FlatButton
+                                        onClick={() => {
+                                            this.props.resetAlgorithmData();
+                                            this.props.reset();
+                                        }}
+                                        style={{ marginRight: '20px' }}
+                                        disabled={
+                                            this.props.global.start || this.props.global.coordinatesOfNodes.length === 0
+                                        }
+                                        startIcon={
+                                            <SvgIcon>
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    width="24"
+                                                >
+                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                                </svg>
+                                            </SvgIcon>
+                                        }
+                                    >
+                                        CLEAR ALL
+                                    </FlatButton>
+                                </Hidden>
+
                                 {!this.props.global.start ? (
                                     <BlueButton
                                         variant="contained"
