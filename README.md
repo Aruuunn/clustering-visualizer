@@ -6,17 +6,21 @@ Clustering Visualizer is a React Web Application for visualizing of Machine Lear
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-
 ## Clustering Algorithms Supported
-+ [DBSCAN](https://clustering-visualizer.web.app/dbscan)
-+ [Mean Shift](https://clustering-visualizer.web.app/mean-shift)
-+ [K Means](https://clustering-visualizer.web.app/kmeans)
-+ [Hierarchical](https://clustering-visualizer.web.app/hierarchical)
 
+-   [DBSCAN](https://clustering-visualizer.web.app/dbscan)
+-   [Mean Shift](https://clustering-visualizer.web.app/mean-shift)
+-   [K Means](https://clustering-visualizer.web.app/kmeans)
+-   [Hierarchical](https://clustering-visualizer.web.app/hierarchical)
+
+## Docker Image
+
+Docker Image for this application can be found at [https://hub.docker.com/repository/docker/arunmurugan78/clustering-visualizer](https://hub.docker.com/repository/docker/arunmurugan78/clustering-visualizer)
 
 ## Contributing
+
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
