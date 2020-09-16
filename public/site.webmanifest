@@ -1,6 +1,7 @@
 {
     "name": "Clustering Visualizer",
     "short_name": "Clustering Visualizer",
+    "description":"Clustering Visualizer is a Web Application for visualizing of Machine Learning Clustering Algorithms",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
