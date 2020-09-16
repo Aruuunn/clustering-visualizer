@@ -104,7 +104,7 @@ function KMEANS(props: Props): ReactElement {
                             </div>
                         </Zoom>
                     ) : (
-                        <div style={{ height: '10px' }} />
+                        <div style={{ height: '10px' }} key={1} />
                     ),
                 ]}
             />
