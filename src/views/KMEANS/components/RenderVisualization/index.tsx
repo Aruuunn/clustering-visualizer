@@ -51,15 +51,16 @@ type Props = PropsFromRedux;
 interface State {
     centroids: number[][];
     started: boolean;
+    renderCentroids: ReactElement[];
 }
 
 class KMeans extends Component<Props, State> {
     state = {
         centroids: [],
         started: false,
+        renderCentroids: [],
     };
 
-    renderCentroids: ReactElement[] = [];
     colors: string[] = [];
 
     componentDidMount() {
@@ -88,12 +89,14 @@ class KMeans extends Component<Props, State> {
             this.colors = [];
 
             for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
-                this.colors.push(getColor(iter));
+                this.colors.push(getColor(iter + Date.now()));
             }
         }
 
+        const render: ReactElement[] = [];
+
         for (let iter = 0; iter < centroids.length; iter++) {
-            this.renderCentroids.push(
+            render.push(
                 <g key={`c-${iter}`}>
                     <rect
                         x={centroids[iter][0] - 10}
@@ -112,9 +115,10 @@ class KMeans extends Component<Props, State> {
         }
 
         this.setState(
-            () => ({
+            {
                 centroids,
-            }),
+                renderCentroids: render,
+            },
             callback,
         );
     }
@@ -186,7 +190,7 @@ class KMeans extends Component<Props, State> {
 
             clusters = Array.from({ length: this.props.kmeans.numberOfClusters }, () => new Array(0));
 
-            const render: ReactElement[] = [];
+            let render: ReactElement[] = [];
 
             for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
                 const currentNode = this.props.global.coordinatesOfNodes[i].coordinates;
@@ -241,10 +245,10 @@ class KMeans extends Component<Props, State> {
             loss = result.loss;
             this.setState({ centroids: result.centroids });
 
-            this.renderCentroids = [];
+            render = [];
 
             for (let iter = 0; iter < result.centroids.length; iter++) {
-                this.renderCentroids.push(
+                render.push(
                     <g key={`d-${iter}`}>
                         {Math.floor(
                             Math.abs(temp[iter][0] - result.centroids[iter][0]) +
@@ -285,15 +289,16 @@ class KMeans extends Component<Props, State> {
                     </g>,
                 );
             }
+            this.setState({ renderCentroids: render });
         }
 
         await new Promise(freeze);
 
         await new Promise((done) => setTimeout(() => done(), this.props.global.speed * 2));
 
-        this.props.appendToRender(this.renderCentroids);
+        this.props.appendToRender(this.state.renderCentroids);
 
-        this.renderCentroids = [];
+        this.setState({ renderCentroids: [] });
 
         return this.calculateVarianceOfClusters(clusters);
     };
@@ -344,7 +349,6 @@ class KMeans extends Component<Props, State> {
     componentDidUpdate() {
         if (this.props.global.start) {
             if (!this.state.started) {
-                this.props.kmeans.numberOfClusters = this.props.kmeans.numberOfClusters;
                 this.props.resetAlgoData();
                 this.setState(
                     () => ({
@@ -361,7 +365,7 @@ class KMeans extends Component<Props, State> {
         return (
             <g>
                 {this.props.algorithm.render}
-                {(this.props.algorithm.render.length || this.props.global.start) && this.renderCentroids}
+                {this.state.renderCentroids}
             </g>
         );
     }

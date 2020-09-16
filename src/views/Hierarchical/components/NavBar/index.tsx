@@ -1,6 +1,6 @@
 import React, { Component, SyntheticEvent } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Grid, Typography, SvgIcon, Menu, MenuItem } from '@material-ui/core';
+import { Grid, Typography, SvgIcon, Menu, MenuItem, Divider } from '@material-ui/core';
 
 import AlgorithmNames from '../../../../common/algorithms.enum';
 import { CommonNavBar, Slider, FlatButton } from '../../../../components';
@@ -134,6 +134,10 @@ class NavBar extends Component<Props, State> {
                     onClose={() => this.setState({ anchor: null })}
                     anchorEl={this.state.anchor}
                 >
+                    <Typography variant="h6" style={{ padding: '10px 20px 10px 20px' }} align="center">
+                        Type of Hierarchical Clustering
+                    </Typography>
+                    <Divider />
                     <MenuItem
                         onClick={() => {
                             this.props.setType(HierarchicalClusteringType.AGGLOMERATIVE);
