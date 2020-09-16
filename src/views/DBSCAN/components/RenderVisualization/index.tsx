@@ -84,7 +84,7 @@ class RenderVisualisation extends Component<Props, State> {
                 stack = [...stack, ...list];
                 if (colorAssigned === false) {
                     colorAssigned = true;
-                    const color = getRandomColor(colors.length);
+                    const color = getRandomColor(Date.now() + colors.length);
                     colors = [...colors, color];
                     this.setState((s) => ({ ...s, colors }));
                     this.data[`${node.id}`] = colors.length - 1;

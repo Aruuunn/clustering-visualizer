@@ -63,7 +63,7 @@ class RenderVisualization extends React.Component<IRenderVisualizationProps, IRe
             }
             if (flag === false) {
                 centroids.push(this.props.global.coordinatesOfNodes[i].coordinates);
-                colors.push(getRandomColor(colors.length));
+                colors.push(getRandomColor(Date.now() + colors.length));
             }
         }
 

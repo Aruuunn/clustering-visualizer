@@ -88,7 +88,7 @@ class KMeans extends Component<Props, State> {
             this.colors = [];
 
             for (let iter = 0; iter < this.props.kmeans.numberOfClusters; iter++) {
-                this.colors.push(getColor(iter));
+                this.colors.push(getColor(iter + Date.now()));
             }
         }
 
