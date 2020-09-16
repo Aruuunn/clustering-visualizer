@@ -84,6 +84,30 @@ class NavBar extends Component<Props, State> {
                                 />
                             </Grid>
                         </Grid>,
+                        <Grid container justify="center" alignItems="center" key={1}>
+                            <FlatButton
+                                key={1}
+                                variant="contained"
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '500px',
+                                    marginLeft: 0,
+                                    marginRight: 0,
+                                    marginTop: '10px',
+                                }}
+                                aria-haspopup="true"
+                                disabled={this.props.global.start}
+                                onClick={this.openMenu}
+                                startIcon={
+                                    <SvgIcon>
+                                        <path d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+                                    </SvgIcon>
+                                }
+                            >
+                                {this.props.hierarchical.type}
+                            </FlatButton>
+                        </Grid>,
                     ]}
                 >
                     {[
@@ -137,7 +161,7 @@ class NavBar extends Component<Props, State> {
                     <Typography variant="h6" style={{ padding: '10px 20px 10px 20px' }} align="center">
                         Type of Hierarchical Clustering
                     </Typography>
-                    <Divider />
+                    <Divider style={{ marginBottom: '10px' }} />
                     <MenuItem
                         onClick={() => {
                             this.props.setType(HierarchicalClusteringType.AGGLOMERATIVE);
