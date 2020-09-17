@@ -100,7 +100,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     };
 
     handleClick = (event: React.MouseEvent<SVGSVGElement>) => {
-        if (this.props.global.start === true || this.state.createClusterMode || this.state.deleteMode) {
+        if (this.props.global.start === true || this.state.deleteMode) {
             return;
         }
         event.persist();
@@ -110,6 +110,11 @@ class Board extends React.Component<IBoardProps, BoardState> {
         const Y = event.clientY - target.getBoundingClientRect().top;
 
         if (X <= 20 || Y <= 20 || !X || !Y) {
+            return;
+        }
+
+        if (this.state.createClusterMode) {
+            this.createCluster(X, Y);
             return;
         }
 
@@ -169,6 +174,48 @@ class Board extends React.Component<IBoardProps, BoardState> {
         window.addEventListener('pointerup', removeEventListeners);
     };
 
+    createCluster = (X: number, y: number) => {
+        if (this.state.bg.current === null) {
+            return;
+        }
+
+        const left = this.state.bg.current.getBoundingClientRect().left;
+        const top = this.state.bg.current.getBoundingClientRect().top;
+
+        const space = 40;
+        X = X - left;
+        y = y - top;
+        if (y - space < 80) {
+            return;
+        }
+        this.props.setCoordinates([
+            ...this.props.global.coordinatesOfNodes,
+            { coordinates: [X, y], id: this.props.global.maxId },
+            { coordinates: [X + space * Math.random(), y], id: this.props.global.maxId + 1 },
+            { coordinates: [X - space * Math.random(), y], id: this.props.global.maxId + 2 },
+            { coordinates: [X, y + space * Math.random()], id: this.props.global.maxId + 3 },
+            { coordinates: [X, y - space], id: this.props.global.maxId + 4 },
+            {
+                coordinates: [X + space * Math.random(), y + space * Math.random()],
+                id: this.props.global.maxId + 5,
+            },
+            {
+                coordinates: [X - space * Math.random(), y - space * Math.random()],
+                id: this.props.global.maxId + 6,
+            },
+            {
+                coordinates: [X + space * Math.random(), y - space],
+                id: this.props.global.maxId + 7,
+            },
+            {
+                coordinates: [X - space * Math.random(), y + space * Math.random()],
+                id: this.props.global.maxId + 8,
+            },
+        ]);
+
+        this.props.increaseMaxIdBy(9);
+    };
+
     handleCreate = () => {
         if (
             this.props.global.start === true ||
@@ -191,38 +238,8 @@ class Board extends React.Component<IBoardProps, BoardState> {
             if (!cluster) {
                 return;
             }
-            const space = 40;
-            const X = e.clientX - left;
-            const y = e.clientY - top;
-            if (y - space < 80) {
-                return;
-            }
-            this.props.setCoordinates([
-                ...this.props.global.coordinatesOfNodes,
-                { coordinates: [X, y], id: this.props.global.maxId },
-                { coordinates: [X + space * Math.random(), y], id: this.props.global.maxId + 1 },
-                { coordinates: [X - space * Math.random(), y], id: this.props.global.maxId + 2 },
-                { coordinates: [X, y + space * Math.random()], id: this.props.global.maxId + 3 },
-                { coordinates: [X, y - space], id: this.props.global.maxId + 4 },
-                {
-                    coordinates: [X + space * Math.random(), y + space * Math.random()],
-                    id: this.props.global.maxId + 5,
-                },
-                {
-                    coordinates: [X - space * Math.random(), y - space * Math.random()],
-                    id: this.props.global.maxId + 6,
-                },
-                {
-                    coordinates: [X + space * Math.random(), y - space],
-                    id: this.props.global.maxId + 7,
-                },
-                {
-                    coordinates: [X - space * Math.random(), y + space * Math.random()],
-                    id: this.props.global.maxId + 8,
-                },
-            ]);
 
-            this.props.increaseMaxIdBy(9);
+            this.createCluster(e.clientX, e.clientY);
 
             cluster = false;
             setTimeout(() => {
