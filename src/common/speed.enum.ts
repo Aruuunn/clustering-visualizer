@@ -1,3 +1,5 @@
+// different Speed levels available
+
 export enum Speed {
     slow = 600,
     average = 200,

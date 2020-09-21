@@ -1,3 +1,4 @@
+// Blue version of the Fab
 import { Fab, withStyles } from '@material-ui/core';
 
 export const BlueFab = withStyles({
