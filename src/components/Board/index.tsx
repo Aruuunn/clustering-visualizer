@@ -1,3 +1,7 @@
+/**
+ * This is one of the core components of the application.
+ * This component is responsible for creation, deletion of clusters and points.
+ */
 import React, { ReactElement } from 'react';
 import { Fab, Zoom, SvgIcon } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
@@ -33,13 +37,19 @@ const mapDispatchToProps = {
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type IBoardProps = PropsFromRedux & {
+    /**
+     * component - is based on the algorithm, It gives the visualizations for the algorithms
+     */
     component?: ReactElement;
-    fabChildren?: (ReactElement | null)[];
+    fabChildren?: (ReactElement | null)[]; // addition fab if provided
 };
 
 type BoardState = {
+    //referenec to the Svg Element. All the visualizations are made possible because of Svg!
     bg: React.RefObject<SVGSVGElement>;
+    //if toggled on, you can create clusters easily by clicking and dragging
     createClusterMode: boolean;
+    //if toggled on, you can delete clusters easily by clicking and dragging
     deleteMode: boolean;
 };
 
@@ -54,11 +64,13 @@ class Board extends React.Component<IBoardProps, BoardState> {
     }
 
     componentDidMount() {
+        // reset the position of the fab when the user resizes the window. So that fab is always visible
         window.addEventListener('resize', this.props.resetFabCoordinates);
     }
 
     componentDidUpdate() {
         if (this.state.bg.current !== null) {
+            //preventing the default touch behaviour
             this.state.bg.current.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault());
         }
     }
@@ -78,10 +90,12 @@ class Board extends React.Component<IBoardProps, BoardState> {
                 return;
             }
 
+            // calculate the coordinates of event
             X = event.clientX - this.state.bg.current.getBoundingClientRect().left;
             Y = event.clientY - this.state.bg.current.getBoundingClientRect().top;
             currentNode.setAttribute('cx', X.toString());
             currentNode.setAttribute('cy', Y.toString());
+            //adding the node
             this.props.updateCoordinates({ id, coordinates: [X, Y] });
         };
 
@@ -89,11 +103,13 @@ class Board extends React.Component<IBoardProps, BoardState> {
             if (this.state.bg.current === null) {
                 return;
             }
+            //removing the event listeners
             this.state.bg.current.removeEventListener('pointermove', handleNodeMove);
             this.state.bg.current.removeEventListener('pointerup', removeListeners);
         };
 
         if (this.state.bg.current !== null) {
+            //adding the event listeners
             this.state.bg.current.addEventListener('pointermove', handleNodeMove);
             this.state.bg.current.addEventListener('pointerup', removeListeners);
         }
@@ -114,6 +130,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
         }
 
         if (this.state.createClusterMode) {
+            // createClusterMode is 'on' then create a cluster in the event of clicking
             this.createCluster(X, Y);
             return;
         }
@@ -130,7 +147,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
         if (!this.state.deleteMode) {
             return;
         }
-
+        //remove nodes which are near to coordinates (x,y)
         this.props.setCoordinates(
             this.props.global.coordinatesOfNodes.filter(
                 (o) => Math.sqrt(calculateSquaredDistance(o.coordinates, [x, y])) > 20,
@@ -341,7 +358,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
                     </defs>
 
                     <rect width="100%" height="100%" style={{ fill: 'url(#Deep-Space)' }} />
-
+                    {/*                 render the nodes                 */}
                     {this.props.global.coordinatesOfNodes.map((o: Node) => (
                         <g
                             key={o.id}
@@ -359,6 +376,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
                             />
                         </g>
                     ))}
+                    {/* renders the visualization */}
                     {this.props.component}
                 </svg>
             </div>
