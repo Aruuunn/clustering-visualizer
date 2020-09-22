@@ -48,6 +48,7 @@ class NavBar extends Component<Props, State> {
     componentDidMount() {
         if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING)
             this.props.setAlgorithm(AlgorithmNames.HIERARCHICAL_CLUSTERING);
+        this.props.setNumberOfClusters(1);
     }
     componentDidUpdate() {
         if (this.props.global.algorithm !== AlgorithmNames.HIERARCHICAL_CLUSTERING)
@@ -75,7 +76,7 @@ class NavBar extends Component<Props, State> {
                                 <Slider
                                     valueLabelDisplay="auto"
                                     color="secondary"
-                                    min={2}
+                                    min={1}
                                     max={30}
                                     value={this.props.hierarchical.numberOfClusters}
                                     onChange={(e, val) =>
@@ -128,7 +129,7 @@ class NavBar extends Component<Props, State> {
                             <Slider
                                 valueLabelDisplay="auto"
                                 color="secondary"
-                                min={2}
+                                min={1}
                                 max={30}
                                 value={this.props.hierarchical.numberOfClusters}
                                 onChange={(e, val) =>

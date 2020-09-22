@@ -53,6 +53,8 @@ class NavBar extends Component<Props, State> {
 
     componentDidMount() {
         if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);
+
+        this.props.changeNumberOfClusters(2);
     }
     componentDidUpdate() {
         if (this.props.global.algorithm !== AlgorithmNames.KMEANS) this.props.setAlgorithm(AlgorithmNames.KMEANS);

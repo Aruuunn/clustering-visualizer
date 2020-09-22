@@ -55,7 +55,10 @@ const Result = (props: Props): React.ReactElement => {
                             overflow: 'auto',
                         }}
                     >
-                        <Typography variant="h5"> Silhouette Score vs Number of clusters</Typography>
+                        <Typography variant="h5" style={{ marginTop: '25px', marginBottom: '20px' }}>
+                            {' '}
+                            Silhouette Score vs Number of clusters
+                        </Typography>
                         {details !== null ? <LineChart details={details} /> : null}
                     </div>
                 </Paper>
