@@ -1,5 +1,5 @@
 import React from 'react';
-import { Backdrop, Grid, Paper, Typography, useMediaQuery, SvgIcon, IconButton, Fade } from '@material-ui/core';
+import { Backdrop, Paper, Typography, useMediaQuery, SvgIcon, IconButton, Fade } from '@material-ui/core';
 
 import HashTable from '../../../../common/hashtable';
 import LineChart from '../LineChart';
