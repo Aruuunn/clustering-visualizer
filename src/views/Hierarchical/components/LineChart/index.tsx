@@ -17,13 +17,28 @@ export const options = {
         },
     },
     title: {
-        display: true,
-        text: 'Silhouette Score vs Number of Clusters',
-        fontColor: '#d3d3d3',
-        fontSize: 14,
+        display: false,
     },
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+        yAxes: [
+            {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Sihouette Score',
+                },
+            },
+        ],
+        xAxes: [
+            {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Number of Clusters',
+                },
+            },
+        ],
+    },
 };
 
 const LineChart = (props: Props): ReactElement => {
@@ -36,7 +51,7 @@ const LineChart = (props: Props): ReactElement => {
             {
                 data: Object.keys(details).map((o) => details[o]),
                 borderColor: theme.palette.secondary.main,
-                label: 'Silhouette Score vs Iteration',
+                label: 'Silhouette Score',
                 fill: false,
             },
         ],

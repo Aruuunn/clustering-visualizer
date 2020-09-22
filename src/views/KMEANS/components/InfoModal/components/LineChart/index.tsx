@@ -24,6 +24,24 @@ export const options = {
     },
     responsive: true,
     maintainAspectRatio: false,
+    scales: {
+        yAxes: [
+            {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Sihouette Score',
+                },
+            },
+        ],
+        xAxes: [
+            {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Number of Iteration',
+                },
+            },
+        ],
+    },
 };
 
 const LineChart = (props: Props): ReactElement => {
