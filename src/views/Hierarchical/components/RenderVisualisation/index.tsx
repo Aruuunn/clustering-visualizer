@@ -1,10 +1,22 @@
 import React, { Component, ReactElement } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import { GlobalActionTypes, RootState, AlgorithmActionTypes, HierarchicalClusteringType } from '../../../../reduxStore';
-import { getRandomColor, calculateSquaredDistance, calculateVariance } from '../../../../utils';
+import {
+    GlobalActionTypes,
+    RootState,
+    AlgorithmActionTypes,
+    HierarchicalClusteringType,
+    HierarchicalActionTypes,
+} from '../../../../reduxStore';
+import {
+    getRandomColor,
+    calculateSquaredDistance,
+    calculateVariance,
+    calculateSilhouetteScore,
+} from '../../../../utils';
 import Speed from '../../../../common/speed.enum';
 import freeze from '../../../../common/freeze';
+import HashTable from '../../../../common/hashtable';
 
 const mapStateToProps = (state: RootState) => ({
     global: state.global,
@@ -21,6 +33,10 @@ const mapDispatchToProps = {
     setSpeed: (sp: Speed) => ({ type: GlobalActionTypes.SET_SPEED, payload: sp }),
     resetAlgoData: () => ({ type: AlgorithmActionTypes.RESET_DATA }),
     appendToRender: (ele: ReactElement[]) => ({ type: AlgorithmActionTypes.APPEND_TO_RENDER, payload: ele }),
+    setSihoutteScores: (ele: HashTable<number> | null) => ({
+        type: HierarchicalActionTypes.SET_SILHOUETTE_SCORES,
+        payload: ele,
+    }),
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -92,6 +108,8 @@ class RenderVisualisation extends Component<Props, State> {
         let centroids: number[][] = [];
         let colors: string[] = [];
 
+        const data: HashTable<number> = {};
+
         for (let i = 0; i < this.props.global.coordinatesOfNodes.length; i++) {
             centroids.push(this.props.global.coordinatesOfNodes[i].coordinates);
             colors.push(getRandomColor(colors.length * 3 + Date.now()));
@@ -127,9 +145,12 @@ class RenderVisualisation extends Component<Props, State> {
 
             this.renderClusters(centroids, colors, clusters);
 
+            data[centroids.length.toString()] = calculateSilhouetteScore(clusters, centroids);
+
             await new Promise((done) => setTimeout(done, this.props.global.speed));
         }
 
+        this.props.setSihoutteScores(data);
         this.props.endVisualization();
         this.setState({ start: false });
     };
@@ -240,12 +261,16 @@ class RenderVisualisation extends Component<Props, State> {
 
     componentDidUpdate() {
         if (this.props.global.start && !this.state.start) {
+            this.props.setSihoutteScores(null);
             this.setState({ start: true }, () =>
                 this.props.hierarchical.type === HierarchicalClusteringType.AGGLOMERATIVE
                     ? this.handleAgglomerativeStart()
                     : this.handleDivisiveStart(),
             );
         }
+    }
+    componentWillUnmount() {
+        this.props.setSihoutteScores(null);
     }
 
     render() {

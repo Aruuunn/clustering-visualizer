@@ -57,6 +57,10 @@ export const calculateSilhouetteScore = (clusters: number[][][], centroids: numb
         throw new Error('clusters should not be empty');
     }
 
+    if (clusters.length === 1) {
+        return 0;
+    }
+
     let silhouetteScore = 0;
     let total = 0;
 
