@@ -1,3 +1,6 @@
+/**
+ * This reducer is used to store data regarding the visualization
+ */
 import AlgorithmActionTypes from '../types/algorithm.types';
 import { ReactElement } from 'react';
 
@@ -14,7 +17,7 @@ const initialState: AlgorithmState = {
     render: [],
 };
 
-export default (state: AlgorithmState=initialState, action: AlgorithmAction): AlgorithmState => {
+export default (state: AlgorithmState = initialState, action: AlgorithmAction): AlgorithmState => {
     switch (action.type) {
         case AlgorithmActionTypes.ADD_TO_RENDER:
             return { ...state, render: [...state.render, action.payload as ReactElement] };
@@ -32,7 +35,7 @@ export default (state: AlgorithmState=initialState, action: AlgorithmAction): Al
 
         case AlgorithmActionTypes.SET_RENDER:
             return { ...state, render: action.payload as ReactElement[] };
-            
+
         default:
             return state;
     }

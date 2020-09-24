@@ -169,6 +169,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
             this.props.resetAlgoData();
         }
 
+        /**
+         * NOTE - getBoundingClientRect() method returns the size of an element and its position relative to the viewport.
+         */
+
         const left = this.state.bg.current.getBoundingClientRect().left;
         const top = this.state.bg.current.getBoundingClientRect().top;
 
@@ -187,6 +191,10 @@ class Board extends React.Component<IBoardProps, BoardState> {
             this.state.bg.current?.removeEventListener('pointermove', deleteCluster);
             window.removeEventListener('pointerup', removeEventListeners);
         };
+
+        /**
+         * Add event listeners to the Node
+         */
         this.state.bg.current?.addEventListener('pointermove', deleteCluster);
         window.addEventListener('pointerup', removeEventListeners);
     };
@@ -196,15 +204,25 @@ class Board extends React.Component<IBoardProps, BoardState> {
             return;
         }
 
+        /**
+         * NOTE - getBoundingClientRect() method returns the size of an element and its position relative to the viewport.
+         */
+
         const left = this.state.bg.current.getBoundingClientRect().left;
         const top = this.state.bg.current.getBoundingClientRect().top;
 
         const space = 40;
         X = X - left;
         y = y - top;
+
+        // To prevent Creating Data Points on Navbar
         if (y - space < 80) {
             return;
         }
+
+        /**
+         * Randomly create 8 data points around (X,y)
+         */
         this.props.setCoordinates([
             ...this.props.global.coordinatesOfNodes,
             { coordinates: [X, y], id: this.props.global.maxId },
@@ -249,6 +267,8 @@ class Board extends React.Component<IBoardProps, BoardState> {
 
         const left = this.state.bg.current.getBoundingClientRect().left;
         const top = this.state.bg.current.getBoundingClientRect().top;
+
+        // used to bounce the user input, i.e prevents forming of clusters too closely
         let cluster = true;
 
         const createCluster = (e: PointerEvent) => {
@@ -278,6 +298,7 @@ class Board extends React.Component<IBoardProps, BoardState> {
     public render() {
         return (
             <div>
+                {/*    Mount Fab   */}
                 <FloatingActionButtons>
                     {[
                         ...(this.props.fabChildren ? (this.props.fabChildren as ReactElement[]) : []),

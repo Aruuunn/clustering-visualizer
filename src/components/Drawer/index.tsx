@@ -56,7 +56,7 @@ function Drawer(props: Props): ReactElement {
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const algorithmName = () => {
+    const getAlgorithmName = () => {
         switch (props.global.algorithm) {
             case AlgorithmNames.HIERARCHICAL_CLUSTERING:
                 return 'HIERARCHICAL CLUSTERING';
@@ -96,7 +96,7 @@ function Drawer(props: Props): ReactElement {
                                 }
                             >
                                 {' '}
-                                {props.global.algorithm === null ? 'Select Algorithm' : algorithmName()}
+                                {props.global.algorithm === null ? 'Select Algorithm' : getAlgorithmName()}
                             </FlatButton>
                         </Grid>
                         <Grid container justify="center" alignItems="center">

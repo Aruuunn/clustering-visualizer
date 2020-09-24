@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Fade, Zoom, Grid, Collapse, SvgIcon, Fab, useMediaQuery, useTheme } from '@material-ui/core';
 import { connect, ConnectedProps } from 'react-redux';
+
 import { GlobalActionTypes, RootState, UserPreferencesActionTypes } from '../../reduxStore';
 
 const mapStateToProps = (state: RootState) => ({
@@ -35,6 +36,7 @@ const FloatingActionButtons = (props: Props) => {
         : defaultFabCoordiantes;
 
     const handleMove = (e: any) => {
+        //logic to move the Fab
         e.persist();
         window.addEventListener('touchmove', (e: TouchEvent) => e.preventDefault(), { passive: false });
 
