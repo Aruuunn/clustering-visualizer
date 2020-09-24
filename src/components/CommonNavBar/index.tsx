@@ -79,24 +79,10 @@ class NavBar extends Component<Props, State> {
 
     handleSpeeMenuClose = (speed: Speed | null) => {
         this.setState({ anchor2: null });
-        if (speed !== null)
-            switch (speed) {
-                case Speed.slow:
-                    this.props.setSpeed(Speed.slow);
-                    break;
-                case Speed.average:
-                    this.props.setSpeed(Speed.average);
-                    break;
-                case Speed.fast:
-                    this.props.setSpeed(Speed.fast);
-                    break;
-                case Speed.faster:
-                    this.props.setSpeed(Speed.faster);
-                    break;
-            }
+        if (speed !== null) this.props.setSpeed(speed);
     };
 
-    handleAlgorithmClose = (algo: AlgorithmNames | null) => {
+    handleAlgorithmMenuClose = (algo: AlgorithmNames | null) => {
         this.setState({ anchor1: null });
         if (algo !== null) this.props.changeAlgorithm(algo);
     };
@@ -335,7 +321,7 @@ class NavBar extends Component<Props, State> {
                     keepMounted
                     open={this.state.anchor1 !== null}
                     style={{ zIndex: 10000 }}
-                    onClose={() => this.handleAlgorithmClose(null)}
+                    onClose={() => this.handleAlgorithmMenuClose(null)}
                 >
                     {' '}
                     <Grid
@@ -352,7 +338,7 @@ class NavBar extends Component<Props, State> {
                     <Divider />
                     <MenuItem
                         onClick={() => {
-                            this.handleAlgorithmClose(AlgorithmNames.DBSCAN);
+                            this.handleAlgorithmMenuClose(AlgorithmNames.DBSCAN);
                             this.props.history.push('/dbscan');
                         }}
                     >
@@ -360,7 +346,7 @@ class NavBar extends Component<Props, State> {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            this.handleAlgorithmClose(AlgorithmNames.MEAN_SHIFT);
+                            this.handleAlgorithmMenuClose(AlgorithmNames.MEAN_SHIFT);
                             this.props.history.push('/mean-shift');
                         }}
                     >
@@ -368,7 +354,7 @@ class NavBar extends Component<Props, State> {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
+                            this.handleAlgorithmMenuClose(AlgorithmNames.KMEANS);
                             this.props.history.push('/kmeans');
                         }}
                     >
@@ -376,7 +362,7 @@ class NavBar extends Component<Props, State> {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            this.handleAlgorithmClose(AlgorithmNames.KMEANS);
+                            this.handleAlgorithmMenuClose(AlgorithmNames.KMEANS);
                             this.props.history.push('/hierarchical');
                         }}
                     >
